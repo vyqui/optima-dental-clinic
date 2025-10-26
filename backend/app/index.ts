@@ -3,9 +3,9 @@ import { MailService } from "@genezio/email-service";
 import { simpleRateLimit } from "./simpleRateLimit";
 
 const emailReceipients = [
-  // "optimadental2725@gmail.com",
-  // "contact@optimadentalclinic.com",
-  "d.raduandrei@gmail.com"
+  "optimadental2725@gmail.com",
+  "contact@optimadentalclinic.com"
+  // "d.raduandrei@gmail.com"
 ];
 
 const app = express();

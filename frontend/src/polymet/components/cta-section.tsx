@@ -56,9 +56,7 @@ export const CTASection: React.FC<CTASectionProps> = ({ className }) => {
                 </Button>
 
                 <Button
-                  onClick={() =>
-                    window.open("https://wa.me/40767702703", "_blank")
-                  }
+                  onClick={() => window.open("https://wa.me/40767702703")}
                   size="lg"
                   variant="outline"
                   className="border-2 border-[#bda476] text-[#bda476] hover:bg-[#bda476] hover:text-[#323231] px-8 py-4 text-lg rounded-full w-full bg-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"

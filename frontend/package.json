@@ -89,7 +89,7 @@
     "react-hot-toast": "latest",
     "react-intersection-observer": "latest",
     "react-konva": "latest",
-    "react-leaflet": "latest",
+    "react-leaflet": "^5.0.0",
     "react-markdown": "latest",
     "react-masonry-css": "latest",
     "react-pdf": "latest",
@@ -113,6 +113,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^22.13.9",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

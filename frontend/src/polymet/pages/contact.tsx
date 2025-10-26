@@ -14,6 +14,7 @@ import {
   CheckIcon
 } from "lucide-react";
 import axios from "axios";
+import MapAtLocation from "@/components/MapAtLocation";
 
 const contactInfo = [
   {
@@ -406,15 +407,16 @@ export const ContactPage: React.FC = () => {
               {/* Map Placeholder */}
               <Card className="border-0 shadow-xl mb-8">
                 <CardContent className="p-0">
-                  <div className="h-64 bg-gradient-to-br from-[#bda476]/20 to-[#aaaaaa]/10 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <MapPinIcon className="h-12 w-12 text-[#9f8453] mx-auto mb-4" />
+                  <div className="">
+                    {/* <div className="text-center"> */}
+                    {/* <MapPinIcon className="h-12 w-12 text-[#9f8453] mx-auto mb-4" /> */}
 
-                      <p className="text-neutral-600">Hartă Interactivă</p>
+                    {/* <p className="text-neutral-600">Hartă Interactivă</p>
                       <p className="text-sm text-neutral-500">
                         Șoseaua Nordului 142B, București 014104
-                      </p>
-                    </div>
+                      </p> */}
+                    <MapAtLocation LATITUDE={44.4873} LONGITUDE={26.0858} />
+                    {/* </div> */}
                   </div>
                 </CardContent>
               </Card>

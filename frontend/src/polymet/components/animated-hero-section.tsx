@@ -193,7 +193,7 @@ export const AnimatedHeroSection: React.FC<AnimatedHeroSectionProps> = ({
             </Button>
 
             <Button
-              onClick={() => window.open("https://wa.me/40767702703", "_blank")}
+              onClick={() => window.open("https://wa.me/40767702703")}
               variant="outline"
               size="lg"
               className="border-2 border-[#bda476] text-[#bda476] hover:bg-[#bda476] hover:text-[#323231] px-8 py-4 text-lg font-medium rounded-full backdrop-blur-sm bg-[#bda476]/10 transition-all duration-300 hover:scale-105 group"
