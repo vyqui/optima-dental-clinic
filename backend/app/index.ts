@@ -1,6 +1,6 @@
 import express from "express";
 import { MailService } from "@genezio/email-service";
-import { simpleRateLimit } from "../simpleRateLimit";
+import { simpleRateLimit } from "./simpleRateLimit";
 
 const emailReceipients = [
   // "optimadental2725@gmail.com",
@@ -17,6 +17,10 @@ app.set("trust proxy", true);
 app.use(simpleRateLimit());
 
 const PORT = 8080;
+
+app.post("/health", (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
 
 app.post("/contact", async (req, res) => {
   const { name, email, phone, service, message } = req.body;
