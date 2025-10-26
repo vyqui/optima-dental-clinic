@@ -13,7 +13,7 @@ app.use(express.json());
 
 const PORT = 8080;
 
-app.post("/demo", async (req, res) => {
+app.post("/contact", async (req, res) => {
   const { name, email, phone, service, message } = req.body;
 
   if (!name || !email) {
