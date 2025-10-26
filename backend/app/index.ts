@@ -22,7 +22,7 @@ app.post("/contact", async (req, res) => {
       .json({ error: "Please provide name, email, and service." });
   }
 
-  const finalEmailText = `*Noua cerere din site:*\n- Name: ${name}\n- Email: ${email}\n- Service: ${service}\n- Phone: ${
+  const finalEmailText = `*Noua cerere din site:*\n\n- Name: ${name}\n- Email: ${email}\n- Service: ${service}\n- Phone: ${
     phone || "N/A"
   }\n- Message: ${message || "N/A"}`;
 
@@ -30,13 +30,15 @@ app.post("/contact", async (req, res) => {
     emailServiceToken: process.env.EMAIL_SERVICE_TOKEN || "",
     from: "noreply@mailservice.genez.io",
     to: emailReceipients,
-    subject: "[Optima Dental Clinic] Cerere noua din site",
+    subject: "[Website Optima Dental Clinic] Cerere noua din site",
     text: finalEmailText
   });
 
   if (!response.success) {
-    return response.errorMessage;
+    res.status(500).json({ error: "Failed to send email." });
+    return;
   }
+  res.status(200).json({ message: "Email sent successfully." });
 });
 
 app.listen(PORT, () => {

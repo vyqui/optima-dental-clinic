@@ -13,6 +13,7 @@ import {
   SendIcon,
   CheckIcon
 } from "lucide-react";
+import axios from "axios";
 
 const contactInfo = [
   {
@@ -81,6 +82,7 @@ export const ContactPage: React.FC = () => {
     message: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const scrollToContactForm = () => {
     const formSection = document.getElementById("contact-form-section");
@@ -104,8 +106,37 @@ export const ContactPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission here
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    const data = JSON.stringify({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      service: formData.service,
+      message: formData.message
+    });
+
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://a9b0ed6a-7060-4342-991e-d98eb71957c6.eu-central-1.cloud.genez.io/contact",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: data
+    };
+
+    setIsSending(true);
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(response.data);
+        setIsSending(false);
+        setIsSubmitted(true);
+        setTimeout(() => setIsSubmitted(false), 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsSending(false);
+      });
   };
 
   return (
@@ -349,10 +380,11 @@ export const ContactPage: React.FC = () => {
                       <Button
                         type="submit"
                         size="lg"
+                        disabled={isSending}
                         className="w-full bg-[#9f8453] hover:bg-[#423723] text-white py-4 text-lg rounded-full"
                       >
                         <SendIcon className="mr-2 h-5 w-5" />
-                        Trimite Mesaj
+                        {isSending ? "Se Trimite..." : "Trimite Mesaj"}
                       </Button>
                     </form>
                   )}

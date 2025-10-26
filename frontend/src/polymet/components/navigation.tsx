@@ -146,7 +146,7 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
             {/* <LanguageSwitcher /> */}
 
             <Button
-              onClick={() => window.open("https://wa.me/40767702703", "_blank")}
+              onClick={() => window.open("https://wa.me/40767702703")}
               size="sm"
               variant="ghost"
               className="text-white/90 hover:text-[#bda476] hover:bg-white/10"
@@ -224,9 +224,7 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
 
               <div className="pt-4 border-t border-white/20 space-y-3">
                 <Button
-                  onClick={() =>
-                    window.open("https://wa.me/40767702703", "_blank")
-                  }
+                  onClick={() => window.open("https://wa.me/40767702703")}
                   size="sm"
                   variant="outline"
                   className="w-full border-[#bda476] text-[#bda476] hover:bg-[#bda476] hover:text-[#323231] bg-transparent"
