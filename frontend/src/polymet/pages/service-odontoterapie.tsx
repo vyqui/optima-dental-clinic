@@ -324,7 +324,7 @@ export const ServiceOdontoterapiePage: React.FC = () => {
                     Consultație & Diagnostic
                   </CardTitle>
                   <div className="text-3xl font-bold text-[#9f8453] mt-2">
-                    120 RON
+                    300 RON
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
