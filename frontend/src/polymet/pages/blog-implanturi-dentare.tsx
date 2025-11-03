@@ -151,7 +151,7 @@ export const BlogImplanturiDentarePage: React.FC = () => {
               size="lg"
               className="bg-[#9f8453] hover:bg-[#bda476] text-white px-8"
             >
-              Consultație Gratuită
+              Programează-te Acum
             </Button>
             <Link to="/contact">
               <Button

@@ -16,7 +16,7 @@ import {
   AwardIcon,
   ScissorsIcon,
   CircleIcon,
-  ActivityIcon,
+  ActivityIcon
 } from "lucide-react";
 
 const services = [
@@ -33,12 +33,12 @@ const services = [
       "Chirurgie preimplantologică",
       "Implantologie ghidată digital",
       "Regenerare țesuturi",
-      "Îngrijire postoperatorie completă",
+      "Îngrijire postoperatorie completă"
     ],
 
     duration: "60-180 minute",
     popular: true,
-    link: "/services/chirurgie-dentara",
+    link: "/services/chirurgie-dentara"
   },
   {
     id: "parodontologie",
@@ -53,12 +53,12 @@ const services = [
       "Chirurgie parodontală",
       "Regenerare țesuturi parodontale",
       "Menținerea sănătății gingivale",
-      "Prevenție și educație",
+      "Prevenție și educație"
     ],
 
     duration: "45-120 minute",
     popular: false,
-    link: "/services/parodontologie",
+    link: "/services/parodontologie"
   },
   {
     id: "odontoterapie",
@@ -73,12 +73,12 @@ const services = [
       "Restaurări directe și indirecte",
       "Protecția pulpei dentare",
       "Tratamente preventive",
-      "Monitorizare și urmărire",
+      "Monitorizare și urmărire"
     ],
 
     duration: "30-90 minute",
     popular: true,
-    link: "/services/odontoterapie",
+    link: "/services/odontoterapie"
   },
   {
     id: "endodontie",
@@ -93,12 +93,12 @@ const services = [
       "Chirurgie endodontică",
       "Tehnologie rotativă modernă",
       "Obturație hermetică",
-      "Urmărire pe termen lung",
+      "Urmărire pe termen lung"
     ],
 
     duration: "60-120 minute",
     popular: false,
-    link: "/services/endodontie",
+    link: "/services/endodontie"
   },
   {
     id: "protetica-dentara",
@@ -113,12 +113,12 @@ const services = [
       "Implanturi dentare",
       "Fațete dentare",
       "Proteze pe implanturi",
-      "Reabilitare orală completă",
+      "Reabilitare orală completă"
     ],
 
     duration: "90-240 minute",
     popular: true,
-    link: "/services/protetica-dentara",
+    link: "/services/protetica-dentara"
   },
   {
     id: "ortodontie",
@@ -133,12 +133,12 @@ const services = [
       "Aliniatori invizibili",
       "Ortodonție pentru adulți",
       "Tratament interceptiv",
-      "Reținere ortodontică",
+      "Reținere ortodontică"
     ],
 
     duration: "12-36 luni",
     popular: false,
-    link: "/services/ortodontie",
+    link: "/services/ortodontie"
   },
   {
     id: "radiologie-dentara",
@@ -153,13 +153,13 @@ const services = [
       "Radiografii panoramice",
       "Imagistică pentru implanturi",
       "Diagnostic diferențial",
-      "Planificare chirurgicală",
+      "Planificare chirurgicală"
     ],
 
     duration: "15-30 minute",
     popular: false,
-    link: "/services/radiologie-dentara",
-  },
+    link: "/services/radiologie-dentara"
+  }
 ];
 
 const benefits = [
@@ -167,28 +167,28 @@ const benefits = [
     icon: <AwardIcon className="h-6 w-6" />,
 
     title: "Îngrijire Expertă",
-    description: "15+ ani de experiență cu cele mai noi tehnici",
+    description: "15+ ani de experiență cu cele mai noi tehnici"
   },
   {
     icon: <ShieldIcon className="h-6 w-6" />,
 
     title: "Sigur & Steril",
     description:
-      "Cele mai înalte standarde de igienă și protocoale de siguranță",
+      "Cele mai înalte standarde de igienă și protocoale de siguranță"
   },
   {
     icon: <ClockIcon className="h-6 w-6" />,
 
     title: "Programare Flexibilă",
     description:
-      "Ore de consultație convenabile care se potrivesc programului tău",
+      "Ore de consultație convenabile care se potrivesc programului tău"
   },
   {
     icon: <HeartIcon className="h-6 w-6" />,
 
     title: "Confortul pe Primul Loc",
-    description: "Mediu fără anxietate cu opțiuni de sedație",
-  },
+    description: "Mediu fără anxietate cu opțiuni de sedație"
+  }
 ];
 
 export const ServicesPage: React.FC = () => {
@@ -232,9 +232,9 @@ export const ServicesPage: React.FC = () => {
           </div>
 
           {/* Animated Treatment Plan */}
-          <div className="mt-20">
+          {/* <div className="mt-20">
             <AnimatedTreatmentPlan />
-          </div>
+          </div> */}
         </div>
       </section>
 

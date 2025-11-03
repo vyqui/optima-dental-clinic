@@ -625,7 +625,7 @@ export const ServiceOrtodontie: React.FC = () => {
                 variant="outline"
                 className="border-2 border-[#bda476] text-[#bda476] hover:bg-[#bda476] hover:text-[#323231] px-8 py-4 text-lg rounded-full bg-transparent shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
               >
-                Consultație Gratuită
+                Programează-te Acum
               </Button>
             </Link>
           </div>
