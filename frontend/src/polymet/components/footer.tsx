@@ -51,7 +51,7 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
               />
             </div>
             <p className="text-gray-300 leading-relaxed mb-6 max-w-md">
-              Experimențează îngrijirea dentară care se simte ca acasă.
+              Experimentează îngrijirea dentară care se simte ca acasă.
               Tratamente premium într-un mediu cald și confortabil unde
               bunăstarea ta este pe primul loc.
             </p>

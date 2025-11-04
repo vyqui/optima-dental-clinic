@@ -170,14 +170,14 @@ export const DoctorDanielTataruPage: React.FC = () => {
                     Dr. Daniel Tataru
                   </h1>
                   <p className="text-[#9f8453] font-medium mb-6">
-                    Medic Specialist Chirurgie Avansată
+                    Medic Practica Limitata la Endodontie
                   </p>
 
                   <div className="space-y-4 mb-6">
                     <div className="flex items-center gap-3 text-sm text-neutral-600">
                       <BriefcaseIcon className="h-4 w-4 text-[#9f8453]" />
 
-                      <span>13+ ani experiență</span>
+                      <span>20+ ani experiență</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-neutral-600">
                       <GlobeIcon className="h-4 w-4 text-[#9f8453]" />

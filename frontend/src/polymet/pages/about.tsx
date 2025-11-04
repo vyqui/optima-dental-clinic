@@ -63,8 +63,8 @@ const teamMembers = [
   {
     name: "Dr. Daniel Tataru",
     role: "Implantolog",
-    specialization: "Medic Specialist Chirurgie Avansată",
-    experience: "13+ ani",
+    specialization: "Medic Practica Limitata la Endodontie",
+    experience: "20+ ani",
     image: "https://assets.polymet.ai/separate-violet-193732",
     slug: "/doctor/daniel-tataru"
   },
