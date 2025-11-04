@@ -17,10 +17,14 @@ const icon = new L.Icon({
 
 export default function MapAtLocation({
   LATITUDE,
-  LONGITUDE
+  LONGITUDE,
+  height = 400,
+  width = "100%"
 }: {
   LATITUDE: number;
   LONGITUDE: number;
+  height?: number | string;
+  width?: number | string;
 }) {
   // REPLACE with the lat/lng you copied from your Google Maps link:
   const position: LatLngExpression = [LATITUDE, LONGITUDE]; // e.g., [44.4268, 26.1025]
@@ -28,10 +32,11 @@ export default function MapAtLocation({
   return (
     <div
       style={{
-        height: "400px",
-        width: "100%",
+        height: height,
+        width: width,
         borderRadius: 12,
-        overflow: "hidden"
+        overflow: "hidden",
+        zIndex: 0
       }}
     >
       <MapContainer

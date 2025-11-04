@@ -8,6 +8,7 @@ import {
   ClockIcon,
   MailIcon
 } from "lucide-react";
+import MapAtLocation from "@/components/MapAtLocation";
 
 interface CTASectionProps {
   className?: string;
@@ -77,15 +78,19 @@ export const CTASection: React.FC<CTASectionProps> = ({ className }) => {
                   <h3 className="text-xl font-semibold text-[#323231] mb-2">
                     Vizitează-ne
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-[#423723]">
-                    <MapPinIcon className="h-4 w-4 text-[#9f8453]" />
-
+                  <div className="items-center gap-2 text-sm text-[#423723]">
                     <a
                       href="https://maps.app.goo.gl/qduwDB4uN29onbW6A"
                       target="_blank"
                     >
+                      <MapPinIcon className="h-4 w-4 text-[#9f8453]" />
                       Șoseaua Nordului 142b, București
                     </a>
+                    <MapAtLocation
+                      LATITUDE={44.4873}
+                      LONGITUDE={26.0858}
+                      height="200px"
+                    />
                   </div>
                 </div>
 

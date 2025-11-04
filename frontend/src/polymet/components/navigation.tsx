@@ -70,7 +70,10 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
     <nav
       className={`bg-gradient-to-r from-[#323231] via-[#2a2a2a] to-[#323231] backdrop-blur-md shadow-lg border-b border-[#9f8453]/20 sticky top-0 z-50 ${className}`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        style={{ zIndex: 9999 }}
+      >
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="/" className="flex items-center">

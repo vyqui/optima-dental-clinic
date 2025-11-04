@@ -147,7 +147,7 @@ export const DoctorReitSilviuPage: React.FC = () => {
               </Card>
 
               {/* Experience */}
-              <Card className="border-0 shadow-lg">
+              {/* <Card className="border-0 shadow-lg">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-12 h-12 bg-[#bda476]/10 rounded-full flex items-center justify-center">
@@ -172,7 +172,7 @@ export const DoctorReitSilviuPage: React.FC = () => {
                     ))}
                   </div>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               {/* Specializations */}
               <Card className="border-0 shadow-lg">
