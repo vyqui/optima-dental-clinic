@@ -123,6 +123,18 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
                 </a>
               </li>
             </ul>
+
+            <a href="https://anpc.ro/" target="_blank" className="w-100">
+              <img src="/SAL.svg" alt="SAL" className="mt-4 w-100" />
+            </a>
+
+            <a
+              href="https://ec.europa.eu/consumers/odr"
+              target="_blank"
+              className="w-100"
+            >
+              <img src="/SOL.svg" alt="CEPA" className="mt-4 w-100" />
+            </a>
           </div>
 
           {/* Contact Info */}

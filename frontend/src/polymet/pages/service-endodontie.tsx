@@ -77,9 +77,7 @@ export const ServiceEndodontiePage: React.FC = () => {
             <p className="text-lg text-[#423723] max-w-4xl mx-auto leading-relaxed">
               La Optima Dental Clinic, utilizăm tehnologia microscopică și
               instrumentele rotative de ultimă generație pentru a oferi
-              tratamente de canal cu rata de succes de peste 95%. Salvezăm
-              dinții care altfel ar trebui extrasă, menținând funcționalitatea
-              și estetica naturală.
+              tratamente de canal cu rata de succes de peste 95%.
             </p>
           </div>
 
