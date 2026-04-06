@@ -28,6 +28,7 @@ import { DoctorCristianGiucoanePage } from "@/polymet/pages/doctor-cristian-giuc
 import { DoctorDanielTataruPage } from "@/polymet/pages/doctor-daniel-tataru";
 import { DoctorDianaPopescuPage } from "@/polymet/pages/doctor-diana-popescu";
 import { DoctorAlexandruKozmaPage } from "@/polymet/pages/doctor-alexandru-kozma";
+import { ThankYouPage } from "@/polymet/pages/thank-you";
 
 const OptimaDentalWebsite: React.FC = () => {
   return (
@@ -144,6 +145,8 @@ const OptimaDentalWebsite: React.FC = () => {
             path="/doctor/diana-popescu"
             element={<DoctorDianaPopescuPage />}
           />
+
+          <Route path="/thank-you" element={<ThankYouPage />} />
         </Routes>
       </MainLayout>
     </Router>

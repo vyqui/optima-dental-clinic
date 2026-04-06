@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,8 +11,7 @@ import {
   MailIcon,
   ClockIcon,
   MessageCircleIcon,
-  SendIcon,
-  CheckIcon
+  SendIcon
 } from "lucide-react";
 import axios from "axios";
 import MapAtLocation from "@/components/MapAtLocation";
@@ -75,6 +75,7 @@ const faqs = [
 ];
 
 export const ContactPage: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -82,7 +83,6 @@ export const ContactPage: React.FC = () => {
     service: "",
     message: ""
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
   const scrollToContactForm = () => {
@@ -131,8 +131,7 @@ export const ContactPage: React.FC = () => {
       .then((response) => {
         console.log(response.data);
         setIsSending(false);
-        setIsSubmitted(true);
-        setTimeout(() => setIsSubmitted(false), 3000);
+        navigate("/thank-you");
       })
       .catch((error) => {
         console.log(error);
@@ -252,19 +251,6 @@ export const ContactPage: React.FC = () => {
 
               <Card className="border-0 shadow-xl">
                 <CardContent className="p-8">
-                  {isSubmitted ? (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <CheckIcon className="h-8 w-8 text-green-600" />
-                      </div>
-                      <h3 className="text-xl font-semibold text-neutral-900 mb-2">
-                        Mesaj Trimis!
-                      </h3>
-                      <p className="text-neutral-600">
-                        Mulțumim că ne-ai contactat. Îți vom răspunde curând.
-                      </p>
-                    </div>
-                  ) : (
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -388,7 +374,6 @@ export const ContactPage: React.FC = () => {
                         {isSending ? "Se Trimite..." : "Trimite Mesaj"}
                       </Button>
                     </form>
-                  )}
                 </CardContent>
               </Card>
             </div>
