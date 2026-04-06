@@ -4,7 +4,8 @@ import { simpleRateLimit } from "./simpleRateLimit";
 
 const emailReceipients = [
   "optimadental2725@gmail.com",
-  "contact@optimadentalclinic.com"
+  "contact@optimadentalclinic.com",
+  "victor@v8media.ro"
   // "d.raduandrei@gmail.com"
 ];
 
