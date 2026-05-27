@@ -19,3 +19,6 @@ jobs:
         run: genezio login ${{ secrets.GENEZIO_TOKEN }}
       - name: Deploy
         run: genezio deploy
+        env:
+          VITE_LEAD_ENDPOINT: ${{ secrets.VITE_LEAD_ENDPOINT }}
+
