@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MainLayout } from "@/polymet/layouts/main-layout";
 import { ScrollToTop } from "@/polymet/components/scroll-to-top";
+import { AppointmentPopup } from "@/polymet/components/appointment-popup";
 import { HomePage } from "@/polymet/pages/home";
 import { AboutPage } from "@/polymet/pages/about";
 import { ServicesPage } from "@/polymet/pages/services";
@@ -34,6 +35,7 @@ const OptimaDentalWebsite: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
+      <AppointmentPopup />
 
       <MainLayout>
         <Routes>
@@ -154,3 +156,4 @@ const OptimaDentalWebsite: React.FC = () => {
 };
 
 export default OptimaDentalWebsite;
+
