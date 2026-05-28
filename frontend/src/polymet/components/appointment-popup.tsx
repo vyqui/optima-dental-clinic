@@ -37,7 +37,7 @@ export function AppointmentPopup() {
 
   useEffect(() => {
     const img = new window.Image();
-    img.src = "/assets/OPTIMA%20POP-up%20form.png";
+    img.src = "/assets/phone-banner-popup-optima.png";
   }, []);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export function AppointmentPopup() {
       style={{ backgroundColor: "rgba(0,0,0,0.85)" }} role="dialog" aria-modal="true">
       <div className="relative w-full rounded-lg overflow-hidden shadow-2xl"
         style={{ maxWidth: "480px", aspectRatio: "4 / 5", maxHeight: "95vh" }}>
-        <img src="/assets/OPTIMA%20POP-up%20form.png" alt="Programare gratuita Optima Dental"
+        <img src="/assets/phone-banner-popup-optima.png" alt="Programare gratuita Optima Dental"
           className="absolute inset-0 w-full h-full object-cover" draggable={false} />
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none"
           style={{ height: "38%", background: "linear-gradient(to top, rgba(0,0,0,0.95) 55%, transparent)" }} />
@@ -152,3 +152,4 @@ export function AppointmentPopup() {
     </div>
   );
 }
+
