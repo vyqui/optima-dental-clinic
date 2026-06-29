@@ -1888,6 +1888,29 @@
     align-items: flex-end;
     justify-content: center;
   }
+  /* fixed reception backdrop, revealed as the doctors leave */
+  .docs-parallax__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url('/assets/receptie-back-parallax.png');
+    background-size: cover;
+    background-position: center 35%;
+  }
+  /* teal veil over the backdrop: dark at top (for the heading), clear lower
+     (so the reception shows behind the doctors); JS lifts it on scroll */
+  .docs-parallax__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg,
+      rgba(14, 58, 51, 1) 0%,
+      rgba(14, 58, 51, 0.92) 20%,
+      rgba(14, 58, 51, 0.45) 48%,
+      rgba(14, 58, 51, 0.10) 72%,
+      rgba(14, 58, 51, 0.40) 100%);
+    will-change: opacity;
+  }
   .docs-parallax__heading {
     position: absolute;
     top: 12%;
@@ -1895,11 +1918,12 @@
     right: 0;
     text-align: center;
     padding: 0 24px;
-    z-index: 1;
-    will-change: transform;
+    z-index: 3;
+    will-change: transform, opacity;
   }
   .docs-parallax__stage {
     position: relative;
+    z-index: 2;
     width: 100%;
     max-width: 1100px;
     height: 94%;
@@ -2035,6 +2059,8 @@
 <!-- ============ MEDICI FONDATORI (scroll parallax) ============ -->
 <section class="docs-parallax" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
   <div class="docs-parallax__sticky">
+    <div class="docs-parallax__bg" aria-hidden="true"></div>
+    <div class="docs-parallax__veil" aria-hidden="true"></div>
     <div class="docs-parallax__heading">
       <span class="label-gold">Medicii fondatori</span>
       <h2 class="display" style="margin-top:12px;">
@@ -2989,6 +3015,7 @@
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     var docs = [].slice.call(section.querySelectorAll('.doc'));
     var heading = section.querySelector('.docs-parallax__heading');
+    var veil = section.querySelector('.docs-parallax__veil');
     var ticking = false;
     function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
     function update() {
@@ -2997,13 +3024,19 @@
       var rect = section.getBoundingClientRect();
       var range = section.offsetHeight - window.innerHeight;
       var p = clamp(-rect.top / (range || 1), 0, 1);
+      var dp = clamp(p / 0.5, 0, 1);          // doctors fully exit by half the scroll
       docs.forEach(function (el) {
         var ty = parseFloat(el.getAttribute('data-ty')) || 120;
         var tx = parseFloat(el.getAttribute('data-tx')) || 0;
-        el.style.transform = 'translate(' + (tx * p).toFixed(2) + '%, ' + (ty * p).toFixed(2) + '%) scale(' + (1 - 0.06 * p).toFixed(3) + ')';
-        el.style.opacity = clamp(1 - p * 1.15, 0, 1).toFixed(3);
+        el.style.transform = 'translate(' + (tx * dp).toFixed(2) + '%, ' + (ty * dp).toFixed(2) + '%) scale(' + (1 - 0.06 * dp).toFixed(3) + ')';
+        el.style.opacity = clamp(1 - dp * 1.2, 0, 1).toFixed(3);
       });
-      if (heading) heading.style.transform = 'translateY(' + (-40 * p).toFixed(1) + 'px)';
+      if (heading) {
+        heading.style.transform = 'translateY(' + (-50 * dp).toFixed(1) + 'px)';
+        heading.style.opacity = clamp(1 - dp * 1.3, 0, 1).toFixed(3);
+      }
+      // lift the teal veil so the fixed reception backdrop is fully revealed
+      if (veil) veil.style.opacity = clamp(1 - p * 0.85, 0.15, 1).toFixed(3);
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     window.addEventListener('scroll', onScroll, { passive: true });
