@@ -1792,11 +1792,21 @@
   }
   /* ---------- image placeholders (swappable: replace inner spans with an <img>) ---------- */
   /* Mobile-first: single column, compact heights. Enhanced at >=768px below. */
+  /* Mobile: horizontal swipe carousel (scroll-snap, with the next card peeking). */
   .ph-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+    display: flex;
+    gap: 14px;
     margin-top: 32px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+  }
+  .ph-grid::-webkit-scrollbar { display: none; }
+  .ph-grid > .img-ph {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
   }
   .img-ph {
     position: relative;
@@ -1853,7 +1863,8 @@
     color: rgba(255, 255, 255, 0.66);
   }
   @media (min-width: 600px) {
-    .ph-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 40px; }
+    .ph-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 40px; overflow: visible; }
+    .ph-grid > .img-ph { flex: none; }
   }
   @media (min-width: 768px) {
     .img-ph { padding: 28px 22px; border-radius: 16px; gap: 12px; }
@@ -2054,7 +2065,7 @@
           <div class="voucher-aside">
             <div class="voucher-badge">Voucher albire dentară</div>
             <div class="voucher-price"><span class="new">990 lei</span></div>
-            <a class="btn btn-primary" href="#programare-video">Alege voucher</a>
+            <a class="btn btn-primary" href="#programare-video" data-voucher="Albire dentară — 990 lei">Alege voucher</a>
           </div>
         </div>
       </div>
@@ -2073,7 +2084,7 @@
           <div class="voucher-aside">
             <div class="voucher-badge">Voucher consultație + igienizare</div>
             <div class="voucher-price"><span class="new">300 lei</span></div>
-            <a class="btn btn-primary" href="#programare-video">Alege voucher</a>
+            <a class="btn btn-primary" href="#programare-video" data-voucher="Consultație + igienizare — 300 lei">Alege voucher</a>
           </div>
         </div>
       </div>
@@ -2087,7 +2098,7 @@
           <div class="voucher-aside">
             <div class="voucher-badge">Voucher consultație + obturație</div>
             <div class="voucher-price"><span class="new">300 lei</span></div>
-            <a class="btn btn-primary" href="#programare-video">Alege voucher</a>
+            <a class="btn btn-primary" href="#programare-video" data-voucher="Consultație + obturație — 300 lei">Alege voucher</a>
           </div>
         </div>
       </div>
@@ -2245,6 +2256,15 @@
               <option>Radiologie Dentară</option>
             </select>
           </div>
+          <div class="field full">
+            <label for="f-voucher-2">Voucher selectat</label>
+            <select id="f-voucher-2" name="voucher">
+              <option value="" selected>Fără voucher</option>
+              <option value="Albire dentară — 990 lei">Albire dentară — 990 lei</option>
+              <option value="Consultație + igienizare — 300 lei">Consultație + igienizare — 300 lei</option>
+              <option value="Consultație + obturație — 300 lei">Consultație + obturație — 300 lei</option>
+            </select>
+          </div>
           <div class="field">
             <label for="f-loc-2">Localitate</label>
             <input id="f-loc-2" name="localitate" type="text" placeholder="București" autocomplete="address-level2" required />
@@ -2385,6 +2405,15 @@
               <option>Protetică Dentară</option>
               <option>Ortodonție</option>
               <option>Radiologie Dentară</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="f-voucher">Voucher selectat</label>
+            <select id="f-voucher" name="voucher">
+              <option value="" selected>Fără voucher</option>
+              <option value="Albire dentară — 990 lei">Albire dentară — 990 lei</option>
+              <option value="Consultație + igienizare — 300 lei">Consultație + igienizare — 300 lei</option>
+              <option value="Consultație + obturație — 300 lei">Consultație + obturație — 300 lei</option>
             </select>
           </div>
           <div class="field">
@@ -2776,6 +2805,10 @@
     });
   });
 
+  // Paste your Zapier "Catch Hook" URL here to also push every lead into Google Sheets.
+  // Leave it as '' to disable (leads still go to the clinic email either way).
+  const ZAPIER_WEBHOOK_URL = '';
+
   // ===== Form submit =====
   const toast = document.getElementById('toast');
   document.querySelectorAll('form.booking-form').forEach(form => {
@@ -2813,12 +2846,14 @@
       // Map landing-page fields to the backend /contact payload and send the lead.
       const fd = new FormData(form);
       const val = (k) => (fd.get(k) || '').toString().trim();
+      const voucher = val('voucher') || 'Fără voucher';
       const payload = {
         name: (val('prenume') + ' ' + val('nume')).trim(),
         email: val('email'),
         phone: val('telefon'),
         service: val('serviciu'),
-        message: 'Localitate: ' + val('localitate') + ' | Data nasterii: ' + val('data_nasterii') + ' | Sursa: Landing Page Meta'
+        voucher: voucher,
+        message: 'Serviciu dorit: ' + val('serviciu') + ' | Voucher: ' + voucher + ' | Localitate: ' + val('localitate') + ' | Data nasterii: ' + val('data_nasterii') + ' | Sursa: Landing Page Meta'
       };
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
@@ -2827,6 +2862,28 @@
         setTimeout(() => toast.classList.remove('show'), 4000);
         form.reset();
       };
+      // (1) Optional: push every field to a Zapier "Catch Hook" (-> Google Sheets).
+      //     Form-encoded body avoids CORS preflight; fire-and-forget so it never blocks the UX.
+      if (ZAPIER_WEBHOOK_URL) {
+        fetch(ZAPIER_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            nume: val('nume'),
+            prenume: val('prenume'),
+            nume_complet: payload.name,
+            email: val('email'),
+            telefon: val('telefon'),
+            serviciu_dorit: val('serviciu'),
+            voucher: voucher,
+            localitate: val('localitate'),
+            data_nasterii: val('data_nasterii'),
+            sursa: 'Landing Page Meta',
+            data_trimitere: new Date().toISOString()
+          }).toString()
+        }).catch(function () {});
+      }
+      // (2) Send the lead to the clinic inbox via the Genezio backend (email).
       fetch('https://a9b0ed6a-7060-4342-991e-d98eb71957c6.eu-central-1.cloud.genez.io/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2835,6 +2892,16 @@
         .then(showToast)
         .catch(showToast)
         .finally(() => { if (submitBtn) submitBtn.disabled = false; });
+    });
+  });
+
+  // ===== Voucher pre-select (clicking "Alege voucher" fills the Voucher field) =====
+  document.querySelectorAll('a.btn[data-voucher]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var v = a.getAttribute('data-voucher');
+      document.querySelectorAll('select[name="voucher"]').forEach(function (sel) {
+        sel.value = v;
+      });
     });
   });
 
