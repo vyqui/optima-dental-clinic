@@ -1873,6 +1873,60 @@
     .img-ph__num { width: 38px; height: 38px; font-size: 16px; }
     .img-ph__txt { font-size: 13px; }
   }
+  /* ---------- doctors scroll-parallax (right below hero) ---------- */
+  .docs-parallax {
+    position: relative;
+    height: 170vh;                /* scroll distance that drives the effect */
+    background: var(--bg-teal-deep);
+  }
+  .docs-parallax__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .docs-parallax__heading {
+    position: absolute;
+    top: 12%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0 24px;
+    z-index: 1;
+    will-change: transform;
+  }
+  .docs-parallax__stage {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    height: 94%;
+    margin: 0 auto;
+  }
+  .docs-parallax .doc {
+    position: absolute;
+    bottom: 0;
+    height: 86%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 30px 55px rgba(0, 0, 0, 0.45));
+  }
+  .docs-parallax .doc--left  { left: 3%; }
+  .docs-parallax .doc--right { right: 3%; }
+  @media (max-width: 767px) {
+    .docs-parallax { height: 150vh; }
+    .docs-parallax .doc { height: 62%; }
+    .docs-parallax .doc--left  { left: -8%; }
+    .docs-parallax .doc--right { right: -8%; }
+    .docs-parallax__heading { top: 9%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .docs-parallax { height: 100vh; }
+  }
 </style>
 </head>
 <body>
@@ -1975,6 +2029,29 @@
       Consultația include evaluare completă, radiografie digitală și plan de tratament personalizat.<br>
       Programările confirmate prin WhatsApp sau formular online.
     </p>
+  </div>
+</section>
+
+<!-- ============ MEDICI FONDATORI (scroll parallax) ============ -->
+<section class="docs-parallax" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
+  <div class="docs-parallax__sticky">
+    <div class="docs-parallax__heading">
+      <span class="label-gold">Medicii fondatori</span>
+      <h2 class="display" style="margin-top:12px;">
+        Echipa care îți
+        <em>construiește zâmbetul</em>
+      </h2>
+    </div>
+    <div class="docs-parallax__stage">
+      <img class="doc doc--left" data-ty="120" data-tx="-12"
+           src="Creatives/doctor-gabor.png"
+           alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
+           decoding="async" />
+      <img class="doc doc--right" data-ty="140" data-tx="12"
+           src="Creatives/doctor-nashar.png"
+           alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
+           decoding="async" />
+    </div>
   </div>
 </section>
 
@@ -2680,7 +2757,7 @@
       </div>
       <div class="map-wrap">
         <iframe
-          src="https://www.google.com/maps?q=Gafencu+Luxury+Apartments,+Soseaua+Nordului+142B,+Bucuresti&z=18&output=embed"
+          src="https://www.google.com/maps?q=Optima+Dental+Clinic,+Soseaua+Nordului+142B,+Bucuresti&z=17&output=embed"
           loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           title="Hartă locație clinică"></iframe>
       </div>
@@ -2904,6 +2981,35 @@
       });
     });
   });
+
+  // ===== Doctors scroll parallax (they sink + fade out of the frame on scroll) =====
+  (function () {
+    var section = document.getElementById('medici');
+    if (!section) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var docs = [].slice.call(section.querySelectorAll('.doc'));
+    var heading = section.querySelector('.docs-parallax__heading');
+    var ticking = false;
+    function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+    function update() {
+      ticking = false;
+      if (reduce.matches) return;
+      var rect = section.getBoundingClientRect();
+      var range = section.offsetHeight - window.innerHeight;
+      var p = clamp(-rect.top / (range || 1), 0, 1);
+      docs.forEach(function (el) {
+        var ty = parseFloat(el.getAttribute('data-ty')) || 120;
+        var tx = parseFloat(el.getAttribute('data-tx')) || 0;
+        el.style.transform = 'translate(' + (tx * p).toFixed(2) + '%, ' + (ty * p).toFixed(2) + '%) scale(' + (1 - 0.06 * p).toFixed(3) + ')';
+        el.style.opacity = clamp(1 - p * 1.15, 0, 1).toFixed(3);
+      });
+      if (heading) heading.style.transform = 'translateY(' + (-40 * p).toFixed(1) + 'px)';
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
 
   // ===== Year =====
   document.getElementById('year').textContent = new Date().getFullYear();
