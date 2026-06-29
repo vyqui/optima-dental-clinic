@@ -1873,10 +1873,10 @@
     .img-ph__num { width: 38px; height: 38px; font-size: 16px; }
     .img-ph__txt { font-size: 13px; }
   }
-  /* ---------- doctors scroll-parallax (right below hero) ---------- */
+  /* ---------- doctors scroll-parallax (MOBILE-FIRST) ---------- */
   .docs-parallax {
     position: relative;
-    height: 170vh;                /* scroll distance that drives the effect */
+    height: 130vh;                /* mobile: scroll length that drives the effect */
     background: var(--bg-teal-deep);
   }
   .docs-parallax__sticky {
@@ -1884,69 +1884,68 @@
     top: 0;
     height: 100vh;
     overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
   }
-  /* fixed reception backdrop, revealed as the doctors leave */
+  /* fixed reception backdrop, blurred so the doctors pop; revealed as they leave */
   .docs-parallax__bg {
     position: absolute;
     inset: 0;
     z-index: 0;
     background-image: url('/assets/receptie-back-parallax.png');
     background-size: cover;
-    background-position: center 35%;
+    background-position: center 45%;
+    filter: blur(5px);
+    transform: scale(1.08);
   }
-  /* teal veil over the backdrop: dark at top (for the heading), clear lower
-     (so the reception shows behind the doctors); JS lifts it on scroll */
+  /* teal veil: dark at top (for the heading), clearer lower; JS lifts it on scroll */
   .docs-parallax__veil {
     position: absolute;
     inset: 0;
     z-index: 1;
     background: linear-gradient(180deg,
       rgba(14, 58, 51, 1) 0%,
-      rgba(14, 58, 51, 0.92) 20%,
-      rgba(14, 58, 51, 0.45) 48%,
-      rgba(14, 58, 51, 0.10) 72%,
-      rgba(14, 58, 51, 0.40) 100%);
+      rgba(14, 58, 51, 0.94) 24%,
+      rgba(14, 58, 51, 0.60) 50%,
+      rgba(14, 58, 51, 0.35) 74%,
+      rgba(14, 58, 51, 0.58) 100%);
     will-change: opacity;
   }
   .docs-parallax__heading {
     position: absolute;
-    top: 12%;
+    top: 7%;
     left: 0;
     right: 0;
     text-align: center;
-    padding: 0 24px;
+    padding: 0 20px;
     z-index: 3;
     will-change: transform, opacity;
   }
+  /* centered flex pair so left=Gabor and right=Nashar never cross or reverse */
   .docs-parallax__stage {
-    position: relative;
+    position: absolute;
+    inset: 0;
     z-index: 2;
-    width: 100%;
-    max-width: 1100px;
-    height: 94%;
-    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
   }
   .docs-parallax .doc {
-    position: absolute;
-    bottom: 0;
-    height: 96%;
+    position: relative;
+    height: 92%;
     width: auto;
     object-fit: contain;
     object-position: bottom center;
     will-change: transform, opacity;
-    filter: drop-shadow(0 30px 55px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 24px 45px rgba(0, 0, 0, 0.5));
   }
-  .docs-parallax .doc--left  { left: 13%; }
-  .docs-parallax .doc--right { right: 13%; }
-  @media (max-width: 767px) {
-    .docs-parallax { height: 150vh; }
-    .docs-parallax .doc { height: 84%; }
-    .docs-parallax .doc--left  { left: -10%; }
-    .docs-parallax .doc--right { right: -10%; }
-    .docs-parallax__heading { top: 8%; }
+  .docs-parallax .doc--left  { margin-right: -9%; z-index: 1; }
+  .docs-parallax .doc--right { margin-left: -9%; z-index: 2; }
+  @media (min-width: 768px) {
+    .docs-parallax { height: 190vh; }
+    .docs-parallax__bg { background-position: center 38%; filter: blur(4px); }
+    .docs-parallax__heading { top: 12%; }
+    .docs-parallax .doc { height: 90%; }
+    .docs-parallax .doc--left  { margin-right: -3%; }
+    .docs-parallax .doc--right { margin-left: -3%; }
   }
   @media (prefers-reduced-motion: reduce) {
     .docs-parallax { height: 100vh; }
@@ -2069,11 +2068,11 @@
       </h2>
     </div>
     <div class="docs-parallax__stage">
-      <img class="doc doc--left" data-ty="-120" data-tx="-80"
+      <img class="doc doc--left" data-ty="0" data-tx="-125"
            src="/assets/doctor-gabor.png"
            alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
            decoding="async" />
-      <img class="doc doc--right" data-ty="-125" data-tx="80"
+      <img class="doc doc--right" data-ty="0" data-tx="125"
            src="/assets/doctor-nashar.png"
            alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
            decoding="async" />
