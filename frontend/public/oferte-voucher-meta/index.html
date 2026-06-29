@@ -1876,7 +1876,7 @@
   /* ---------- doctors scroll-parallax (MOBILE-FIRST) ---------- */
   .docs-parallax {
     position: relative;
-    height: 130vh;                /* mobile: scroll length that drives the effect */
+    height: 135vh;                /* mobile: scroll length that drives the effect */
     background: var(--bg-teal-deep);
   }
   .docs-parallax__sticky {
@@ -1885,16 +1885,17 @@
     height: 100vh;
     overflow: hidden;
   }
-  /* fixed reception backdrop, blurred so the doctors pop; revealed as they leave */
+  /* fixed reception backdrop (lazy <img>), blurred so the doctors pop */
   .docs-parallax__bg {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url('/assets/receptie-back-parallax.png');
-    background-size: cover;
-    background-position: center 45%;
-    filter: blur(5px);
-    transform: scale(1.08);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    filter: blur(6px);
+    transform: scale(1.1);
   }
   /* teal veil: dark at top (for the heading), clearer lower; JS lifts it on scroll */
   .docs-parallax__veil {
@@ -1903,10 +1904,10 @@
     z-index: 1;
     background: linear-gradient(180deg,
       rgba(14, 58, 51, 1) 0%,
-      rgba(14, 58, 51, 0.94) 24%,
-      rgba(14, 58, 51, 0.60) 50%,
-      rgba(14, 58, 51, 0.35) 74%,
-      rgba(14, 58, 51, 0.58) 100%);
+      rgba(14, 58, 51, 0.94) 22%,
+      rgba(14, 58, 51, 0.62) 48%,
+      rgba(14, 58, 51, 0.38) 72%,
+      rgba(14, 58, 51, 0.60) 100%);
     will-change: opacity;
   }
   .docs-parallax__heading {
@@ -1919,7 +1920,8 @@
     z-index: 3;
     will-change: transform, opacity;
   }
-  /* centered flex pair so left=Gabor and right=Nashar never cross or reverse */
+  /* two equal columns: the pair is always centered and never crosses;
+     object-fit fits each cutout no matter its native dimensions. */
   .docs-parallax__stage {
     position: absolute;
     inset: 0;
@@ -1928,24 +1930,33 @@
     align-items: flex-end;
     justify-content: center;
   }
+  .doc-col {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+  .doc-col--left  { justify-content: flex-end; }
+  .doc-col--right { justify-content: flex-start; }
   .docs-parallax .doc {
-    position: relative;
-    height: 92%;
     width: auto;
+    height: auto;
+    max-width: 49vw;
+    max-height: 72vh;
     object-fit: contain;
     object-position: bottom center;
     will-change: transform, opacity;
-    filter: drop-shadow(0 24px 45px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.55));
   }
-  .docs-parallax .doc--left  { margin-right: -9%; z-index: 1; }
-  .docs-parallax .doc--right { margin-left: -9%; z-index: 2; }
   @media (min-width: 768px) {
-    .docs-parallax { height: 190vh; }
-    .docs-parallax__bg { background-position: center 38%; filter: blur(4px); }
+    .docs-parallax { height: 200vh; }
+    .docs-parallax__bg { object-position: center 38%; filter: blur(5px); }
     .docs-parallax__heading { top: 12%; }
-    .docs-parallax .doc { height: 90%; }
-    .docs-parallax .doc--left  { margin-right: -3%; }
-    .docs-parallax .doc--right { margin-left: -3%; }
+    .docs-parallax .doc { max-width: 32vw; max-height: 86vh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .docs-parallax { height: 100vh; }
   }
   @media (prefers-reduced-motion: reduce) {
     .docs-parallax { height: 100vh; }
@@ -2047,18 +2058,13 @@
       <li>Plan de tratament personalizat</li>
       <li>Recomandări adaptate nevoilor tale</li>
     </ul>
-
-    <p class="fineprint">
-      Consultația include evaluare completă, radiografie digitală și plan de tratament personalizat.<br>
-      Programările confirmate prin WhatsApp sau formular online.
-    </p>
   </div>
 </section>
 
 <!-- ============ MEDICI FONDATORI (scroll parallax) ============ -->
 <section class="docs-parallax" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
   <div class="docs-parallax__sticky">
-    <div class="docs-parallax__bg" aria-hidden="true"></div>
+    <img class="docs-parallax__bg" src="/assets/receptie-back-parallax.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="docs-parallax__veil" aria-hidden="true"></div>
     <div class="docs-parallax__heading">
       <span class="label-gold">Medicii fondatori</span>
@@ -2068,14 +2074,18 @@
       </h2>
     </div>
     <div class="docs-parallax__stage">
-      <img class="doc doc--left" data-ty="0" data-tx="-125"
-           src="/assets/doctor-gabor.png"
-           alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
-           decoding="async" />
-      <img class="doc doc--right" data-ty="0" data-tx="125"
-           src="/assets/doctor-nashar.png"
-           alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
-           decoding="async" />
+      <div class="doc-col doc-col--left">
+        <img class="doc" data-tx="-130"
+             src="/assets/doctor-gabor.png"
+             alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
+             loading="lazy" decoding="async" />
+      </div>
+      <div class="doc-col doc-col--right">
+        <img class="doc" data-tx="130"
+             src="/assets/doctor-nashar.png"
+             alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
+             loading="lazy" decoding="async" />
+      </div>
     </div>
   </div>
 </section>
@@ -3025,10 +3035,10 @@
       var p = clamp(-rect.top / (range || 1), 0, 1);
       var dp = clamp(p / 0.5, 0, 1);          // doctors fully exit by half the scroll
       docs.forEach(function (el) {
-        var ty = parseFloat(el.getAttribute('data-ty')) || 120;
         var tx = parseFloat(el.getAttribute('data-tx')) || 0;
-        el.style.transform = 'translate(' + (tx * dp).toFixed(2) + '%, ' + (ty * dp).toFixed(2) + '%) scale(' + (1 - 0.06 * dp).toFixed(3) + ')';
-        el.style.opacity = clamp(1 - dp * 1.2, 0, 1).toFixed(3);
+        var ty = parseFloat(el.getAttribute('data-ty')) || 0;
+        el.style.transform = 'translate(' + (tx * dp).toFixed(2) + '%, ' + (ty * dp).toFixed(2) + '%) scale(' + (1 - 0.05 * dp).toFixed(3) + ')';
+        el.style.opacity = clamp(1 - dp * 1.25, 0, 1).toFixed(3);
       });
       if (heading) {
         heading.style.transform = 'translateY(' + (-50 * dp).toFixed(1) + 'px)';
