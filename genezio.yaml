@@ -14,6 +14,14 @@ backend:
     name: js
     # The package manager used by the backend.
     packageManager: npm
+  # Backend runtime environment variables.
+  # META_PIXEL_ID is public (also hard-coded in the landing page <head>).
+  # META_CAPI_ACCESS_TOKEN comes from a GitHub Actions secret via the deploy step.
+  # (EMAIL_SERVICE_TOKEN is intentionally NOT listed here so its dashboard value is kept.)
+  environment:
+    META_PIXEL_ID: "<<META_PIXEL_ID>>"
+    META_CAPI_ACCESS_TOKEN: ${{ env.META_CAPI_ACCESS_TOKEN }}
+    META_API_VERSION: v21.0
   scripts:
     deploy:
       - npm install

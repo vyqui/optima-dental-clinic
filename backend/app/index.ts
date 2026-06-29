@@ -71,12 +71,17 @@ function wrap(value?: string): string[] | undefined {
 }
 
 async function sendCapiEvent(event: Record<string, unknown>): Promise<void> {
-  if (!META_PIXEL_ID || !META_CAPI_ACCESS_TOKEN) {
+  if (
+    !META_PIXEL_ID ||
+    META_PIXEL_ID.indexOf("<<") !== -1 ||
+    !META_CAPI_ACCESS_TOKEN
+  ) {
     console.warn(
-      "[CAPI] skipped: META_PIXEL_ID / META_CAPI_ACCESS_TOKEN not set"
+      "[CAPI] skipped: META_PIXEL_ID / META_CAPI_ACCESS_TOKEN not configured"
     );
     return;
   }
+
   const url = `https://graph.facebook.com/${META_API_VERSION}/${META_PIXEL_ID}/events?access_token=${encodeURIComponent(
     META_CAPI_ACCESS_TOKEN
   )}`;
