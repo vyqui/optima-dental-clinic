@@ -5,6 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Optima Dental Clinic — Stomatologie premium în București</title>
 <meta name="description" content="Clinică stomatologică premium în București. Consultație și plan de tratament personalizat, cu toate specializările dentare in-house." />
+<!-- Meta Pixel -->
+<script>
+  window.META_PIXEL_ID = '<<META_PIXEL_ID>>'; /* replace with your Meta Pixel ID */
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  if (window.META_PIXEL_ID && window.META_PIXEL_ID.indexOf('<<') === -1) {
+    fbq('init', window.META_PIXEL_ID);
+    fbq('track', 'PageView');
+    window.META_PIXEL_READY = true;
+  }
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=<<META_PIXEL_ID>>&ev=PageView&noscript=1" alt="" /></noscript>
+<!-- End Meta Pixel -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -2956,6 +2976,18 @@
         voucher: voucher,
         message: 'Serviciu dorit: ' + val('serviciu') + ' | Voucher: ' + voucher + ' | Localitate: ' + val('localitate') + ' | Data nasterii: ' + val('data_nasterii') + ' | Sursa: Landing Page Meta'
       };
+      // Meta "Lead": fire the browser Pixel and pass the same event_id + cookies
+      // to the backend so its server-side CAPI Lead is deduplicated with it.
+      var leadEventId = fbGenId();
+      payload.event_id = leadEventId;
+      payload.event_source_url = location.href;
+      payload.first_name = val('prenume');
+      payload.last_name = val('nume');
+      payload.fbp = fbGetCookie('_fbp');
+      payload.fbc = fbGetFbc();
+      if (window.fbq && window.META_PIXEL_READY) {
+        fbq('track', 'Lead', { content_name: val('serviciu') }, { eventID: leadEventId });
+      }
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
       const showToast = () => {
@@ -3040,6 +3072,42 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();
+  })();
+
+  // ===== Meta Pixel helpers + ViewContent (browser + server CAPI, deduped) =====
+  var META_CAPI_ENDPOINT = 'https://a9b0ed6a-7060-4342-991e-d98eb71957c6.eu-central-1.cloud.genez.io';
+  function fbGenId() {
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+    return Date.now().toString(36) + '-' + Math.random().toString(16).slice(2);
+  }
+  function fbGetCookie(name) {
+    var m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function fbGetFbc() {
+    var fbc = fbGetCookie('_fbc');
+    if (fbc) return fbc;
+    var fbclid = new URLSearchParams(location.search).get('fbclid');
+    return fbclid ? 'fb.1.' + Date.now() + '.' + fbclid : '';
+  }
+  (function () {
+    var viewEventId = fbGenId();
+    if (window.fbq && window.META_PIXEL_READY) {
+      fbq('track', 'ViewContent', {}, { eventID: viewEventId });
+    }
+    // small delay so the Pixel can set the _fbp / _fbc cookies first
+    setTimeout(function () {
+      fetch(META_CAPI_ENDPOINT + '/capi/view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event_id: viewEventId,
+          event_source_url: location.href,
+          fbp: fbGetCookie('_fbp'),
+          fbc: fbGetFbc()
+        })
+      }).catch(function () {});
+    }, 1200);
   })();
 
   // ===== Year =====
