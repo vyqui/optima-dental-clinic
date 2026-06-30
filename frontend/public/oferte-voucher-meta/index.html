@@ -1895,8 +1895,8 @@
   }
   /* ---------- doctors scroll-parallax (MOBILE-FIRST) ---------- */
   .docs-parallax {
-    display: none;                /* hidden on mobile; shown from 768px up */
     position: relative;
+    height: 135vh;                /* mobile: scroll length that drives the effect */
     background: var(--bg-teal-deep);
   }
   .docs-parallax__sticky {
@@ -1961,15 +1961,12 @@
   .docs-parallax .doc--left  { margin-right: -3vw; z-index: 1; }
   .docs-parallax .doc--right { margin-left: -3vw; z-index: 2; }
   @media (min-width: 768px) {
-    .docs-parallax { display: block; height: 200vh; }
+    .docs-parallax { height: 200vh; }
     .docs-parallax__bg { object-position: center 38%; filter: blur(5px); }
     .docs-parallax__heading { top: 12%; }
     .docs-parallax .doc { height: 84vh; }
     .docs-parallax .doc--left  { margin-right: -1.5vw; }
     .docs-parallax .doc--right { margin-left: -1.5vw; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .docs-parallax { height: 100vh; }
   }
   @media (prefers-reduced-motion: reduce) {
     .docs-parallax { height: 100vh; }
