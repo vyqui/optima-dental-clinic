@@ -67,15 +67,17 @@ export function AppointmentPopup() {
     setErrors({});
     setStatus("loading");
     try {
-      const endpoint = import.meta.env.VITE_LEAD_ENDPOINT as string | undefined;
-      if (endpoint) {
-        await fetch(endpoint, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ name, phone: countryCode + phone }),
-        });
-      }
+      // Google Apps Script Web App that logs the lead to a sheet + emails it.
+      // Hard-coded so it works on any host; VITE_LEAD_ENDPOINT can override it.
+      const endpoint =
+        (import.meta.env.VITE_LEAD_ENDPOINT as string | undefined) ||
+        "https://script.google.com/macros/s/AKfycbyHmTNWOGnR02VDLtQmtdBYyxTYzxqsH_UJaVser_OPa8yYyqU-XFAmZjZ9SEZZrBJn/exec";
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ name, phone: countryCode + phone }),
+      });
       setStatus("success");
       setTimeout(dismiss, 3000);
     } catch {
