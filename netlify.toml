@@ -13,6 +13,13 @@
   # Path is relative to `base`, i.e. frontend/dist.
   publish = "dist"
 
+[functions]
+  # Server-side Meta Conversions API lives here (frontend/netlify/functions).
+  # Reachable at /.netlify/functions/meta-capi. Requires META_PIXEL_ID and
+  # META_CAPI_ACCESS_TOKEN env vars set in the Netlify dashboard.
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 [build.environment]
   # React 19 + Vite 6 need a modern Node. Pin it so Netlify doesn't pick an old default.
   NODE_VERSION = "20"
