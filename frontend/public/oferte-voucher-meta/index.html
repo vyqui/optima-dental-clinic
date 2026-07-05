@@ -7,7 +7,7 @@
 <meta name="description" content="Clinică stomatologică premium în București. Consultație și plan de tratament personalizat, cu toate specializările dentare in-house." />
 <!-- Meta Pixel -->
 <script>
-  window.META_PIXEL_ID = '<<META_PIXEL_ID>>'; /* replace with your Meta Pixel ID */
+  window.META_PIXEL_ID = '2861445797535804';
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -16,30 +16,33 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window,document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  if (window.META_PIXEL_ID && window.META_PIXEL_ID.indexOf('<<') === -1) {
-    fbq('init', window.META_PIXEL_ID);
-    fbq('track', 'PageView');
-    window.META_PIXEL_READY = true;
-  }
+  fbq('init', window.META_PIXEL_ID);
+  fbq('track', 'PageView');
+  window.META_PIXEL_READY = true;
 </script>
 <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=<<META_PIXEL_ID>>&ev=PageView&noscript=1" alt="" /></noscript>
+  src="https://www.facebook.com/tr?id=2861445797535804&ev=PageView&noscript=1" alt="" /></noscript>
 <!-- End Meta Pixel -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+<!-- hero paints instantly from the poster while the video buffers -->
+<link rel="preload" as="image" href="Creatives/hero-poster.jpg" fetchpriority="high" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg-black: #0b0f0d;
-    --bg-teal-deep: #0e3a33;
-    --bg-teal-darker: #0a2a25;
-    --card-dark: #11161a;
+    /* "Bronz nopți" palette — previously applied at runtime by the removed
+       tweaks panel (palette: bronz, fonts: playfair-inter); baked in here. */
+    --bg-black: #0d0f12;
+    --bg-teal-deep: #1a2530;
+    --bg-teal-darker: #121b24;
+    --card-dark: #13171c;
     --card-border: rgba(255,255,255,0.07);
-    --card-border-gold: rgba(201,168,107,0.35);
+    --card-border-gold: rgba(184,138,91,0.35);
 
-    --gold: #c9a86b;
-    --gold-light: #d8bf85;
-    --gold-soft: rgba(201,168,107,0.15);
+    --gold: #b88a5b;
+    --gold-light: #caa078;
+    --gold-soft: rgba(184,138,91,0.15);
 
     /* animated metallic gold gradient — brighter, more yellow gold:
        warm gold -> light gold -> near-white highlight -> light gold -> gold */
@@ -60,7 +63,7 @@
     --whatsapp-green: #25d366;
     --phone-green: #128c7e;
 
-    --serif: 'Cormorant Garamond', Georgia, serif;
+    --serif: 'Playfair Display', Georgia, serif;
     --sans: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
@@ -1616,104 +1619,6 @@
     }
   }
 
-  /* ---------- Tweaks panel ---------- */
-  #tweaksPanel {
-    position: fixed;
-    top: 96px;
-    right: 24px;
-    width: 320px;
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
-    background: #0e1311;
-    border: 1px solid var(--card-border-gold);
-    border-radius: 14px;
-    padding: 20px;
-    z-index: 150;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
-    color: var(--text-white);
-    font-family: var(--sans);
-    display: none;
-  }
-  #tweaksPanel.open { display: block; }
-  #tweaksPanel .tw-head {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 18px;
-  }
-  #tweaksPanel .tw-title {
-    font-family: var(--serif);
-    font-size: 20px;
-    color: var(--gold);
-    letter-spacing: 0.05em;
-  }
-  #tweaksPanel .tw-close {
-    width: 28px; height: 28px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--text-body);
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-  #tweaksPanel .tw-close:hover { color: var(--gold); border-color: var(--gold); }
-  #tweaksPanel .tw-section {
-    margin-bottom: 20px;
-  }
-  #tweaksPanel .tw-section + .tw-section {
-    border-top: 1px solid var(--divider);
-    padding-top: 18px;
-  }
-  #tweaksPanel .tw-label {
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-    font-weight: 500;
-  }
-  #tweaksPanel .tw-options {
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  #tweaksPanel .tw-opt {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 12px;
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    background: rgba(255,255,255,0.02);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    text-align: left;
-    width: 100%;
-  }
-  #tweaksPanel .tw-opt:hover { border-color: rgba(201,168,107,0.5); }
-  #tweaksPanel .tw-opt.active {
-    border-color: var(--gold);
-    background: rgba(201,168,107,0.08);
-  }
-  #tweaksPanel .tw-swatches {
-    display: flex; flex-shrink: 0;
-  }
-  #tweaksPanel .tw-swatches span {
-    width: 18px; height: 28px;
-    border-radius: 3px;
-    margin-left: -4px;
-    border: 1px solid rgba(0,0,0,0.4);
-  }
-  #tweaksPanel .tw-swatches span:first-child { margin-left: 0; }
-  #tweaksPanel .tw-opt-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-  #tweaksPanel .tw-opt-name {
-    font-size: 13px; font-weight: 500; color: var(--text-white);
-  }
-  #tweaksPanel .tw-opt-sub {
-    font-size: 11px; color: var(--text-muted);
-  }
-  #tweaksPanel .tw-font-preview {
-    font-size: 18px;
-    color: var(--text-white);
-    line-height: 1;
-  }
-  #tweaksPanel .tw-font-preview em {
-    font-style: italic; color: var(--gold);
-  }
-
   /* ================= POLISH & MOTION ================= */
 
   /* anchors land below the fixed header */
@@ -2061,9 +1966,10 @@
       loop
       playsinline
       preload="auto"
+      poster="Creatives/hero-poster.jpg"
       disablepictureinpicture
     >
-      <source src="Creatives/hero-pingpong.mp4" type="video/mp4" />
+      <source src="Creatives/hero-pingpong-720.mp4" type="video/mp4" />
     </video>
   </div>
   <div class="container hero-inner">
@@ -2095,7 +2001,7 @@
 <!-- ============ MEDICI FONDATORI (scroll parallax) ============ -->
 <section class="docs-parallax" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
   <div class="docs-parallax__sticky">
-    <img class="docs-parallax__bg" src="/assets/receptie-back-parallax.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+    <img class="docs-parallax__bg" src="/assets/receptie-back-parallax.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
     <div class="docs-parallax__veil" aria-hidden="true"></div>
     <div class="docs-parallax__heading">
       <span class="label-gold">Medicii fondatori</span>
@@ -2106,11 +2012,11 @@
     </div>
     <div class="docs-parallax__stage">
       <img class="doc doc--left" data-tx="-130"
-           src="/assets/doctor-gabor.png"
+           src="/assets/doctor-gabor.webp"
            alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
            loading="lazy" decoding="async" />
       <img class="doc doc--right" data-tx="130"
-           src="/assets/doctor-nashar.png"
+           src="/assets/doctor-nashar.webp"
            alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
            loading="lazy" decoding="async" />
     </div>
@@ -2166,8 +2072,10 @@
       </p>
     </div>
     <div class="video-wrap" id="clinicVideoWrap" style="max-width:500px; aspect-ratio:5/6; cursor:pointer;">
-      <video id="clinicVideo" autoplay muted loop playsinline disablepictureinpicture style="width:100%;height:100%;object-fit:cover;display:block;">
-        <source src="Creatives/AQO29e2mkyUyTh7-173RR5u8fJdj2I5EjFqAck1vaA0nZvb7DQbmCPv7XUWifU_M5xl6ELvJApSIhtBP2SS-n6Kt2qjeeA409sdCNRU.mp4" type="video/mp4" />
+      <!-- No autoplay + preload=none: the 4.4MB tour only downloads when the
+           IntersectionObserver below starts it as it scrolls into view. -->
+      <video id="clinicVideo" muted loop playsinline preload="none" poster="Creatives/clinic-poster.jpg" disablepictureinpicture style="width:100%;height:100%;object-fit:cover;display:block;">
+        <source src="Creatives/clinic-tour-540.mp4" type="video/mp4" />
       </video>
       <div class="clinic-video-overlay" id="clinicOverlay">
         <img src="Creatives/play button optima.png" alt="Redă cu sunet" class="clinic-play-btn" />
@@ -2876,23 +2784,8 @@
 <!-- ============ TOAST ============ -->
 <div class="toast" id="toast" role="status" aria-live="polite">Cererea a fost trimisă. Te contactăm în 24 ore.</div>
 
-<!-- ============ TWEAKS PANEL ============ -->
-<aside id="tweaksPanel" aria-label="Tweaks">
-  <div class="tw-head">
-    <div class="tw-title">Tweaks</div>
-    <button class="tw-close" type="button" aria-label="Închide" id="tweaksClose">×</button>
-  </div>
-  <div class="tw-section">
-    <div class="tw-label">Paletă culori</div>
-    <div class="tw-options" id="paletteOptions"></div>
-  </div>
-  <div class="tw-section">
-    <div class="tw-label">Tipografie</div>
-    <div class="tw-options" id="fontOptions"></div>
-  </div>
-</aside>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 
   // ===== Sticky header scrolled state =====
   const header = document.getElementById('siteHeader');
@@ -2933,6 +2826,9 @@
   // Paste your Zapier "Catch Hook" URL here to also push every lead into Google Sheets.
   // Leave it as '' to disable (leads still go to the clinic email either way).
   const ZAPIER_WEBHOOK_URL = '';
+  // Google Apps Script Web App shared with the main site: logs the lead to the
+  // Google Sheet and emails the clinic.
+  const LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyHmTNWOGnR02VDLtQmtdBYyxTYzxqsH_UJaVser_OPa8yYyqU-XFAmZjZ9SEZZrBJn/exec';
 
   // ===== Form submit =====
   const toast = document.getElementById('toast');
@@ -2994,10 +2890,13 @@
       }
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
-      const showToast = () => {
+      const TOAST_OK = 'Cererea a fost trimisă. Te contactăm în 24 ore.';
+      const TOAST_FAIL = 'Nu am putut trimite cererea. Te rugăm să încerci din nou sau sună-ne direct.';
+      const showToast = (ok) => {
+        toast.textContent = ok ? TOAST_OK : TOAST_FAIL;
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 4000);
-        form.reset();
+        setTimeout(() => toast.classList.remove('show'), 5000);
+        if (ok) form.reset();
       };
       // (1) Optional: push every field to a Zapier "Catch Hook" (-> Google Sheets).
       //     Form-encoded body avoids CORS preflight; fire-and-forget so it never blocks the UX.
@@ -3020,15 +2919,46 @@
           }).toString()
         }).catch(function () {});
       }
-      // (2) Send the lead to the clinic inbox via the Genezio backend (email).
-      fetch('https://a9b0ed6a-7060-4342-991e-d98eb71957c6.eu-central-1.cloud.genez.io/contact', {
+      // (2) Log the lead to the Google Sheet + email the clinic (Apps Script —
+      //     same endpoint the main site uses; source "contact" selects the
+      //     full-fields route there; the message carries the landing details).
+      //     no-cors keeps it preflight-free; the response is opaque, so the
+      //     toast keys off network success (reject = definitely not sent).
+      fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+          service: payload.service,
+          message: payload.message,
+          source: 'contact'
+        })
+      })
+        .then(() => showToast(true))
+        .catch(() => showToast(false))
+        .finally(() => { if (submitBtn) submitBtn.disabled = false; });
+      // (3) Server-side Meta CAPI Lead via the Netlify Function (same origin);
+      //     deduplicated with the browser Pixel event by event_id. Best-effort.
+      fetch('/.netlify/functions/meta-capi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(showToast)
-        .catch(showToast)
-        .finally(() => { if (submitBtn) submitBtn.disabled = false; });
+        body: JSON.stringify({
+          event_name: 'Lead',
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+          first_name: payload.first_name,
+          last_name: payload.last_name,
+          content_name: payload.service,
+          event_id: payload.event_id,
+          event_source_url: payload.event_source_url,
+          fbp: payload.fbp,
+          fbc: payload.fbc
+        })
+      }).catch(function () {});
     });
   });
 
@@ -3079,7 +3009,6 @@
   })();
 
   // ===== Meta Pixel helpers + ViewContent (browser + server CAPI, deduped) =====
-  var META_CAPI_ENDPOINT = 'https://a9b0ed6a-7060-4342-991e-d98eb71957c6.eu-central-1.cloud.genez.io';
   function fbGenId() {
     try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
     return Date.now().toString(36) + '-' + Math.random().toString(16).slice(2);
@@ -3101,10 +3030,11 @@
     }
     // small delay so the Pixel can set the _fbp / _fbc cookies first
     setTimeout(function () {
-      fetch(META_CAPI_ENDPOINT + '/capi/view', {
+      fetch('/.netlify/functions/meta-capi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          event_name: 'ViewContent',
           event_id: viewEventId,
           event_source_url: location.href,
           fbp: fbGetCookie('_fbp'),
@@ -3116,189 +3046,6 @@
 
   // ===== Year =====
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  // ===== Tweaks: palettes + fonts =====
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "palette": "bronz",
-    "fontPair": "playfair-inter"
-  }/*EDITMODE-END*/;
-
-  const PALETTES = [
-    {
-      id: "aur-clasic",
-      name: "Aur clasic",
-      sub: "Negru · petrol · aur",
-      vars: {
-        "--bg-black": "#0b0f0d",
-        "--bg-teal-deep": "#0e3a33",
-        "--bg-teal-darker": "#0a2a25",
-        "--card-dark": "#11161a",
-        "--gold": "#c9a86b",
-        "--gold-light": "#d8bf85",
-        "--gold-soft": "rgba(201,168,107,0.15)",
-        "--card-border-gold": "rgba(201,168,107,0.35)"
-      }
-    },
-    {
-      id: "smarald",
-      name: "Smarald & șampanie",
-      sub: "Verde adânc · șampanie",
-      vars: {
-        "--bg-black": "#0a100d",
-        "--bg-teal-deep": "#0c4a3a",
-        "--bg-teal-darker": "#08332a",
-        "--card-dark": "#101714",
-        "--gold": "#e2cfa3",
-        "--gold-light": "#efe1bf",
-        "--gold-soft": "rgba(226,207,163,0.15)",
-        "--card-border-gold": "rgba(226,207,163,0.35)"
-      }
-    },
-    {
-      id: "burgundia",
-      name: "Burgundia",
-      sub: "Vișiniu · negru · roz-auriu",
-      vars: {
-        "--bg-black": "#100a0c",
-        "--bg-teal-deep": "#3a1418",
-        "--bg-teal-darker": "#280d10",
-        "--card-dark": "#171012",
-        "--gold": "#d4a487",
-        "--gold-light": "#e5bda3",
-        "--gold-soft": "rgba(212,164,135,0.15)",
-        "--card-border-gold": "rgba(212,164,135,0.35)"
-      }
-    },
-    {
-      id: "bronz",
-      name: "Bronz nopți",
-      sub: "Ardezie · bronz cald",
-      vars: {
-        "--bg-black": "#0d0f12",
-        "--bg-teal-deep": "#1a2530",
-        "--bg-teal-darker": "#121b24",
-        "--card-dark": "#13171c",
-        "--gold": "#b88a5b",
-        "--gold-light": "#caa078",
-        "--gold-soft": "rgba(184,138,91,0.15)",
-        "--card-border-gold": "rgba(184,138,91,0.35)"
-      }
-    }
-  ];
-
-  const FONTS = [
-    {
-      id: "cormorant-inter",
-      name: "Cormorant + Inter",
-      serif: "'Cormorant Garamond', Georgia, serif",
-      sans: "'Inter', system-ui, sans-serif",
-      preview: "Aa <em>Bb</em>"
-    },
-    {
-      id: "playfair-inter",
-      name: "Playfair + Inter",
-      serif: "'Playfair Display', Georgia, serif",
-      sans: "'Inter', system-ui, sans-serif",
-      preview: "Aa <em>Bb</em>"
-    },
-    {
-      id: "dmserif-manrope",
-      name: "DM Serif + Manrope",
-      serif: "'DM Serif Display', Georgia, serif",
-      sans: "'Manrope', system-ui, sans-serif",
-      preview: "Aa <em>Bb</em>"
-    },
-    {
-      id: "garamond-worksans",
-      name: "EB Garamond + Work Sans",
-      serif: "'EB Garamond', Georgia, serif",
-      sans: "'Work Sans', system-ui, sans-serif",
-      preview: "Aa <em>Bb</em>"
-    }
-  ];
-
-  let tweakState = Object.assign({}, TWEAK_DEFAULTS);
-
-  function applyPalette(id){
-    const p = PALETTES.find(x => x.id === id) || PALETTES[0];
-    Object.entries(p.vars).forEach(([k,v]) => document.documentElement.style.setProperty(k, v));
-  }
-  function applyFonts(id){
-    const f = FONTS.find(x => x.id === id) || FONTS[0];
-    document.documentElement.style.setProperty('--serif', f.serif);
-    document.documentElement.style.setProperty('--sans', f.sans);
-  }
-  function applyTweaks(){
-    applyPalette(tweakState.palette);
-    applyFonts(tweakState.fontPair);
-    renderActive();
-  }
-  function setTweak(patch){
-    tweakState = Object.assign({}, tweakState, patch);
-    applyTweaks();
-    try {
-      window.parent.postMessage({type: '__edit_mode_set_keys', edits: patch}, '*');
-    } catch(_){}
-  }
-  function renderPaletteOptions(){
-    const el = document.getElementById('paletteOptions');
-    el.innerHTML = PALETTES.map(p => `
-      <button type="button" class="tw-opt" data-pal="${p.id}">
-        <span class="tw-swatches">
-          <span style="background:${p.vars['--bg-black']}"></span>
-          <span style="background:${p.vars['--bg-teal-deep']}"></span>
-          <span style="background:${p.vars['--gold']}"></span>
-        </span>
-        <span class="tw-opt-info">
-          <span class="tw-opt-name">${p.name}</span>
-          <span class="tw-opt-sub">${p.sub}</span>
-        </span>
-      </button>
-    `).join('');
-    el.querySelectorAll('.tw-opt').forEach(btn => {
-      btn.addEventListener('click', () => setTweak({palette: btn.dataset.pal}));
-    });
-  }
-  function renderFontOptions(){
-    const el = document.getElementById('fontOptions');
-    el.innerHTML = FONTS.map(f => `
-      <button type="button" class="tw-opt" data-font="${f.id}">
-        <span class="tw-font-preview" style="font-family:${f.serif}">${f.preview}</span>
-        <span class="tw-opt-info">
-          <span class="tw-opt-name" style="font-family:${f.sans}">${f.name}</span>
-          <span class="tw-opt-sub">Serif + sans</span>
-        </span>
-      </button>
-    `).join('');
-    el.querySelectorAll('.tw-opt').forEach(btn => {
-      btn.addEventListener('click', () => setTweak({fontPair: btn.dataset.font}));
-    });
-  }
-  function renderActive(){
-    document.querySelectorAll('#paletteOptions .tw-opt').forEach(b => {
-      b.classList.toggle('active', b.dataset.pal === tweakState.palette);
-    });
-    document.querySelectorAll('#fontOptions .tw-opt').forEach(b => {
-      b.classList.toggle('active', b.dataset.font === tweakState.fontPair);
-    });
-  }
-
-  // host protocol
-  const tweaksPanel = document.getElementById('tweaksPanel');
-  window.addEventListener('message', e => {
-    const d = e.data || {};
-    if (d.type === '__activate_edit_mode') tweaksPanel.classList.add('open');
-    if (d.type === '__deactivate_edit_mode') tweaksPanel.classList.remove('open');
-  });
-  document.getElementById('tweaksClose').addEventListener('click', () => {
-    tweaksPanel.classList.remove('open');
-    try { window.parent.postMessage({type: '__edit_mode_dismissed'}, '*'); } catch(_){}
-  });
-
-  renderPaletteOptions();
-  renderFontOptions();
-  applyTweaks();
-  try { window.parent.postMessage({type: '__edit_mode_available'}, '*'); } catch(_){}
 
   // ===== Clinic video: autoplay muted, unmute + hide overlay on any click =====
   (function() {
