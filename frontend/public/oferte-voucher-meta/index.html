@@ -65,7 +65,10 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  /* overflow-x: clip (not hidden) prevents horizontal scroll WITHOUT making
+     html/body a scroll container — which would break position: sticky (the
+     founders parallax). `hidden` is kept as a fallback for old browsers. */
+  html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; }
   body {
     margin: 0;
     background: var(--bg-black);
@@ -76,6 +79,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    overflow-x: clip;
   }
   img { max-width: 100%; display: block; }
   a { color: inherit; text-decoration: none; }
@@ -1895,8 +1899,12 @@
   }
   /* ---------- doctors scroll-parallax (MOBILE-FIRST) ---------- */
   .docs-parallax {
-    display: none;                /* hidden on mobile; shown from 768px up */
+    display: block;
     position: relative;
+    height: 175vh;                /* scroll length; the sticky child is one 100vh frame */
+    padding: 0;                   /* override global `section {padding}` so the sticky
+                                     child pins flush at the top (else the doctors start
+                                     sliding out before their feet reach the floor) */
     background: var(--bg-teal-deep);
   }
   .docs-parallax__sticky {
@@ -1913,8 +1921,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 45%;
-    filter: blur(6px);
+    object-position: center 40%;
+    filter: blur(5px);
     transform: scale(1.1);
   }
   /* teal veil: dark at top (for the heading), clearer lower; JS lifts it on scroll */
@@ -1930,9 +1938,10 @@
       rgba(14, 58, 51, 0.60) 100%);
     will-change: opacity;
   }
+  /* MOBILE: heading sits just above the doctors' heads; JS lifts it on scroll */
   .docs-parallax__heading {
     position: absolute;
-    top: 7%;
+    top: 32%;
     left: 0;
     right: 0;
     text-align: center;
@@ -1940,36 +1949,38 @@
     z-index: 3;
     will-change: transform, opacity;
   }
-  /* two equal columns: the pair is always centered and never crosses;
-     object-fit fits each cutout no matter its native dimensions. */
+  /* MOBILE: the two cutouts stand at the left & right edges, both fully visible */
   .docs-parallax__stage {
     position: absolute;
     inset: 0;
     z-index: 2;
     display: flex;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 2.5vw;
   }
-  /* tight-cropped portrait cutouts -> size by height, slight overlap at center */
+  /* MOBILE: size cutouts by WIDTH so both fit the narrow screen without cropping */
   .docs-parallax .doc {
-    width: auto;
-    height: 50vh;
+    width: 44vw;
+    height: auto;
+    max-height: 66vh;
+    object-fit: contain;
     object-position: bottom center;
     will-change: transform, opacity;
     filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
   }
-  .docs-parallax .doc--left  { margin-right: -3vw; z-index: 1; }
-  .docs-parallax .doc--right { margin-left: -3vw; z-index: 2; }
+  .docs-parallax .doc--left  { margin: 0; z-index: 1; }
+  .docs-parallax .doc--right { margin: 0; z-index: 2; }
+
+  /* DESKTOP: tall cutouts, centered overlapping pair (original look, unchanged) */
   @media (min-width: 768px) {
-    .docs-parallax { display: block; height: 200vh; }
-    .docs-parallax__bg { object-position: center 38%; filter: blur(5px); }
+    .docs-parallax { height: 200vh; }
+    .docs-parallax__bg { object-position: center 38%; }
     .docs-parallax__heading { top: 12%; }
-    .docs-parallax .doc { height: 84vh; }
+    .docs-parallax__stage { justify-content: center; padding: 0; }
+    .docs-parallax .doc { width: auto; height: 84vh; max-height: none; }
     .docs-parallax .doc--left  { margin-right: -1.5vw; }
     .docs-parallax .doc--right { margin-left: -1.5vw; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .docs-parallax { height: 100vh; }
   }
   @media (prefers-reduced-motion: reduce) {
     .docs-parallax { height: 100vh; }
