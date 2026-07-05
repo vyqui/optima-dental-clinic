@@ -1,0 +1,34 @@
+# Netlify configuration for the Optima Dental Clinic site.
+#
+# The app is a Vite + React (React Router) single-page app living in the
+# `frontend/` subfolder. The Express backend stays deployed on Genezio; the
+# frontend calls it over HTTPS, so Netlify only needs to build and serve the
+# static frontend.
+
+[build]
+  # The site lives in the frontend/ subfolder, so run the build there.
+  base = "frontend"
+  # Produces the static site into frontend/dist.
+  command = "npm run build"
+  # Path is relative to `base`, i.e. frontend/dist.
+  publish = "dist"
+
+[functions]
+  # Server-side Meta Conversions API lives here (frontend/netlify/functions).
+  # Reachable at /.netlify/functions/meta-capi. Requires META_PIXEL_ID and
+  # META_CAPI_ACCESS_TOKEN env vars set in the Netlify dashboard.
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[build.environment]
+  # React 19 + Vite 6 need a modern Node. Pin it so Netlify doesn't pick an old default.
+  NODE_VERSION = "20"
+
+# SPA fallback: React Router handles routing on the client, so every path that
+# isn't a real file (e.g. /contact, /services/ortodontie, deep-linked ad URLs)
+# must serve index.html. Netlify serves existing static files first, so real
+# assets (including /oferte-voucher-meta/) are unaffected.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

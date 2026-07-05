@@ -13,8 +13,8 @@ import {
   MessageCircleIcon,
   SendIcon
 } from "lucide-react";
-import axios from "axios";
 import MapAtLocation from "@/components/MapAtLocation";
+import { LEAD_ENDPOINT } from "@/lib/leadEndpoint";
 
 const contactInfo = [
   {
@@ -106,37 +106,46 @@ export const ContactPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    const data = JSON.stringify({
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      service: formData.service,
-      message: formData.message
+    const { name, email, phone, service, message } = formData;
+    setIsSending(true);
+
+    // 1) Log the lead to the Google Sheet + email the clinic (Apps Script).
+    //    no-cors: the response is opaque, which is fine — we only need the POST
+    //    to arrive. The Apps Script routes it by the `source` field.
+    const leadReq = fetch(LEAD_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        service,
+        message,
+        source: "contact",
+      }),
     });
 
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "https://a9b0ed6a-7060-4342-991e-d98eb71957c6.eu-central-1.cloud.genez.io/contact",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      data: data
-    };
+    // 2) Meta Conversions API (server-side Lead) via the Netlify Function,
+    //    which holds the access token server-side. Best-effort.
+    const capiReq = fetch("/.netlify/functions/meta-capi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event_name: "Lead",
+        name,
+        email,
+        phone,
+        content_name: service,
+        event_source_url:
+          typeof window !== "undefined" ? window.location.href : undefined,
+      }),
+    }).catch(() => undefined);
 
-    setIsSending(true);
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(response.data);
-        setIsSending(false);
-        navigate("/thank-you");
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsSending(false);
-      });
+    Promise.allSettled([leadReq, capiReq]).then(() => {
+      setIsSending(false);
+      navigate("/thank-you");
+    });
   };
 
   return (
