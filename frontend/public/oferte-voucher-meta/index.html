@@ -2343,14 +2343,6 @@
               <option value="Consultație + obturație — 300 lei">Consultație + obturație — 300 lei</option>
             </select>
           </div>
-          <div class="field">
-            <label for="f-loc-2">Localitate</label>
-            <input id="f-loc-2" name="localitate" type="text" placeholder="București" autocomplete="address-level2" required />
-          </div>
-          <div class="field full">
-            <label for="f-data-2">Data nașterii</label>
-            <input id="f-data-2" name="data_nasterii" type="date" required />
-          </div>
         </div>
         <p class="form-disclaimer">
           * Oferta este valabilă exclusiv pentru pacienți noi, în baza completării integrale
@@ -2487,14 +2479,6 @@
               <option value="Consultație + igienizare — 300 lei">Consultație + igienizare — 300 lei</option>
               <option value="Consultație + obturație — 300 lei">Consultație + obturație — 300 lei</option>
             </select>
-          </div>
-          <div class="field">
-            <label for="f-loc">Localitate</label>
-            <input id="f-loc" name="localitate" type="text" placeholder="București" autocomplete="address-level2" required />
-          </div>
-          <div class="field full">
-            <label for="f-data">Data nașterii</label>
-            <input id="f-data" name="data_nasterii" type="date" required />
           </div>
         </div>
         <p class="form-disclaimer">
@@ -2905,7 +2889,7 @@
         phone: val('telefon'),
         service: val('serviciu'),
         voucher: voucher,
-        message: 'Serviciu dorit: ' + val('serviciu') + ' | Voucher: ' + voucher + ' | Localitate: ' + val('localitate') + ' | Data nasterii: ' + val('data_nasterii') + ' | Sursa: Landing Page Meta'
+        message: 'Serviciu dorit: ' + val('serviciu') + ' | Voucher: ' + voucher + ' | Sursa: Landing Page Meta'
       };
       // Meta "Lead": fire the browser Pixel and pass the same event_id + cookies
       // to the backend so its server-side CAPI Lead is deduplicated with it.
@@ -2943,8 +2927,6 @@
             telefon: val('telefon'),
             serviciu_dorit: val('serviciu'),
             voucher: voucher,
-            localitate: val('localitate'),
-            data_nasterii: val('data_nasterii'),
             sursa: 'Landing Page Meta',
             data_trimitere: new Date().toISOString()
           }).toString()
