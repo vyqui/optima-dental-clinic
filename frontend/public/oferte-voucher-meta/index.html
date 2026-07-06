@@ -464,14 +464,13 @@
   }
   @media (min-width: 768px) {
     .hero {
-      height: 100vh;
-      height: 100dvh;
+      /* min-height only (no height/max-height cap): on short, wide screens the
+         content (h1 + lead + CTAs + bullets) is taller than 100vh and the cap
+         was clipping the feature bullets. Let the hero grow instead. */
       min-height: 100vh;
       min-height: 100dvh;
-      max-height: 100vh;
-      max-height: 100dvh;
       padding-top: 140px;
-      padding-bottom: 80px;
+      padding-bottom: 64px;
     }
   }
   .hero::before{
@@ -1872,7 +1871,7 @@
   .docs-parallax {
     display: block;
     position: relative;
-    height: 175vh;                /* scroll length; the sticky child is one 100vh frame */
+    height: 130vh;                /* short scroll: the section passes in ~1.5 screens */
     padding: 0;                   /* override global `section {padding}` so the sticky
                                      child pins flush at the top (else the doctors start
                                      sliding out before their feet reach the floor) */
@@ -1881,7 +1880,7 @@
   .docs-parallax__sticky {
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: 70vh;                 /* MOBILE: compact frame, not a full screen */
     overflow: hidden;
   }
   /* fixed reception backdrop (lazy <img>), blurred so the doctors pop */
@@ -1909,10 +1908,11 @@
       rgba(14, 58, 51, 0.60) 100%);
     will-change: opacity;
   }
-  /* MOBILE: heading sits just above the doctors' heads; JS lifts it on scroll */
+  /* MOBILE: heading at the top of the compact frame, pushed below the fixed
+     site header (which overlays the pinned frame), just above the heads */
   .docs-parallax__heading {
     position: absolute;
-    top: 32%;
+    top: 92px;
     left: 0;
     right: 0;
     text-align: center;
@@ -1934,7 +1934,7 @@
   .docs-parallax .doc {
     width: 44vw;
     height: auto;
-    max-height: 66vh;
+    max-height: 44vh;             /* fits the 70vh frame below the heading */
     object-fit: contain;
     object-position: bottom center;
     will-change: transform, opacity;
@@ -1943,15 +1943,17 @@
   .docs-parallax .doc--left  { margin: 0; z-index: 1; }
   .docs-parallax .doc--right { margin: 0; z-index: 2; }
 
-  /* DESKTOP: tall cutouts, centered overlapping pair (original look, unchanged) */
+  /* DESKTOP: tall cutouts, centered pair with a wide gap so the heading stays visible */
   @media (min-width: 768px) {
-    .docs-parallax { height: 200vh; }
+    .docs-parallax { height: 160vh; }   /* short scroll: gone in well under 2 screens */
+    .docs-parallax__sticky { height: 100vh; }
     .docs-parallax__bg { object-position: center 38%; }
     .docs-parallax__heading { top: 12%; }
     .docs-parallax__stage { justify-content: center; padding: 0; }
     .docs-parallax .doc { width: auto; height: 84vh; max-height: none; }
-    .docs-parallax .doc--left  { margin-right: -1.5vw; }
-    .docs-parallax .doc--right { margin-left: -1.5vw; }
+    /* >=400px of clear space between the two cutouts */
+    .docs-parallax .doc--left  { margin-right: 200px; }
+    .docs-parallax .doc--right { margin-left: 200px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .docs-parallax { height: 100vh; }
@@ -2994,13 +2996,15 @@
     var docs = [].slice.call(section.querySelectorAll('.doc'));
     var heading = section.querySelector('.docs-parallax__heading');
     var veil = section.querySelector('.docs-parallax__veil');
+    var sticky = section.querySelector('.docs-parallax__sticky');
     var ticking = false;
     function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
     function update() {
       ticking = false;
       if (reduce.matches) return;
       var rect = section.getBoundingClientRect();
-      var range = section.offsetHeight - window.innerHeight;
+      // pinned travel = section height minus the sticky frame (70vh on mobile, 100vh desktop)
+      var range = section.offsetHeight - (sticky ? sticky.offsetHeight : window.innerHeight);
       var p = clamp(-rect.top / (range || 1), 0, 1);
       var dp = clamp(p / 0.5, 0, 1);          // doctors fully exit by half the scroll
       docs.forEach(function (el) {
