@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
 <!-- hero paints instantly from the poster while the video buffers -->
-<link rel="preload" as="image" href="Creatives/hero-poster.jpg" fetchpriority="high" />
+<link rel="preload" as="image" href="Creatives/hero-optima-poster.jpg" fetchpriority="high" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
@@ -2027,10 +2027,10 @@
       loop
       playsinline
       preload="auto"
-      poster="Creatives/hero-poster.jpg"
+      poster="Creatives/hero-optima-poster.jpg"
       disablepictureinpicture
     >
-      <source src="Creatives/hero-pingpong-720.mp4" type="video/mp4" />
+      <source src="Creatives/hero-optima-720.mp4" type="video/mp4" />
     </video>
   </div>
   <div class="container hero-inner">
@@ -3066,6 +3066,24 @@
 
   // ===== Year =====
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ===== Hero video: guarantee playback on open =====
+  // autoplay+muted+playsinline covers ~all browsers; this is a safety net for
+  // low-power / data-saver modes that defer autoplay — retry on load and on the
+  // first user interaction. Muted keeps it policy-compliant everywhere.
+  (function () {
+    var hero = document.getElementById('heroVideo');
+    if (!hero) return;
+    function kick() { hero.muted = true; var p = hero.play(); if (p && p.catch) p.catch(function () {}); }
+    kick();
+    hero.addEventListener('canplay', kick, { once: true });
+    ['touchstart', 'click', 'scroll', 'keydown'].forEach(function (evt) {
+      window.addEventListener(evt, function once() {
+        kick();
+        ['touchstart', 'click', 'scroll', 'keydown'].forEach(function (e2) { window.removeEventListener(e2, once); });
+      }, { once: true, passive: true });
+    });
+  })();
 
   // ===== Clinic video: autoplay muted, unmute + hide overlay on any click =====
   (function() {
