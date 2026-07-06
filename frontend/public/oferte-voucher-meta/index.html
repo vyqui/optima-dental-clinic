@@ -1181,19 +1181,6 @@
   @keyframes marqueeScroll { to { transform: translateX(-50%); } }
 
   /* ---------- offer intro ---------- */
-  .offer-intro { text-align: center; }
-  .offer-intro .lead { max-width: 720px; margin: 18px auto 0; }
-  .offer-price {
-    display: inline-block;
-    margin-top: 26px;
-    padding: 12px 24px;
-    border: 1px solid var(--card-border-gold);
-    border-radius: 999px;
-    color: var(--text-white);
-    font-size: 15px;
-  }
-  .offer-price strong { color: var(--gold); }
-  .offer-note { font-size: 12px; color: var(--text-muted); margin-top: 18px; }
 
   /* ---------- voucher tabs ---------- */
   .voucher-tabbar {
@@ -1990,7 +1977,6 @@
     </a>
 
     <nav class="nav-desktop" aria-label="Navigare principală">
-      <a href="#oferta">Oferta</a>
       <a href="#vouchere">Vouchere</a>
       <a href="#recenzii">Recenzii</a>
       <a href="#programare-video">Programare</a>
@@ -2018,7 +2004,6 @@
   </div>
 
   <nav class="mobile-menu" id="mobileMenu" aria-label="Meniu mobil">
-    <a href="#oferta">Oferta</a>
     <a href="#vouchere">Vouchere</a>
     <a href="#recenzii">Recenzii</a>
     <a href="#programare-video">Programare</a>
@@ -2103,32 +2088,6 @@
   </div>
 </div>
 
-<!-- ============ OFFER INTRO ============ -->
-<section class="bg-teal" id="oferta">
-  <div class="container">
-    <div class="heading-group offer-intro center">
-      <span class="label-gold">Welcome Optima</span>
-      <h2 class="display" style="margin-top:16px;">
-        Ce înseamnă
-        <em>oferta de bun venit?</em>
-      </h2>
-      <p class="lead">
-        Te programezi la <strong>Consultație + plan de tratament</strong> la unul dintre medicii
-        noștri coordonatori și primești <strong>cadou radiografia panoramică</strong> și
-        <strong>un voucher la alegere</strong>, valabil 3 luni, pentru tratamentul pe care îl vei urma.
-      </p>
-      <p class="lead">
-        E modul nostru de a-ți spune „Bine ai venit!” și de a ne asigura că primii pași către
-        zâmbetul tău de vis sunt cât mai simpli.
-      </p>
-      <div class="offer-price">Consultație + plan de tratament — <strong>220 RON</strong></div>
-      <p class="offer-note">*Campanie valabilă pentru pacienții noi care se înscriu prin completarea formularului online.</p>
-      <div class="cta-row" style="justify-content:center; margin-top:28px;">
-        <a class="btn btn-primary" href="#vouchere">Descoperă oferta</a>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ VIDEO ============ -->
 <section class="bg-black">
@@ -3269,7 +3228,7 @@
     var els = document.querySelectorAll(
       '.heading-group, .free-card, .voucher-card, .review-card, ' +
       '.booking-feature, .whyus-item, .contact-row, .stats-card, ' +
-      '.booking-form, .map-wrap, .photo-frame, .offer-price, .offer-note'
+      '.booking-form, .map-wrap, .photo-frame'
     );
     function finish(el) {
       el.classList.remove('reveal', 'in');
