@@ -1871,16 +1871,15 @@
   .docs-parallax {
     display: block;
     position: relative;
-    height: 130vh;                /* short scroll: the section passes in ~1.5 screens */
-    padding: 0;                   /* override global `section {padding}` so the sticky
-                                     child pins flush at the top (else the doctors start
-                                     sliding out before their feet reach the floor) */
+    height: 70vh;                 /* MOBILE: a plain compact block; the section is
+                                     exactly the frame, so there is no scroll runway
+                                     and no empty strip below the doctors. */
+    padding: 0;                   /* override global `section {padding}` */
     background: var(--bg-teal-deep);
   }
   .docs-parallax__sticky {
-    position: sticky;
-    top: 0;
-    height: 70vh;                 /* MOBILE: compact frame, not a full screen */
+    position: relative;           /* MOBILE: static (no pin) — desktop re-enables sticky */
+    height: 70vh;
     overflow: hidden;
   }
   /* fixed reception backdrop (lazy <img>), blurred so the doctors pop */
@@ -1948,7 +1947,7 @@
   /* DESKTOP: tall cutouts, centered pair with a wide gap so the heading stays visible */
   @media (min-width: 768px) {
     .docs-parallax { height: 160vh; }   /* short scroll: gone in well under 2 screens */
-    .docs-parallax__sticky { height: 100vh; }
+    .docs-parallax__sticky { position: sticky; top: 0; height: 100vh; }
     .docs-parallax__bg { object-position: center 38%; }
     .docs-parallax__heading { top: 12%; }
     .docs-parallax__stage { justify-content: center; padding: 0; }
@@ -1957,7 +1956,9 @@
     .docs-parallax .doc--left  { margin-right: 200px; }
     .docs-parallax .doc--right { margin-left: 200px; width: auto; height: 86vh; max-height: none; }
   }
-  @media (prefers-reduced-motion: reduce) {
+  /* reduced motion: collapse the desktop scroll runway to one static screen
+     (mobile is already a static 70vh block, so it needs no change) */
+  @media (min-width: 768px) and (prefers-reduced-motion: reduce) {
     .docs-parallax { height: 100vh; }
   }
 </style>
@@ -2995,15 +2996,22 @@
     var section = document.getElementById('medici');
     if (!section) return;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var desktop = window.matchMedia('(min-width: 768px)');
     var docs = [].slice.call(section.querySelectorAll('.doc'));
     var heading = section.querySelector('.docs-parallax__heading');
     var veil = section.querySelector('.docs-parallax__veil');
     var sticky = section.querySelector('.docs-parallax__sticky');
     var ticking = false;
     function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+    function clearInline() {
+      docs.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; });
+      if (heading) { heading.style.transform = ''; heading.style.opacity = ''; }
+      if (veil) veil.style.opacity = '';
+    }
     function update() {
       ticking = false;
-      if (reduce.matches) return;
+      // Mobile is a static compact block (no pin); leave the cutouts at rest.
+      if (reduce.matches || !desktop.matches) { clearInline(); return; }
       var rect = section.getBoundingClientRect();
       // pinned travel = section height minus the sticky frame (70vh on mobile, 100vh desktop)
       var range = section.offsetHeight - (sticky ? sticky.offsetHeight : window.innerHeight);
