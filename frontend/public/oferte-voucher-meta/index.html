@@ -1077,6 +1077,78 @@
     .galaxy-orbit, .planet, .galaxy-sun::before { animation: none; }
   }
 
+  /* ---------- mobile 3D ring carousels (auto-spin + drag) ----------
+     Cards sit on a circle: rotateY(angle+--rot) translateZ(R), then counter-
+     rotateY so each card always faces the viewer (billboard). JS animates a
+     single --rot custom property on the stage. Reduced-motion users keep the
+     static grid / swipe layouts above. */
+  @media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+    .galaxy {
+      display: block;
+      position: relative;
+      max-width: none;
+      height: 330px;
+      margin-top: 36px;
+      perspective: 950px;
+      transform-style: preserve-3d;
+      touch-action: pan-y;   /* horizontal drags spin the ring, vertical still scrolls */
+      cursor: grab;
+    }
+    .galaxy:active { cursor: grabbing; }
+    .galaxy-sun {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 132px; height: 132px;
+      margin: 0;
+      transform: translate(-50%, -50%) translateZ(0.5px);
+    }
+    .planet {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 150px;
+      margin: 0;
+      transform:
+        translate(-50%, -50%)
+        rotateY(calc(var(--a) + var(--rot, 0deg)))
+        translateZ(200px)
+        rotateY(calc(-1 * (var(--a) + var(--rot, 0deg))));
+      will-change: transform, opacity;
+    }
+  }
+  @media (max-width: 599px) and (prefers-reduced-motion: no-preference) {
+    #rezultate .ph-grid {
+      display: block;
+      position: relative;
+      height: 330px;
+      margin-top: 32px;
+      padding-bottom: 0;
+      overflow: visible;
+      perspective: 950px;
+      transform-style: preserve-3d;
+      touch-action: pan-y;
+      cursor: grab;
+    }
+    #rezultate .ph-grid:active { cursor: grabbing; }
+    #rezultate .ph-grid > .img-ph {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 200px;
+      flex: none;
+      transform:
+        translate(-50%, -50%)
+        rotateY(calc(var(--a) + var(--rot, 0deg)))
+        translateZ(210px)
+        rotateY(calc(-1 * (var(--a) + var(--rot, 0deg))));
+      will-change: transform, opacity;
+    }
+    #rezultate .img-ph:nth-child(1) { --a: 0deg; }
+    #rezultate .img-ph:nth-child(2) { --a: 60deg; }
+    #rezultate .img-ph:nth-child(3) { --a: 120deg; }
+    #rezultate .img-ph:nth-child(4) { --a: 180deg; }
+    #rezultate .img-ph:nth-child(5) { --a: 240deg; }
+    #rezultate .img-ph:nth-child(6) { --a: 300deg; }
+  }
+
   /* ---------- welcome marquee ---------- */
   .marquee {
     overflow: hidden;
@@ -3095,6 +3167,98 @@
   })();
 
   // ===== Smooth scroll handled by html { scroll-behavior } =====
+
+  // ===== Mobile 3D ring carousels: specializations + results gallery =====
+  // Auto-spins; drag to spin with inertia; auto resumes after a short idle.
+  // Runs only while the matching media query holds (CSS defines the ring there).
+  (function () {
+    function ring3d(stage, media, autoSpeed, angleOf) {
+      if (!stage) return;
+      var cards = [].slice.call(stage.querySelectorAll(':scope > .planet, :scope > .img-ph'));
+      if (cards.length < 2) return;
+      var mq = window.matchMedia(media);
+      var rot = 0, vel = 0, auto = true, dragging = false, active = false;
+      var lastX = 0, lastT = 0, prevTs = 0, raf = null, resumeTimer = null, inView = true;
+
+      function frame(ts) {
+        raf = requestAnimationFrame(frame);
+        var dt = prevTs ? (ts - prevTs) / 1000 : 0;
+        prevTs = ts;
+        if (!inView || dt <= 0 || dt > 0.25) return;
+        if (!dragging) {
+          if (auto) {
+            rot += autoSpeed * dt;
+          } else {
+            rot += vel * dt;
+            vel *= Math.pow(0.1, dt);   // inertia decay after a drag
+          }
+        }
+        stage.style.setProperty('--rot', (rot % 360).toFixed(2) + 'deg');
+        // depth cue: cards fade slightly as they travel to the back
+        for (var i = 0; i < cards.length; i++) {
+          var a = (angleOf(cards[i], i) + rot) * Math.PI / 180;
+          cards[i].style.opacity = (0.42 + 0.58 * (Math.cos(a) + 1) / 2).toFixed(3);
+        }
+      }
+      function down(e) {
+        if (!active) return;
+        dragging = true; auto = false; vel = 0;
+        lastX = e.clientX; lastT = performance.now();
+        clearTimeout(resumeTimer);
+        if (stage.setPointerCapture) { try { stage.setPointerCapture(e.pointerId); } catch (_) {} }
+      }
+      function move(e) {
+        if (!dragging) return;
+        var now = performance.now();
+        var dx = e.clientX - lastX;
+        rot += dx * 0.35;
+        vel = (dx * 0.35) / (Math.max(8, now - lastT) / 1000);
+        lastX = e.clientX; lastT = now;
+      }
+      function up() {
+        if (!dragging) return;
+        dragging = false;
+        vel = Math.max(-260, Math.min(260, vel));
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(function () { auto = true; }, 2600);
+      }
+      function setActive(on) {
+        if (on === active) return;
+        active = on;
+        if (on) { prevTs = 0; raf = requestAnimationFrame(frame); }
+        else {
+          cancelAnimationFrame(raf);
+          stage.style.removeProperty('--rot');
+          cards.forEach(function (c) { c.style.removeProperty('opacity'); });
+        }
+      }
+      stage.addEventListener('pointerdown', down);
+      stage.addEventListener('pointermove', move);
+      stage.addEventListener('pointerup', up);
+      stage.addEventListener('pointercancel', up);
+      stage.addEventListener('dragstart', function (e) { e.preventDefault(); });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { inView = en[0].isIntersecting; }, { threshold: 0.05 })
+          .observe(stage);
+      }
+      if (mq.addEventListener) mq.addEventListener('change', function (e) { setActive(e.matches); });
+      setActive(mq.matches);
+    }
+
+    var MOTION_OK = ' and (prefers-reduced-motion: no-preference)';
+    ring3d(
+      document.querySelector('#tratamente .galaxy'),
+      '(max-width: 899px)' + MOTION_OK,
+      -12,
+      function (card) { return parseFloat(card.style.getPropertyValue('--a')) || 0; }
+    );
+    ring3d(
+      document.querySelector('#rezultate .ph-grid'),
+      '(max-width: 599px)' + MOTION_OK,
+      10,
+      function (_card, i) { return i * 60; }
+    );
+  })();
 
   // ===== Scroll-reveal =====
   // Class is added here (not in markup) so content stays visible without JS.
