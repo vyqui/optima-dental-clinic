@@ -1114,38 +1114,39 @@
       will-change: transform, opacity;
     }
   }
-  @media (max-width: 599px) and (prefers-reduced-motion: no-preference) {
-    #rezultate .ph-grid {
-      display: block;
-      position: relative;
-      height: 330px;
-      margin-top: 32px;
-      padding-bottom: 0;
-      overflow: visible;
-      perspective: 950px;
-      transform-style: preserve-3d;
-      touch-action: pan-y;
-      cursor: grab;
-    }
-    #rezultate .ph-grid:active { cursor: grabbing; }
-    #rezultate .ph-grid > .img-ph {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 200px;
-      flex: none;
-      transform:
-        translate(-50%, -50%)
-        rotateY(calc(var(--a) + var(--rot, 0deg)))
-        translateZ(210px)
-        rotateY(calc(-1 * (var(--a) + var(--rot, 0deg))));
-      will-change: transform, opacity;
-    }
-    #rezultate .img-ph:nth-child(1) { --a: 0deg; }
-    #rezultate .img-ph:nth-child(2) { --a: 60deg; }
-    #rezultate .img-ph:nth-child(3) { --a: 120deg; }
-    #rezultate .img-ph:nth-child(4) { --a: 180deg; }
-    #rezultate .img-ph:nth-child(5) { --a: 240deg; }
-    #rezultate .img-ph:nth-child(6) { --a: 300deg; }
+  /* Results gallery 3D ring carousel — MOBILE + DESKTOP. JS adds `.is-ring`
+     and sets each card's --a (angle) and the shared --tz (radius) from the
+     photo count, so the ring scales to any number of images. Without JS or
+     with reduced motion, `.is-ring` is never added and it stays the grid. */
+  #rezultate .ph-grid.is-ring {
+    display: block;
+    position: relative;
+    height: 340px;
+    margin-top: 32px;
+    padding-bottom: 0;
+    overflow: visible;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    touch-action: pan-y;
+    cursor: grab;
+  }
+  #rezultate .ph-grid.is-ring:active { cursor: grabbing; }
+  #rezultate .ph-grid.is-ring > .img-ph {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 210px;
+    flex: none;
+    margin: 0;
+    transform:
+      translate(-50%, -50%)
+      rotateY(calc(var(--a) + var(--rot, 0deg)))
+      translateZ(var(--tz, 240px))
+      rotateY(calc(-1 * (var(--a) + var(--rot, 0deg))));
+    will-change: transform, opacity;
+  }
+  @media (min-width: 768px) {
+    #rezultate .ph-grid.is-ring { height: 470px; perspective: 1500px; margin-top: 44px; }
+    #rezultate .ph-grid.is-ring > .img-ph { width: 300px; }
   }
 
   /* ---------- welcome marquee ---------- */
@@ -3146,10 +3147,23 @@
   // Auto-spins; drag to spin with inertia; auto resumes after a short idle.
   // Runs only while the matching media query holds (CSS defines the ring there).
   (function () {
-    function ring3d(stage, media, autoSpeed, angleOf) {
+    function ring3d(stage, media, autoSpeed, assignAngles) {
       if (!stage) return;
       var cards = [].slice.call(stage.querySelectorAll(':scope > .planet, :scope > .img-ph'));
       if (cards.length < 2) return;
+      var n = cards.length;
+      // Evenly space cards around the ring (gallery); the galaxy keeps its
+      // hand-authored --a values from the markup.
+      if (assignAngles) cards.forEach(function (c, i) { c.style.setProperty('--a', (i * 360 / n).toFixed(3) + 'deg'); });
+      function angleOf(i) { return parseFloat(cards[i].style.getPropertyValue('--a')) || 0; }
+      // Radius so the cards don't overlap, whatever the count (scales with photos).
+      function setRadius() {
+        if (!assignAngles) return;   // galaxy uses a fixed translateZ in CSS
+        var w = cards[0].getBoundingClientRect().width || 210;
+        var r = (w / 2) / Math.tan(Math.PI / n);
+        r = Math.max(w * 0.9, r) * 1.12;
+        stage.style.setProperty('--tz', Math.round(r) + 'px');
+      }
       var mq = window.matchMedia(media);
       var rot = 0, vel = 0, auto = true, dragging = false, active = false;
       var lastX = 0, lastT = 0, prevTs = 0, raf = null, resumeTimer = null, inView = true;
@@ -3170,7 +3184,7 @@
         stage.style.setProperty('--rot', (rot % 360).toFixed(2) + 'deg');
         // depth cue: cards fade slightly as they travel to the back
         for (var i = 0; i < cards.length; i++) {
-          var a = (angleOf(cards[i], i) + rot) * Math.PI / 180;
+          var a = (angleOf(i) + rot) * Math.PI / 180;
           cards[i].style.opacity = (0.42 + 0.58 * (Math.cos(a) + 1) / 2).toFixed(3);
         }
       }
@@ -3199,10 +3213,12 @@
       function setActive(on) {
         if (on === active) return;
         active = on;
-        if (on) { prevTs = 0; raf = requestAnimationFrame(frame); }
+        stage.classList.toggle('is-ring', on);
+        if (on) { setRadius(); prevTs = 0; raf = requestAnimationFrame(frame); }
         else {
           cancelAnimationFrame(raf);
           stage.style.removeProperty('--rot');
+          stage.style.removeProperty('--tz');
           cards.forEach(function (c) { c.style.removeProperty('opacity'); });
         }
       }
@@ -3211,6 +3227,7 @@
       stage.addEventListener('pointerup', up);
       stage.addEventListener('pointercancel', up);
       stage.addEventListener('dragstart', function (e) { e.preventDefault(); });
+      window.addEventListener('resize', function () { if (active) setRadius(); }, { passive: true });
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (en) { inView = en[0].isIntersecting; }, { threshold: 0.05 })
           .observe(stage);
@@ -3219,18 +3236,20 @@
       setActive(mq.matches);
     }
 
-    var MOTION_OK = ' and (prefers-reduced-motion: no-preference)';
+    var MOTION_OK = '(prefers-reduced-motion: no-preference)';
+    // Specializations galaxy: 3D ring on phones/tablets only (solar system on desktop).
     ring3d(
       document.querySelector('#tratamente .galaxy'),
-      '(max-width: 899px)' + MOTION_OK,
+      '(max-width: 899px) and ' + MOTION_OK,
       -12,
-      function (card) { return parseFloat(card.style.getPropertyValue('--a')) || 0; }
+      false
     );
+    // Results gallery: 3D ring on ALL widths (mobile + desktop), any photo count.
     ring3d(
       document.querySelector('#rezultate .ph-grid'),
-      '(max-width: 599px)' + MOTION_OK,
+      MOTION_OK,
       10,
-      function (_card, i) { return i * 60; }
+      true
     );
   })();
 
