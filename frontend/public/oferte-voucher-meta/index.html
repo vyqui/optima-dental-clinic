@@ -1118,7 +1118,7 @@
      and sets each card's --a (angle) and the shared --tz (radius) from the
      photo count, so the ring scales to any number of images. Without JS or
      with reduced motion, `.is-ring` is never added and it stays the grid. */
-  #rezultate .ph-grid.is-ring {
+  .ph-grid.is-ring {
     display: block;
     position: relative;
     height: 340px;
@@ -1130,8 +1130,8 @@
     touch-action: pan-y;
     cursor: grab;
   }
-  #rezultate .ph-grid.is-ring:active { cursor: grabbing; }
-  #rezultate .ph-grid.is-ring > .img-ph {
+  .ph-grid.is-ring:active { cursor: grabbing; }
+  .ph-grid.is-ring > .img-ph {
     position: absolute;
     top: 50%; left: 50%;
     width: 210px;
@@ -1145,8 +1145,8 @@
     will-change: transform, opacity;
   }
   @media (min-width: 768px) {
-    #rezultate .ph-grid.is-ring { height: 470px; perspective: 1500px; margin-top: 44px; }
-    #rezultate .ph-grid.is-ring > .img-ph { width: 300px; }
+    .ph-grid.is-ring { height: 470px; perspective: 1500px; margin-top: 44px; }
+    .ph-grid.is-ring > .img-ph { width: 300px; }
   }
 
   /* ---------- welcome marquee ---------- */
@@ -1832,6 +1832,24 @@
     background: none;
     padding: 0;
     min-height: 0;
+    overflow: hidden;   /* clip the name-gradient to the card's rounded corners */
+  }
+  /* doctor name label over the bottom of the portrait */
+  .img-ph .doc-name {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 1;
+    padding: 40px 12px 13px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 30%, transparent);
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-white);
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .img-ph .doc-name { font-size: 21px; padding-bottom: 16px; }
   }
   .img-ph__num {
     display: inline-flex;
@@ -2403,17 +2421,37 @@
       </h2>
     </div>
     <div class="ph-grid">
-      <!-- IMG 4 · alt: "Portret al unui medic stomatolog de la Optima Dental Clinic, în halat alb, zâmbind în cabinet" -->
-      <figure class="img-ph img-ph--portrait" id="img-4" data-alt="Portret al unui medic stomatolog de la Optima Dental Clinic, în halat alb, zâmbind în cabinet">
-        <img src="https://www.trybloom.ai/img/f3dd77ad-3f7f-4539-863f-40b207bc14ca" alt="Portret al unui medic stomatolog de la Optima Dental Clinic, în halat alb, zâmbind în cabinet" loading="lazy" decoding="async" />
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-1-alin-gabor.jpg" alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Alin Gabor</figcaption>
       </figure>
-      <!-- IMG 5 · alt: "Portret al unui al doilea medic specialist de la Optima Dental Clinic, în ținută medicală, pe fundalul clinicii" -->
-      <figure class="img-ph img-ph--portrait" id="img-5" data-alt="Portret al unui al doilea medic specialist de la Optima Dental Clinic, în ținută medicală, pe fundalul clinicii">
-        <img src="https://www.trybloom.ai/img/4c02ff91-7423-48b5-aeac-95d8809ef281" alt="Portret al unui al doilea medic specialist de la Optima Dental Clinic, în ținută medicală, pe fundalul clinicii" loading="lazy" decoding="async" />
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-2-ahmed-nashar.jpg" alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Ahmed Nashar</figcaption>
       </figure>
-      <!-- IMG 6 · alt: "Portret al unui medic specializat în stomatologie pediatrică de la Optima Dental Clinic, cu o atitudine caldă și prietenoasă" -->
-      <figure class="img-ph img-ph--portrait" id="img-6" data-alt="Portret al unui medic specializat în stomatologie pediatrică de la Optima Dental Clinic, cu o atitudine caldă și prietenoasă">
-        <img src="https://www.trybloom.ai/img/65f1e42f-e21d-4bc5-a72e-fb343ae92461" alt="Portret al unui medic specializat în stomatologie pediatrică de la Optima Dental Clinic, cu o atitudine caldă și prietenoasă" loading="lazy" decoding="async" />
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-3-diana-popescu.jpg" alt="Dr. Diana Popescu – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Diana Popescu</figcaption>
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-4-ana-batanoiu.jpg" alt="Dr. Ana Bătănoiu – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Ana Bătănoiu</figcaption>
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-5-alexandru-kozma.jpg" alt="Dr. Alexandru Kozma – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Alexandru Kozma</figcaption>
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-6-daniel-tataru.jpg" alt="Dr. Daniel Tataru – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Daniel Tataru</figcaption>
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-7-emilia-rotaru.jpg" alt="Dr. Emilia Rotaru – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Emilia Rotaru</figcaption>
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/echipa-8-perla-nasser.jpg" alt="Dr. Perla Nasser – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <figcaption class="doc-name">Dr. Perla Nasser</figcaption>
       </figure>
     </div>
   </div>
@@ -3259,6 +3297,14 @@
       document.querySelector('#rezultate .ph-grid'),
       MOTION_OK,
       10,
+      true
+    );
+    // Doctors carousel: same 3D ring, all widths. Negative speed so the cards
+    // face front in DOM order: Dr. Gabor, Dr. Nashar, Dr. Popescu, ...
+    ring3d(
+      document.querySelector('#echipa .ph-grid'),
+      MOTION_OK,
+      -10,
       true
     );
   })();
