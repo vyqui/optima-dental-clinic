@@ -3011,13 +3011,23 @@
     }
     function update() {
       ticking = false;
-      // Mobile is a static compact block (no pin); leave the cutouts at rest.
-      if (reduce.matches || !desktop.matches) { clearInline(); return; }
+      if (reduce.matches) { clearInline(); return; }
       var rect = section.getBoundingClientRect();
-      // pinned travel = section height minus the sticky frame (70vh on mobile, 100vh desktop)
-      var range = section.offsetHeight - (sticky ? sticky.offsetHeight : window.innerHeight);
-      var p = clamp(-rect.top / (range || 1), 0, 1);
-      var dp = clamp(p / 0.5, 0, 1);          // doctors fully exit by half the scroll
+      var p, dp;
+      if (desktop.matches) {
+        // pinned travel = section height minus the sticky frame (100vh desktop)
+        var range = section.offsetHeight - (sticky ? sticky.offsetHeight : window.innerHeight);
+        p = clamp(-rect.top / (range || 1), 0, 1);
+        dp = clamp(p / 0.5, 0, 1);            // doctors fully exit by half the scroll
+      } else {
+        // MOBILE: the section is a static 70vh block in normal flow (no pin,
+        // no layout change) — drive the same exit from the natural scroll-out:
+        // as the section's top passes under the fixed header and travels up,
+        // the doctors slide to the sides and the heading lifts, finishing by
+        // the time ~65% of the block has left the viewport.
+        p = clamp((90 - rect.top) / (rect.height * 0.65 || 1), 0, 1);
+        dp = p;
+      }
       docs.forEach(function (el) {
         var tx = parseFloat(el.getAttribute('data-tx')) || 0;
         var ty = parseFloat(el.getAttribute('data-ty')) || 0;
