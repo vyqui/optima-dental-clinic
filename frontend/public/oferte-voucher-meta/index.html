@@ -2240,6 +2240,21 @@
       <figure class="img-ph img-ph--portrait img-ph--filled">
         <img src="/assets/rezultat-6.jpg" alt="Pacientă mulțumită cu un zâmbet sănătos după reabilitare orală la Optima Dental Clinic" loading="lazy" decoding="async" />
       </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/rezultat-7.jpg" alt="Zâmbet înainte și după, transformat cu fațete dentare la Optima Dental Clinic" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/rezultat-8.jpg" alt="Rezultat înainte și după al dinților frontali, tratament estetic la Optima Dental Clinic" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/rezultat-9.jpg" alt="Reabilitare orală completă înainte și după la Optima Dental Clinic" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/rezultat-10.jpg" alt="Zâmbet natural și aliniat după tratament estetic la Optima Dental Clinic" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="img-ph img-ph--portrait img-ph--filled">
+        <img src="/assets/rezultat-11.jpg" alt="Detaliu înainte și după al arcadei dentare la Optima Dental Clinic" loading="lazy" decoding="async" />
+      </figure>
     </div>
   </div>
 </section>
@@ -3206,10 +3221,18 @@
       // Radius so the cards don't overlap, whatever the count (scales with photos).
       function setRadius() {
         if (!assignAngles) return;   // galaxy uses a fixed translateZ in CSS
-        var w = cards[0].getBoundingClientRect().width || 210;
-        var r = (w / 2) / Math.tan(Math.PI / n);
-        r = Math.max(w * 0.9, r) * 1.12;
+        // Use LAYOUT size (offsetWidth), not getBoundingClientRect — the latter
+        // returns the 3D-rotated projection, which would inflate the radius.
+        var w = cards[0].offsetWidth || 210;
+        var h = cards[0].offsetHeight || w * 1.25;
+        var r = Math.max(w * 0.9, (w / 2) / Math.tan(Math.PI / n)) * 1.12;
+        // Keep the front-card magnification constant for ANY card count by
+        // scaling perspective with the radius (mag = PK/(PK-1)); size the
+        // container to the magnified front card so it never overflows.
+        var PK = 3.2, mag = PK / (PK - 1);
         stage.style.setProperty('--tz', Math.round(r) + 'px');
+        stage.style.perspective = Math.round(r * PK) + 'px';
+        stage.style.height = Math.round(h * mag + 36) + 'px';
       }
       var mq = window.matchMedia(media);
       var rot = 0, vel = 0, auto = true, dragging = false, active = false;
@@ -3266,6 +3289,8 @@
           cancelAnimationFrame(raf);
           stage.style.removeProperty('--rot');
           stage.style.removeProperty('--tz');
+          stage.style.removeProperty('perspective');
+          stage.style.removeProperty('height');
           cards.forEach(function (c) { c.style.removeProperty('opacity'); });
         }
       }
