@@ -1834,6 +1834,21 @@
     min-height: 0;
     overflow: hidden;   /* clip the name-gradient to the card's rounded corners */
   }
+  /* Clinic facade image above the Location section: centered, full image
+     (natural aspect, never cropped), same on mobile + desktop. */
+  .clinic-facade {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 32px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  }
+  .clinic-facade img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   /* doctor name label over the bottom of the portrait */
   .img-ph .doc-name {
     position: absolute;
@@ -2743,10 +2758,9 @@
 <!-- ============ LOCATION & CONTACT ============ -->
 <section class="bg-black" id="locatie">
   <div class="container">
-    <!-- IMG 10 · alt: "Fațada clădirii și intrarea în clinica Optima Dental Clinic din București, cu semnalistică vizibilă" -->
-    <figure class="img-ph img-ph--wide" id="img-10" style="margin-bottom:32px;" data-alt="Fațada clădirii și intrarea în clinica Optima Dental Clinic din București, cu semnalistică vizibilă">
-        <img src="https://www.trybloom.ai/img/1bed8240-655d-4d5d-ad23-67d589c1bcb3" alt="Fațada clădirii și intrarea în clinica Optima Dental Clinic din București, cu semnalistică vizibilă" loading="lazy" decoding="async" />
-      </figure>
+    <figure class="clinic-facade">
+      <img src="https://www.trybloom.ai/img/1bed8240-655d-4d5d-ad23-67d589c1bcb3" alt="Fațada clădirii și intrarea în clinica Optima Dental Clinic din București, cu semnalistică vizibilă" loading="lazy" decoding="async" />
+    </figure>
     <div class="contact-grid">
       <div>
         <span class="label-gold">Găsește-ne</span>
