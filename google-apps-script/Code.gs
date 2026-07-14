@@ -1,112 +1,99 @@
 /**
  * Optima Dental — lead intake Web App (Google Apps Script)
  * ---------------------------------------------------------------------------
- * Every lead form on the site POSTs JSON to this Web App. It emails the clinic
- * (and optionally appends to a Google Sheet). The site tags each submission
- * with a `source` so the email is titled and formatted correctly:
+ * Drop-in replacement for the current pop-up-only doPost. Every lead form on
+ * the site POSTs JSON here; this script logs the lead to the spreadsheet and
+ * emails the clinic. It routes by the `source` the site sends:
  *
- *   source "landing" — Meta landing page (oferte-voucher-meta) booking form
- *                      → subject "LP Lead: <name>", lists every field
- *   source "contact" — main-site contact page form
+ *   source "landing" — Meta landing page (oferte-voucher) booking form
+ *                      → subject "LP Lead: <name>", lists EVERY field
  *   source "popup"   — main-site appointment pop-up (name + phone only)
+ *   source "contact" — main-site contact page form
  *
- * The client may also send an explicit `subject`; if present it wins.
+ * An explicit `subject` from the site wins over the per-source default, so
+ * future subject changes need no edit here.
  *
- * HOW TO UPDATE (keeps the same /exec URL the site already uses):
- *   1. Open the existing Apps Script project for this Web App
- *      (script.google.com → the project behind the /macros/s/AKfycby…/exec URL).
- *   2. Replace the code with this file and Save.
- *   3. Fill in the CONFIG block below (recipients, and the Sheet ID if you log
- *      leads to a spreadsheet — paste the same ID the old script used so you
- *      don't lose logging).
- *   4. Deploy ▸ Manage deployments ▸ edit the active deployment ▸ Version:
- *      "New version" ▸ Deploy. Editing the existing deployment keeps the URL,
- *      so nothing on the website needs to change.
+ * TO UPDATE (keeps the same /exec URL, so the website needs no change):
+ *   1. Open this Apps Script project (it is bound to the "Cereri consult" sheet).
+ *   2. Replace all the code with this file and Save.
+ *   3. Deploy ▸ Manage deployments ▸ edit the active deployment ▸
+ *      Version: "New version" ▸ Deploy.
  */
 
-// ─── CONFIG ────────────────────────────────────────────────────────────────
-// Who receives every lead email. Comma-separated. Adjust to your addresses.
-var LEAD_RECIPIENTS = 'contact@optimadentalclinic.com';
-
-// Optional: append every lead to a Google Sheet. Paste the Sheet ID between the
-// quotes (the long token in the sheet URL) to enable it. Leave '' to skip —
-// the email is sent either way. Use the SAME id your current script uses so
-// existing logging keeps working.
-var LEAD_SHEET_ID = '';
-var LEAD_SHEET_TAB = 'Leads';
-// ────────────────────────────────────────────────────────────────────────────
+// Who receives every lead email (comma-separated).
+var LEAD_RECIPIENTS =
+  'optimadental2725@gmail.com, victorgeorgescu22@gmail.com, contact@optimadentalclinic.com';
+// Tab in the bound spreadsheet where leads are logged.
+var LEAD_SHEET_NAME = 'Cereri consult FREE site';
 
 function doPost(e) {
-  var data = {};
   try {
-    if (e && e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
-    } else if (e && e.parameter) {
-      data = e.parameter;
-    }
-  } catch (err) {
-    data = (e && e.parameter) || {};
-  }
+    var data = JSON.parse(e.postData.contents);
+    var timestamp = new Date();
 
-  var source = String(data.source || 'contact').toLowerCase();
-  var name = (data.name || '').toString().trim();
+    var source  = String(data.source || 'contact').toLowerCase();
+    var name    = (data.name || '').toString().trim();
+    var email   = (data.email || '').toString().trim();
+    var phone   = (data.phone || '').toString().trim();
+    var service = (data.service || '').toString().trim();
+    var voucher = (data.voucher || '').toString().trim();
+    var dataPref = (data.data_preferata || '').toString().trim();
+    var oraPref  = (data.ora_preferata || '').toString().trim();
+    var message  = (data.message || '').toString().trim();
 
-  // Subject: an explicit subject from the client wins; else per-source default.
-  var subject = (data.subject || '').toString().trim();
-  if (!subject) {
+    // Subject + human-readable source label. Explicit client subject wins.
+    var subject = (data.subject || '').toString().trim();
+    var sourceLabel;
     if (source === 'landing') {
-      subject = 'LP Lead: ' + (name || 'Necunoscut');
+      if (!subject) subject = 'LP Lead: ' + (name || 'Necunoscut');
+      sourceLabel = 'Landing Page Meta (oferte-voucher)';
     } else if (source === 'popup') {
-      subject = 'Lead nou – Optima Dental (pop-up site)';
+      if (!subject) subject = 'Lead nou – Optima Dental (pop-up site)';
+      sourceLabel = 'Formular pop-up - consultatie gratuita';
     } else {
-      subject = 'Lead nou – Optima Dental (contact site)';
+      if (!subject) subject = 'Lead nou – Optima Dental (contact site)';
+      sourceLabel = 'Formular contact site';
     }
-  }
 
-  var sourceLabel =
-      source === 'landing' ? 'Landing Page Meta (oferte-voucher)' :
-      source === 'popup'   ? 'Formular pop-up - consultatie gratuita' :
-                             'Formular contact site';
-
-  // Body: one line per field, skipping anything that wasn't provided.
-  var rows = [];
-  function add(label, value) {
-    value = (value == null ? '' : String(value)).trim();
-    if (value && value !== '—') rows.push(label + ': ' + value);
-  }
-  add('Nume', name);
-  add('Email', data.email);
-  add('Telefon', data.phone);
-  add('Serviciu dorit', data.service);
-  add('Voucher', data.voucher);
-  add('Data preferată', data.data_preferata);
-  add('Ora preferată', data.ora_preferata);
-  // Free-form message. For landing leads the discrete fields above already
-  // cover it, so skip to avoid duplicating the same details.
-  if (source !== 'landing') add('Mesaj', data.message);
-  add('Sursa', sourceLabel);
-  add('Data', new Date().toString());
-
-  var body = 'Lead nou de pe site:\n\n' + rows.join('\n');
-
-  MailApp.sendEmail({ to: LEAD_RECIPIENTS, subject: subject, body: body });
-
-  // Optional Google Sheet log — never let a logging error block the email.
-  if (LEAD_SHEET_ID) {
-    try {
-      var ss = SpreadsheetApp.openById(LEAD_SHEET_ID);
-      var sheet = ss.getSheetByName(LEAD_SHEET_TAB) || ss.insertSheet(LEAD_SHEET_TAB);
+    // --- Log to the spreadsheet (all fields; extra columns are fine) ---
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LEAD_SHEET_NAME);
+    if (sheet) {
       sheet.appendRow([
-        new Date(), source, name, data.email || '', data.phone || '',
-        data.service || '', data.voucher || '', data.data_preferata || '',
-        data.ora_preferata || '', data.message || ''
+        timestamp, sourceLabel, name, phone, email,
+        service, voucher, dataPref, oraPref, message
       ]);
-    } catch (err) { /* ignore */ }
-  }
+    }
 
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: 'success' }))
-    .setMimeType(ContentService.MimeType.JSON);
+    // --- Email body: one line per field that was actually provided ---
+    var rows = [];
+    function add(label, value) {
+      value = (value == null ? '' : String(value)).trim();
+      if (value && value !== '—') rows.push(label + ': ' + value);
+    }
+    add('Nume', name);
+    add('Email', email);
+    add('Telefon', phone);
+    add('Serviciu dorit', service);
+    add('Voucher', voucher);
+    add('Data preferată', dataPref);
+    add('Ora preferată', oraPref);
+    // For landing leads the discrete fields above already cover the message.
+    if (source !== 'landing') add('Mesaj', message);
+    add('Sursa', sourceLabel);
+    add('Data', timestamp);
+
+    var body = 'Lead nou de pe site:\n\n' + rows.join('\n');
+
+    MailApp.sendEmail({ to: LEAD_RECIPIENTS, subject: subject, body: body });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 // Lets you open the /exec URL in a browser to confirm the deployment is live.
