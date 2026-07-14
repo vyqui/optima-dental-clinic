@@ -3020,15 +3020,25 @@
       let dataPref = '—';
       if (dataRaw) { const d = dataRaw.split('-'); dataPref = d.length === 3 ? (d[2] + '.' + d[1] + '.' + d[0]) : dataRaw; }
       const oraPref = val('ora_preferata') || '—';
+      const fullName = (val('prenume') + ' ' + val('nume')).trim();
+      // Full, human-readable breakdown of everything the user filled in — one
+      // field per line so the clinic email lists all the details.
+      const leadDetails =
+        'Nume: ' + fullName + '\n' +
+        'Email: ' + val('email') + '\n' +
+        'Telefon: ' + val('telefon') + '\n' +
+        'Serviciu dorit: ' + (val('serviciu') || '—') + '\n' +
+        'Voucher: ' + voucher + '\n' +
+        'Data preferată: ' + dataPref + '\n' +
+        'Ora preferată: ' + oraPref + '\n' +
+        'Sursa: Landing Page Meta (oferte-voucher)';
       const payload = {
-        name: (val('prenume') + ' ' + val('nume')).trim(),
+        name: fullName,
         email: val('email'),
         phone: val('telefon'),
         service: val('serviciu'),
         voucher: voucher,
-        message: 'Serviciu dorit: ' + val('serviciu') + ' | Voucher: ' + voucher +
-                 ' | Data preferată: ' + dataPref + ' | Ora preferată: ' + oraPref +
-                 ' | Sursa: Landing Page Meta'
+        message: leadDetails
       };
       // Meta "Lead": fire the browser Pixel and pass the same event_id + cookies
       // to the backend so its server-side CAPI Lead is deduplicated with it.
@@ -3074,21 +3084,27 @@
         }).catch(function () {});
       }
       // (2) Log the lead to the Google Sheet + email the clinic (Apps Script —
-      //     same endpoint the main site uses; source "contact" selects the
-      //     full-fields route there; the message carries the landing details).
-      //     no-cors keeps it preflight-free; the response is opaque, so the
-      //     toast keys off network success (reject = definitely not sent).
+      //     same endpoint the main site uses). source "landing" tags it as a
+      //     landing-page lead so the script titles the email "LP Lead: <name>"
+      //     and every field below is listed. no-cors keeps it preflight-free;
+      //     the response is opaque, so the toast keys off network success.
       fetch(LEAD_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
+          source: 'landing',
+          subject: 'LP Lead: ' + (payload.name || 'Necunoscut'),
           name: payload.name,
+          first_name: val('prenume'),
+          last_name: val('nume'),
           email: payload.email,
           phone: payload.phone,
           service: payload.service,
-          message: payload.message,
-          source: 'contact'
+          voucher: voucher,
+          data_preferata: dataPref,
+          ora_preferata: oraPref,
+          message: payload.message
         })
       })
         .then(() => showToast(true))
