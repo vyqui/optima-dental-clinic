@@ -4,4 +4,4 @@
 // it to the right sheet/email. VITE_LEAD_ENDPOINT overrides this if set.
 export const LEAD_ENDPOINT =
   (import.meta.env.VITE_LEAD_ENDPOINT as string | undefined) ||
-  "https://script.google.com/macros/s/AKfycbyHmTNWOGnR02VDLtQmtdBYyxTYzxqsH_UJaVser_OPa8yYyqU-XFAmZjZ9SEZZrBJn/exec";
+  "https://script.google.com/macros/s/AKfycbzZY_vDjoVkxUcfkdyw5RPM1567tEVQTZ0wmHoVD1V3b-0hW-LVfj3pTiBTxpGqsyA/exec";
