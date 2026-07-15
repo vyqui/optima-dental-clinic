@@ -41,18 +41,20 @@ function doPost(e) {
     var oraPref  = (data.ora_preferata || '').toString().trim();
     var message  = (data.message || '').toString().trim();
 
-    // Subject + human-readable source label. Explicit client subject wins.
+    // Subject + human-readable source label. Explicit client values win, so a
+    // new landing page (Google, TikTok, …) only needs its own subject +
+    // source_label — no change here.
     var subject = (data.subject || '').toString().trim();
-    var sourceLabel;
+    var sourceLabel = (data.source_label || '').toString().trim();
     if (source === 'landing') {
       if (!subject) subject = 'LP Lead: ' + (name || 'Necunoscut');
-      sourceLabel = 'Landing Page Meta (oferte-voucher)';
+      if (!sourceLabel) sourceLabel = 'Landing Page Meta (oferte-voucher)';
     } else if (source === 'popup') {
       if (!subject) subject = 'Lead nou – Optima Dental (pop-up site)';
-      sourceLabel = 'Formular pop-up - consultatie gratuita';
+      if (!sourceLabel) sourceLabel = 'Formular pop-up - consultatie gratuita';
     } else {
       if (!subject) subject = 'Lead nou – Optima Dental (contact site)';
-      sourceLabel = 'Formular contact site';
+      if (!sourceLabel) sourceLabel = 'Formular contact site';
     }
 
     // --- Log to the spreadsheet (all fields; extra columns are fine) ---
