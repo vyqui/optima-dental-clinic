@@ -2824,11 +2824,11 @@
   <div class="container footer-inner">
     <div>© <span id="year"></span> Optima Dental Clinic. Toate drepturile rezervate.</div>
     <div class="footer-links">
-      <a href="#">Termeni și condiții</a>
+      <a href="/termeni-si-conditii/">Termeni și condiții</a>
       <span aria-hidden="true">·</span>
-      <a href="#">Politica de confidențialitate</a>
+      <a href="/politica-confidentialitate/">Politica de confidențialitate</a>
       <span aria-hidden="true">·</span>
-      <a href="#">Cookies</a>
+      <a href="/politica-cookies/">Cookies</a>
     </div>
   </div>
 </footer>
@@ -3506,5 +3506,34 @@
     els.forEach(function(el) { io.observe(el); });
   })();
 </script>
+<!-- ============ COOKIE NOTICE ============ -->
+<div id="cookieBar" class="cookie-bar" role="dialog" aria-label="Notificare cookie-uri" hidden>
+  <p class="cookie-text">Folosim cookie-uri pentru a-ți oferi cea mai bună experiență. Continuând, ești de acord cu <a href="/politica-cookies/">Politica de cookies</a>.</p>
+  <div class="cookie-actions"><button type="button" id="cookieAccept" class="cookie-accept">Accept</button></div>
+</div>
+<style>
+  .cookie-bar{position:fixed;left:16px;bottom:16px;right:auto;z-index:60;width:min(340px,calc(100vw - 96px));
+    background:rgba(20,16,11,.97);border:1px solid rgba(201,169,97,.4);border-radius:12px;padding:14px 16px;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);font-family:var(--sans);color:#e8e0d2;display:flex;flex-direction:column;gap:10px;}
+  .cookie-bar[hidden]{display:none;}
+  .cookie-text{margin:0;font-size:12.5px;line-height:1.5;}
+  .cookie-bar a{color:var(--gold);text-decoration:underline;}
+  .cookie-actions{display:flex;justify-content:flex-end;}
+  .cookie-accept{background-image:var(--gold-metal);background-size:200% auto;color:#2c1d0e;border:none;border-radius:999px;
+    padding:8px 22px;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
+  .cookie-accept:hover{filter:brightness(1.06);}
+</style>
+<script>
+(function(){
+  try{ if(localStorage.getItem('optima_cookie_ok')==='1') return; }catch(e){}
+  var bar=document.getElementById('cookieBar'); if(!bar) return;
+  bar.hidden=false;
+  document.getElementById('cookieAccept').addEventListener('click',function(){
+    try{ localStorage.setItem('optima_cookie_ok','1'); }catch(e){}
+    bar.hidden=true;
+  });
+})();
+</script>
+
 </body>
 </html>
