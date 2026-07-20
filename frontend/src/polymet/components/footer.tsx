@@ -200,11 +200,24 @@ export const Footer: React.FC<FooterProps> = ({ className }) => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 mt-12 pt-8">
-          <div className="flex justify-center items-center">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
             <div className="text-gray-400 text-sm">
               © {new Date().getFullYear()} Optima Dental Clinic. Toate
               drepturile rezervate.
             </div>
+            <nav className="flex flex-wrap justify-center items-center gap-x-2 gap-y-1 text-sm text-gray-400">
+              <a href="/politica-confidentialitate/" className="hover:text-[#bda476] transition-colors duration-200">
+                Politica de confidențialitate
+              </a>
+              <span aria-hidden="true" className="text-gray-600">·</span>
+              <a href="/termeni-si-conditii/" className="hover:text-[#bda476] transition-colors duration-200">
+                Termeni și condiții
+              </a>
+              <span aria-hidden="true" className="text-gray-600">·</span>
+              <a href="/politica-cookies/" className="hover:text-[#bda476] transition-colors duration-200">
+                Cookies
+              </a>
+            </nav>
           </div>
         </div>
       </div>
