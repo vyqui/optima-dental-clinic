@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-PKK310NQ39"
-    ></script>
+    <!-- Google tag (gtag.js) — loaded only after cookie consent -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
-      gtag("js", new Date());
-
-      gtag("config", "G-PKK310NQ39");
+      window.loadGoogleAnalytics = function () {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-PKK310NQ39";
+        document.head.appendChild(s);
+        gtag("js", new Date());
+        gtag("config", "G-PKK310NQ39");
+      };
+      try {
+        var c = localStorage.getItem("optima_cookie_consent");
+        if (c === "accepted" || (c === null && localStorage.getItem("optima_cookie_ok") === "1")) {
+          window.loadGoogleAnalytics();
+        }
+      } catch (e) {}
     </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />

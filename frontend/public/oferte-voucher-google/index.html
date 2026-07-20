@@ -5,23 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Optima Dental Clinic — Stomatologie premium în București</title>
 <meta name="description" content="Clinică stomatologică premium în București. Consultație și plan de tratament personalizat, cu toate specializările dentare in-house." />
-<!-- Meta Pixel -->
+<!-- Meta Pixel (loaded only after cookie consent) -->
 <script>
   window.META_PIXEL_ID = '2861445797535804';
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window,document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', window.META_PIXEL_ID);
-  fbq('track', 'PageView');
-  window.META_PIXEL_READY = true;
+  window.hasCookieConsent = function () {
+    try {
+      var c = localStorage.getItem('optima_cookie_consent');
+      return c === 'accepted' || (c === null && localStorage.getItem('optima_cookie_ok') === '1');
+    } catch (e) { return false; }
+  };
+  window.loadMetaPixel = function () {
+    if (window.META_PIXEL_READY) return;
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.META_PIXEL_ID);
+    fbq('track', 'PageView');
+    window.META_PIXEL_READY = true;
+  };
+  if (window.hasCookieConsent()) window.loadMetaPixel();
 </script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2861445797535804&ev=PageView&noscript=1" alt="" /></noscript>
 <!-- End Meta Pixel -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -3113,6 +3121,8 @@
         .finally(() => { if (submitBtn) submitBtn.disabled = false; });
       // (3) Server-side Meta CAPI Lead via the Netlify Function (same origin);
       //     deduplicated with the browser Pixel event by event_id. Best-effort.
+      //     Only when the visitor accepted marketing cookies.
+      if (window.hasCookieConsent && window.hasCookieConsent())
       fetch('/.netlify/functions/meta-capi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3213,7 +3223,8 @@
     var fbclid = new URLSearchParams(location.search).get('fbclid');
     return fbclid ? 'fb.1.' + Date.now() + '.' + fbclid : '';
   }
-  (function () {
+  window.fireMetaView = function () {
+    if (!window.hasCookieConsent()) return;
     var viewEventId = fbGenId();
     if (window.fbq && window.META_PIXEL_READY) {
       fbq('track', 'ViewContent', {}, { eventID: viewEventId });
@@ -3232,7 +3243,8 @@
         })
       }).catch(function () {});
     }, 1200);
-  })();
+  };
+  window.fireMetaView();
 
   // ===== Year =====
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -3509,30 +3521,45 @@
 </script>
 <!-- ============ COOKIE NOTICE ============ -->
 <div id="cookieBar" class="cookie-bar" role="dialog" aria-label="Notificare cookie-uri" hidden>
-  <p class="cookie-text">Folosim cookie-uri pentru a-ți oferi cea mai bună experiență. Continuând, ești de acord cu <a href="/politica-cookies/">Politica de cookies</a>.</p>
-  <div class="cookie-actions"><button type="button" id="cookieAccept" class="cookie-accept">Accept</button></div>
+  <span class="cookie-text">Folosim cookie-uri pentru analiză și marketing. <a href="/politica-cookies/">Detalii</a></span>
+  <span class="cookie-actions">
+    <button type="button" id="cookieAccept" class="cookie-btn cookie-yes">Accept</button>
+    <button type="button" id="cookieReject" class="cookie-btn cookie-no">Refuz</button>
+  </span>
 </div>
 <style>
-  .cookie-bar{position:fixed;left:16px;bottom:16px;right:auto;z-index:60;width:min(340px,calc(100vw - 96px));
-    background:rgba(20,16,11,.97);border:1px solid rgba(201,169,97,.4);border-radius:12px;padding:14px 16px;
-    box-shadow:0 12px 30px rgba(0,0,0,.5);font-family:var(--sans);color:#e8e0d2;display:flex;flex-direction:column;gap:10px;}
+  .cookie-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;right:auto;z-index:70;
+    width:calc(100% - 24px);max-width:540px;background:rgba(20,16,11,.97);border:1px solid rgba(201,169,97,.35);
+    border-radius:10px;padding:9px 14px;box-shadow:0 8px 24px rgba(0,0,0,.45);font-family:var(--sans);color:#e8e0d2;
+    display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;justify-content:center;}
   .cookie-bar[hidden]{display:none;}
-  .cookie-text{margin:0;font-size:12.5px;line-height:1.5;}
+  .cookie-text{font-size:12px;line-height:1.4;}
   .cookie-bar a{color:var(--gold);text-decoration:underline;}
-  .cookie-actions{display:flex;justify-content:flex-end;}
-  .cookie-accept{background-image:var(--gold-metal);background-size:200% auto;color:#2c1d0e;border:none;border-radius:999px;
-    padding:8px 22px;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;}
-  .cookie-accept:hover{filter:brightness(1.06);}
+  .cookie-actions{display:flex;gap:8px;}
+  .cookie-btn{border-radius:999px;padding:5px 18px;font-family:var(--sans);font-weight:700;font-size:11px;
+    letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:1px solid transparent;white-space:nowrap;}
+  .cookie-yes{background-image:var(--gold-metal);background-size:200% auto;color:#2c1d0e;}
+  .cookie-no{background:transparent;color:#cdbfa6;border-color:rgba(201,169,97,.45);}
+  .cookie-no:hover{color:#fff;border-color:var(--gold);}
+  body.cookie-open .float-actions{bottom:104px;}
 </style>
 <script>
 (function(){
-  try{ if(localStorage.getItem('optima_cookie_ok')==='1') return; }catch(e){}
   var bar=document.getElementById('cookieBar'); if(!bar) return;
-  bar.hidden=false;
-  document.getElementById('cookieAccept').addEventListener('click',function(){
-    try{ localStorage.setItem('optima_cookie_ok','1'); }catch(e){}
-    bar.hidden=true;
-  });
+  var stored=null; try{ stored=localStorage.getItem('optima_cookie_consent'); }catch(e){}
+  var oldOk=false; try{ oldOk=localStorage.getItem('optima_cookie_ok')==='1'; }catch(e){}
+  if(stored==='accepted'||stored==='rejected'||oldOk) return; // already chose
+  bar.hidden=false; document.body.classList.add('cookie-open');
+  function decide(val){
+    try{ localStorage.setItem('optima_cookie_consent',val); }catch(e){}
+    bar.hidden=true; document.body.classList.remove('cookie-open');
+    if(val==='accepted'){
+      if(window.loadMetaPixel) window.loadMetaPixel();
+      if(window.fireMetaView) window.fireMetaView();
+    }
+  }
+  document.getElementById('cookieAccept').addEventListener('click',function(){decide('accepted');});
+  document.getElementById('cookieReject').addEventListener('click',function(){decide('rejected');});
 })();
 </script>
 
