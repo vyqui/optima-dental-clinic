@@ -506,11 +506,11 @@
     margin-top: 4px;
   }
   /* hero title: a touch brighter + a subtle black shadow around each letter */
-  .hero-inner h1 { color: #ffffff; }
-  .hero-inner h1,
-  .hero-inner h1 em {
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.55);
-  }
+  .hero-inner h1 { color: #ffffff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.55); }
+  /* the gold lines are gradient-clipped text (transparent fill); a text-shadow
+     would bleed THROUGH the letters and muddy the gold, so use drop-shadow
+     instead — it casts around the letters and keeps the gold bright */
+  .hero-inner h1 em { text-shadow: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5)); }
   .hero .lead {
     max-width: 580px;
     font-size: 14px;
