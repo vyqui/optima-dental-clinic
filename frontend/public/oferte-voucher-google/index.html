@@ -513,7 +513,7 @@
   .hero-inner h1 em { text-shadow: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5)); }
   .hero .lead {
     max-width: 580px;
-    font-size: 14px;
+    font-size: 13px;
   }
   @media (min-width: 768px) {
     .hero .lead { font-size: 16px; }
@@ -1867,15 +1867,16 @@
   .docs-parallax {
     display: block;
     position: relative;
-    height: 70vh;                 /* MOBILE: a plain compact block; the section is
-                                     exactly the frame, so there is no scroll runway
-                                     and no empty strip below the doctors. */
+    height: 70vh;
+    height: 70svh;                /* MOBILE: compact block; svh keeps the height
+                                     stable while scrolling (no URL-bar jump). */
     padding: 0;                   /* override global `section {padding}` */
     background: var(--bg-teal-deep);
   }
   .docs-parallax__sticky {
     position: relative;           /* MOBILE: static (no pin) — desktop re-enables sticky */
     height: 70vh;
+    height: 70svh;
     overflow: hidden;
   }
   /* fixed reception backdrop (lazy <img>), blurred so the doctors pop */
@@ -1907,7 +1908,7 @@
      site header (which overlays the pinned frame), just above the heads */
   .docs-parallax__heading {
     position: absolute;
-    top: 92px;
+    top: 66px;
     left: 0;
     right: 0;
     text-align: center;
@@ -1929,42 +1930,42 @@
   .docs-parallax .doc {
     width: 44vw;
     height: auto;
-    max-height: 44vh;             /* fits the 70vh frame below the heading */
+    max-height: 44svh;            /* fits the frame below the heading */
     object-fit: contain;
     object-position: bottom center;
     will-change: transform, opacity;
     filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
   }
   .docs-parallax .doc--left  { margin: 0; z-index: 1; }
-  .docs-parallax .doc--right { margin: 0; z-index: 2; width: 47vw; max-height: 47vh; }
-  /* founder names: sit near the centre (Alin just left, Ahmed just right) and
-     fly out word-by-word on scroll — positions driven by JS in the parallax
-     loop (see the docs-parallax IIFE) */
+  .docs-parallax .doc--right { margin: 0; z-index: 2; width: 47vw; max-height: 47svh; }
+  /* founder names — MOBILE: one name above each cutout (Alin over the left
+     doctor, Ahmed over the right), filling the strip under the heading. They
+     fly out word-by-word on scroll. Desktop re-centres them in the gap.
+     Positions driven by JS in the parallax loop. */
   .docs-parallax__names {
     position: absolute;
     inset: 0;
     z-index: 3;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6vw;
-    padding: 0 4vw;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 21svh 2.5vw 0;
     pointer-events: none;
     overflow: hidden;
   }
   .founder-name {
     margin: 0;
-    flex: 0 0 auto;
+    width: 44vw;
+    text-align: center;
     font-family: var(--serif);
     font-weight: 600;
-    font-size: 19px;
+    font-size: 16px;
     letter-spacing: 0.01em;
     color: #ffffff;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
     white-space: nowrap;
   }
-  .founder-name--left  { text-align: right; }
-  .founder-name--right { text-align: left; }
+  .founder-name--right { width: 47vw; }
   .founder-name .w { display: inline-block; will-change: transform, opacity; }
   .founder-name .t { color: var(--gold); font-style: italic; }
 
@@ -1979,8 +1980,10 @@
     /* >=400px of clear space between the two cutouts */
     .docs-parallax .doc--left  { margin-right: 200px; }
     .docs-parallax .doc--right { margin-left: 200px; width: auto; height: 86vh; max-height: none; }
-    .founder-name { font-size: 32px; }
-    .docs-parallax__names { gap: 12vw; }
+    .docs-parallax__names { align-items: center; justify-content: center; gap: 12vw; padding: 0; }
+    .founder-name { width: auto; text-align: center; font-size: 32px; }
+    .founder-name--left  { text-align: right; }
+    .founder-name--right { text-align: left; }
   }
   /* reduced motion: collapse the desktop scroll runway to one static screen
      (mobile is already a static 70vh block, so it needs no change) */
