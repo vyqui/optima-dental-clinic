@@ -1928,39 +1928,45 @@
   /* MOBILE: size cutouts by WIDTH so both fit the narrow screen without cropping */
   .docs-parallax .doc {
     width: 44vw;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    will-change: transform, opacity;
-  }
-  .docs-parallax .doc > img {
-    width: 100%;
     height: auto;
     max-height: 44vh;             /* fits the 70vh frame below the heading */
     object-fit: contain;
     object-position: bottom center;
+    will-change: transform, opacity;
     filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
   }
-  .docs-parallax .doc--left  { z-index: 1; }
-  /* right doctor very slightly larger -> his head sits a touch higher (both
-     cutouts are floor-aligned, so the extra size only lifts the top) */
-  .docs-parallax .doc--right { z-index: 2; width: 47vw; }
-  .docs-parallax .doc--right > img { max-height: 47vh; }
-  /* founder name: gold "Dr." + white name, under each cutout */
-  .doc-founder-name {
-    margin-top: 12px;
+  .docs-parallax .doc--left  { margin: 0; z-index: 1; }
+  .docs-parallax .doc--right { margin: 0; z-index: 2; width: 47vw; max-height: 47vh; }
+  /* founder names: sit near the centre (Alin just left, Ahmed just right) and
+     fly out word-by-word on scroll — positions driven by JS in the parallax
+     loop (see the docs-parallax IIFE) */
+  .docs-parallax__names {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6vw;
+    padding: 0 4vw;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .founder-name {
+    margin: 0;
+    flex: 0 0 auto;
     font-family: var(--serif);
     font-weight: 600;
-    font-size: 18px;
+    font-size: 19px;
     letter-spacing: 0.01em;
     color: #ffffff;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.65);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
     white-space: nowrap;
-    text-align: center;
   }
-  .doc-founder-name .t { color: var(--gold); font-style: italic; padding-right: 2px; }
+  .founder-name--left  { text-align: right; }
+  .founder-name--right { text-align: left; }
+  .founder-name .w { display: inline-block; will-change: transform, opacity; }
+  .founder-name .t { color: var(--gold); font-style: italic; }
 
   /* DESKTOP: tall cutouts, centered pair with a wide gap so the heading stays visible */
   @media (min-width: 768px) {
@@ -1969,13 +1975,12 @@
     .docs-parallax__bg { object-position: center 38%; }
     .docs-parallax__heading { top: 12%; }
     .docs-parallax__stage { justify-content: center; padding: 0; }
-    .docs-parallax .doc { width: auto; }
-    .docs-parallax .doc > img { width: auto; height: 84vh; max-height: none; }
+    .docs-parallax .doc { width: auto; height: 84vh; max-height: none; }
     /* >=400px of clear space between the two cutouts */
     .docs-parallax .doc--left  { margin-right: 200px; }
-    .docs-parallax .doc--right { margin-left: 200px; width: auto; }
-    .docs-parallax .doc--right > img { height: 86vh; max-height: none; }
-    .doc-founder-name { font-size: 26px; margin-top: 18px; }
+    .docs-parallax .doc--right { margin-left: 200px; width: auto; height: 86vh; max-height: none; }
+    .founder-name { font-size: 32px; }
+    .docs-parallax__names { gap: 12vw; }
   }
   /* reduced motion: collapse the desktop scroll runway to one static screen
      (mobile is already a static 70vh block, so it needs no change) */
@@ -2079,18 +2084,18 @@
       </h2>
     </div>
     <div class="docs-parallax__stage">
-      <figure class="doc doc--left" data-tx="-130">
-        <img src="/assets/doctor-gabor.webp"
-             alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
-             loading="lazy" decoding="async" />
-        <figcaption class="doc-founder-name"><span class="t">Dr.</span> Alin Gabor</figcaption>
-      </figure>
-      <figure class="doc doc--right" data-tx="130">
-        <img src="/assets/doctor-nashar.webp"
-             alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
-             loading="lazy" decoding="async" />
-        <figcaption class="doc-founder-name"><span class="t">Dr.</span> Ahmed Nashar</figcaption>
-      </figure>
+      <img class="doc doc--left" data-tx="-130"
+           src="/assets/doctor-gabor.webp"
+           alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
+           loading="lazy" decoding="async" />
+      <img class="doc doc--right" data-tx="130"
+           src="/assets/doctor-nashar.webp"
+           alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
+           loading="lazy" decoding="async" />
+    </div>
+    <div class="docs-parallax__names" aria-hidden="true">
+      <p class="founder-name founder-name--left" data-dir="-1"><span class="w t">Dr.</span> <span class="w">Alin</span> <span class="w">Gabor</span></p>
+      <p class="founder-name founder-name--right" data-dir="1"><span class="w t">Dr.</span> <span class="w">Ahmed</span> <span class="w">Nashar</span></p>
     </div>
   </div>
 </section>
@@ -3151,6 +3156,9 @@
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     var desktop = window.matchMedia('(min-width: 768px)');
     var docs = [].slice.call(section.querySelectorAll('.doc'));
+    var nameEls = [].slice.call(section.querySelectorAll('.founder-name')).map(function (el) {
+      return { dir: parseFloat(el.getAttribute('data-dir')) || 0, words: [].slice.call(el.querySelectorAll('.w')) };
+    });
     var heading = section.querySelector('.docs-parallax__heading');
     var veil = section.querySelector('.docs-parallax__veil');
     var sticky = section.querySelector('.docs-parallax__sticky');
@@ -3190,6 +3198,20 @@
         heading.style.transform = 'translateY(' + (-50 * dp).toFixed(1) + 'px)';
         heading.style.opacity = clamp(1 - dp * 1.3, 0, 1).toFixed(3);
       }
+      // Founder names: hold centred, then once the photos are ~half-way out
+      // (dp >= 0.5) fly out word-by-word, each name toward its doctor's side
+      // (Alin left, Ahmed right), trailing word leading.
+      var np = clamp((dp - 0.5) / 0.5, 0, 1);
+      var W = window.innerWidth || 1;
+      nameEls.forEach(function (grp) {
+        var N = grp.words.length, stag = 0.18, denom = 1 - (N - 1) * stag;
+        for (var i = 0; i < N; i++) {
+          var si = grp.dir > 0 ? (N - 1 - i) : i;
+          var wp = clamp((np - si * stag) / denom, 0, 1);
+          grp.words[i].style.transform = 'translateX(' + (grp.dir * wp * W * 1.05).toFixed(0) + 'px)';
+          grp.words[i].style.opacity = (1 - wp).toFixed(3);
+        }
+      });
       // lift the teal veil so the fixed reception backdrop is fully revealed
       if (veil) veil.style.opacity = clamp(1 - p * 0.85, 0.15, 1).toFixed(3);
     }
