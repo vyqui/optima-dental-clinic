@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Optima Dental Clinic — Stomatologie premium în București</title>
-<meta name="description" content="Clinică stomatologică premium în București. Consultație și plan de tratament personalizat, cu toate specializările dentare in-house." />
+<meta name="description" content="Clinică stomatologică premium în București. Consultație și plan de tratament personalizat, cu toate specializările dentare sub același acoperiș." />
 <!-- Meta Pixel (loaded only after cookie consent) -->
 <script>
   window.META_PIXEL_ID = '2861445797535804';
@@ -1154,36 +1154,6 @@
     .ph-grid.is-ring > .img-ph { width: 300px; }
   }
 
-  /* ---------- welcome marquee ---------- */
-  .marquee {
-    overflow: hidden;
-    border-top: 1px solid var(--card-border-gold);
-    border-bottom: 1px solid var(--card-border-gold);
-    background: linear-gradient(90deg, rgba(184,138,91,0.05), rgba(184,138,91,0.12), rgba(184,138,91,0.05));
-    padding: 14px 0;
-  }
-  .marquee-track {
-    display: inline-flex;
-    white-space: nowrap;
-    will-change: transform;
-    animation: marqueeScroll 30s linear infinite;
-  }
-  .marquee-track span {
-    font-family: var(--sans);
-    font-style: italic;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 15px;
-    letter-spacing: 0.28em;
-    background-image: var(--gold-metal);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: var(--gold);
-    padding-right: 8px;
-  }
-  @keyframes marqueeScroll { to { transform: translateX(-50%); } }
 
   /* ---------- offer intro ---------- */
 
@@ -1255,7 +1225,6 @@
   .review-card p { color: var(--text-body); font-size: 14px; line-height: 1.6; margin: 0; }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; }
     .voucher-panel.is-active { animation: none; }
   }
 
@@ -1737,9 +1706,6 @@
     .btn { white-space: normal; line-height: 1.45; text-align: center; }
   }
 
-  /* marquee pauses while inspected */
-  .marquee:hover .marquee-track { animation-play-state: paused; }
-
   /* voucher tab bar: swipeable snap-row on phones */
   @media (max-width: 640px) {
     .voucher-tabbar {
@@ -1782,7 +1748,6 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-inner > * { animation: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
-    .marquee-track { animation: none; }
   }
   /* ---------- image placeholders (swappable: replace inner spans with an <img>) ---------- */
   /* Mobile-first: single column, compact heights. Enhanced at >=768px below. */
@@ -2047,7 +2012,7 @@
   <div class="container hero-inner">
     <h1 class="display">
       Clinica stomatologică
-      <em>cu toate specializările <span style="white-space:nowrap;">in-house</span></em>
+      <em>cu toate specializările sub același acoperiș</em>
     </h1>
     <p class="lead">
       Zâmbetul pe care ți-l dorești începe cu o singură programare —
@@ -2078,8 +2043,8 @@
     <div class="docs-parallax__heading">
       <span class="label-gold">Medicii fondatori</span>
       <h2 class="display" style="margin-top:12px;">
-        Echipa care îți
-        <em>construiește zâmbetul</em>
+        Fondatorii
+        <em>Optima Dental Clinic</em>
       </h2>
     </div>
     <div class="docs-parallax__stage">
@@ -2094,14 +2059,6 @@
     </div>
   </div>
 </section>
-
-<!-- ============ WELCOME MARQUEE ============ -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • </span>
-    <span>BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • BINE AI VENIT • </span>
-  </div>
-</div>
 
 
 <!-- ============ VIDEO ============ -->
@@ -2257,7 +2214,7 @@
 <section class="bg-black" id="tratamente">
   <div class="container">
     <div class="heading-group center" style="text-align:center;">
-      <span class="label-gold">Tratamente in-house</span>
+      <span class="label-gold">Tratamentele noastre</span>
       <h2 class="display" style="margin-top:16px;">
         Toate specializările
         <em>sub același acoperiș</em>
