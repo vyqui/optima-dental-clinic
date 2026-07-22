@@ -505,6 +505,12 @@
   .hero h1 {
     margin-top: 4px;
   }
+  /* hero title: a touch brighter + a subtle black shadow around each letter */
+  .hero-inner h1 { color: #ffffff; }
+  .hero-inner h1,
+  .hero-inner h1 em {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.55);
+  }
   .hero .lead {
     max-width: 580px;
     font-size: 14px;
@@ -1922,17 +1928,39 @@
   /* MOBILE: size cutouts by WIDTH so both fit the narrow screen without cropping */
   .docs-parallax .doc {
     width: 44vw;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    will-change: transform, opacity;
+  }
+  .docs-parallax .doc > img {
+    width: 100%;
     height: auto;
     max-height: 44vh;             /* fits the 70vh frame below the heading */
     object-fit: contain;
     object-position: bottom center;
-    will-change: transform, opacity;
     filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
   }
-  .docs-parallax .doc--left  { margin: 0; z-index: 1; }
+  .docs-parallax .doc--left  { z-index: 1; }
   /* right doctor very slightly larger -> his head sits a touch higher (both
      cutouts are floor-aligned, so the extra size only lifts the top) */
-  .docs-parallax .doc--right { margin: 0; z-index: 2; width: 47vw; max-height: 47vh; }
+  .docs-parallax .doc--right { z-index: 2; width: 47vw; }
+  .docs-parallax .doc--right > img { max-height: 47vh; }
+  /* founder name: gold "Dr." + white name, under each cutout */
+  .doc-founder-name {
+    margin-top: 12px;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.65);
+    white-space: nowrap;
+    text-align: center;
+  }
+  .doc-founder-name .t { color: var(--gold); font-style: italic; padding-right: 2px; }
 
   /* DESKTOP: tall cutouts, centered pair with a wide gap so the heading stays visible */
   @media (min-width: 768px) {
@@ -1941,10 +1969,13 @@
     .docs-parallax__bg { object-position: center 38%; }
     .docs-parallax__heading { top: 12%; }
     .docs-parallax__stage { justify-content: center; padding: 0; }
-    .docs-parallax .doc { width: auto; height: 84vh; max-height: none; }
+    .docs-parallax .doc { width: auto; }
+    .docs-parallax .doc > img { width: auto; height: 84vh; max-height: none; }
     /* >=400px of clear space between the two cutouts */
     .docs-parallax .doc--left  { margin-right: 200px; }
-    .docs-parallax .doc--right { margin-left: 200px; width: auto; height: 86vh; max-height: none; }
+    .docs-parallax .doc--right { margin-left: 200px; width: auto; }
+    .docs-parallax .doc--right > img { height: 86vh; max-height: none; }
+    .doc-founder-name { font-size: 26px; margin-top: 18px; }
   }
   /* reduced motion: collapse the desktop scroll runway to one static screen
      (mobile is already a static 70vh block, so it needs no change) */
@@ -2048,14 +2079,18 @@
       </h2>
     </div>
     <div class="docs-parallax__stage">
-      <img class="doc doc--left" data-tx="-130"
-           src="/assets/doctor-gabor.webp"
-           alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
-           loading="lazy" decoding="async" />
-      <img class="doc doc--right" data-tx="130"
-           src="/assets/doctor-nashar.webp"
-           alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
-           loading="lazy" decoding="async" />
+      <figure class="doc doc--left" data-tx="-130">
+        <img src="/assets/doctor-gabor.webp"
+             alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
+             loading="lazy" decoding="async" />
+        <figcaption class="doc-founder-name"><span class="t">Dr.</span> Alin Gabor</figcaption>
+      </figure>
+      <figure class="doc doc--right" data-tx="130">
+        <img src="/assets/doctor-nashar.webp"
+             alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
+             loading="lazy" decoding="async" />
+        <figcaption class="doc-founder-name"><span class="t">Dr.</span> Ahmed Nashar</figcaption>
+      </figure>
     </div>
   </div>
 </section>
