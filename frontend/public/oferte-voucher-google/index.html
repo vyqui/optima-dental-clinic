@@ -2006,6 +2006,34 @@
   </div>
 </section>
 
+<!-- ============ VIDEO ============ -->
+<section class="bg-black">
+  <div class="container">
+    <div class="heading-group center" style="text-align:center;">
+      <span class="label-gold">Descoperă clinica</span>
+      <h2 class="display" style="margin-top:16px;">
+        Vezi cum arată o vizită
+        <em>la Optima Dental Clinic</em>
+      </h2>
+      <p class="lead" style="margin-top:20px;max-width:580px;margin-left:auto;margin-right:auto;">
+        Un tur în imagini al clinicii noastre — atmosfera, echipa și standardele care fac diferența.
+      </p>
+    </div>
+    <div class="video-wrap" id="clinicVideoWrap" style="max-width:500px; aspect-ratio:5/6; cursor:pointer;">
+      <!-- No autoplay + preload=none: the 4.4MB tour only downloads when the
+           IntersectionObserver below starts it as it scrolls into view. -->
+      <video id="clinicVideo" muted loop playsinline preload="none" poster="/oferte-voucher-meta/Creatives/clinic-poster.jpg" disablepictureinpicture style="width:100%;height:100%;object-fit:cover;display:block;">
+        <source src="/oferte-voucher-meta/Creatives/clinic-tour-540.mp4" type="video/mp4" />
+      </video>
+      <div class="clinic-video-overlay" id="clinicOverlay">
+        <img src="/oferte-voucher-meta/Creatives/play button optima.png" alt="Redă cu sunet" class="clinic-play-btn" />
+        <span class="clinic-play-cta">Apasă pentru SUNET</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ============ MEDICI FONDATORI (spotlight — apropiere) ============ -->
 <section class="spotlight" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
   <div class="spotlight__stage">
@@ -2035,34 +2063,6 @@
     </div>
 
     <div class="spotlight__hint" data-l="hint" aria-hidden="true">Scroll<span>↓</span></div>
-  </div>
-</section>
-
-
-<!-- ============ VIDEO ============ -->
-<section class="bg-black">
-  <div class="container">
-    <div class="heading-group center" style="text-align:center;">
-      <span class="label-gold">Descoperă clinica</span>
-      <h2 class="display" style="margin-top:16px;">
-        Vezi cum arată o vizită
-        <em>la Optima Dental Clinic</em>
-      </h2>
-      <p class="lead" style="margin-top:20px;max-width:580px;margin-left:auto;margin-right:auto;">
-        Un tur în imagini al clinicii noastre — atmosfera, echipa și standardele care fac diferența.
-      </p>
-    </div>
-    <div class="video-wrap" id="clinicVideoWrap" style="max-width:500px; aspect-ratio:5/6; cursor:pointer;">
-      <!-- No autoplay + preload=none: the 4.4MB tour only downloads when the
-           IntersectionObserver below starts it as it scrolls into view. -->
-      <video id="clinicVideo" muted loop playsinline preload="none" poster="/oferte-voucher-meta/Creatives/clinic-poster.jpg" disablepictureinpicture style="width:100%;height:100%;object-fit:cover;display:block;">
-        <source src="/oferte-voucher-meta/Creatives/clinic-tour-540.mp4" type="video/mp4" />
-      </video>
-      <div class="clinic-video-overlay" id="clinicOverlay">
-        <img src="/oferte-voucher-meta/Creatives/play button optima.png" alt="Redă cu sunet" class="clinic-play-btn" />
-        <span class="clinic-play-cta">Apasă pentru SUNET</span>
-      </div>
-    </div>
   </div>
 </section>
 
