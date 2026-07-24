@@ -1868,13 +1868,12 @@
   .spotlight__stage { position: sticky; top: 0; height: 100vh; overflow: hidden;
     perspective: 1300px; background: radial-gradient(circle at 50% 42%, #101f1d, #060d0c); }
   .spotlight__bg { position: absolute; top: -11%; left: -11%; width: 122%; height: 122%;
-    object-fit: cover; object-position: center; filter: blur(7px) brightness(.42); will-change: transform; }
+    object-fit: cover; object-position: center; filter: blur(7px) brightness(.42); }
   .spotlight__glow { position: absolute; top: 50%; left: 50%; width: 62vw; height: 62vw;
     transform: translate(-50%, -50%); border-radius: 50%;
-    background: radial-gradient(circle, rgba(198,167,106,.3), rgba(198,167,106,0) 62%);
-    will-change: transform, opacity; }
+    background: radial-gradient(circle, rgba(198,167,106,.3), rgba(198,167,106,0) 62%); }
   .spotlight__head { position: absolute; top: 11%; left: 0; right: 0; text-align: center;
-    z-index: 5; will-change: transform, opacity; }
+    z-index: 5; }
   .spotlight__eyebrow { font-family: var(--sans); font-size: 12px; letter-spacing: .38em;
     text-transform: uppercase; color: #c6a76a; margin-bottom: 18px; font-weight: 600; }
   .spotlight__title { font-family: var(--serif); font-weight: 600; color: #fff;
@@ -1882,8 +1881,14 @@
   .spotlight__title em { font-style: italic; }
   .spotlight__row { position: absolute; inset: 0; display: flex; align-items: flex-end;
     justify-content: center; gap: min(5vw, 90px); z-index: 4; transform-style: preserve-3d; }
-  .spotlight__doc { position: relative; text-align: center; will-change: transform, opacity;
-    transform-origin: 50% 100%; }
+  .spotlight__doc { position: relative; text-align: center; transform-origin: 50% 100%; }
+  /* GPU layers (and the rAF loop below) only while the section is on/near
+     screen — otherwise it holds 5 composited layers + burns a perpetual rAF
+     on every page, which makes the whole site feel laggy. */
+  .spotlight--anim .spotlight__bg,
+  .spotlight--anim .spotlight__glow,
+  .spotlight--anim .spotlight__head,
+  .spotlight--anim .spotlight__doc { will-change: transform, opacity; }
   .spotlight__doc img { height: 76vh; width: auto; display: block;
     filter: drop-shadow(0 34px 54px rgba(0, 0, 0, .6)); }
   .spotlight__name { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); white-space: nowrap; }
@@ -3136,18 +3141,36 @@
       if (el.hint) el.hint.style.opacity = clamp(1 - p * 4, 0, 1).toFixed(4);
     }
 
-    if (reduce.matches) { render(0.45); return; }   // settled "hold" state, no rAF
+    if (reduce.matches) { section.classList.add('spotlight--anim'); render(0.45); return; }
 
+    // Run the loop only while the section is near the viewport; stop it (and
+    // release the GPU layers) otherwise, so it doesn't tax the rest of the page.
+    var running = false, inView = false, lastP = -1, lastMx = 99, lastMy = 99;
     function frame() {
+      if (!inView) { running = false; return; }
       mx += (tmx - mx) * 0.07;
       my += (tmy - my) * 0.07;
       var r = section.getBoundingClientRect();
       var total = r.height - window.innerHeight;
       var p = total > 0 ? clamp(-r.top / total, 0, 1) : 0;
-      render(p);
+      // skip DOM writes when the scene is static (idle in view, no mouse) so we
+      // don't repaint the filtered/scaled layers for nothing.
+      if (Math.abs(p - lastP) > 0.0004 || Math.abs(mx - lastMx) > 0.001 || Math.abs(my - lastMy) > 0.001) {
+        render(p); lastP = p; lastMx = mx; lastMy = my;
+      }
       requestAnimationFrame(frame);
     }
-    requestAnimationFrame(frame);
+    function start() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        inView = en[0].isIntersecting;
+        section.classList.toggle('spotlight--anim', inView);
+        if (inView) start();
+      }, { rootMargin: '200px 0px' }).observe(section);
+    } else {
+      inView = true; section.classList.add('spotlight--anim'); start();
+    }
   })();
 
   // ===== Meta Pixel helpers + ViewContent (browser + server CAPI, deduped) =====
