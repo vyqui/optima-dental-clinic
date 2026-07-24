@@ -1863,132 +1863,59 @@
     .img-ph__num { width: 38px; height: 38px; font-size: 16px; }
     .img-ph__txt { font-size: 13px; }
   }
-  /* ---------- doctors scroll-parallax (MOBILE-FIRST) ---------- */
-  .docs-parallax {
-    display: block;
-    position: relative;
-    height: 70vh;
-    height: 70svh;                /* MOBILE: compact block; svh keeps the height
-                                     stable while scrolling (no URL-bar jump). */
-    padding: 0;                   /* override global `section {padding}` */
-    background: var(--bg-teal-deep);
+  /* ---------- founders spotlight — "Apropiere" (scroll dolly-in) ---------- */
+  .spotlight { position: relative; height: 210vh; padding: 0; background: #070f0e; }
+  .spotlight__stage { position: sticky; top: 0; height: 100vh; overflow: hidden;
+    perspective: 1300px; background: radial-gradient(circle at 50% 42%, #101f1d, #060d0c); }
+  .spotlight__bg { position: absolute; top: -11%; left: -11%; width: 122%; height: 122%;
+    object-fit: cover; object-position: center; filter: blur(7px) brightness(.42); will-change: transform; }
+  .spotlight__glow { position: absolute; top: 50%; left: 50%; width: 62vw; height: 62vw;
+    transform: translate(-50%, -50%); border-radius: 50%;
+    background: radial-gradient(circle, rgba(198,167,106,.3), rgba(198,167,106,0) 62%);
+    will-change: transform, opacity; }
+  .spotlight__head { position: absolute; top: 11%; left: 0; right: 0; text-align: center;
+    z-index: 5; will-change: transform, opacity; }
+  .spotlight__eyebrow { font-family: var(--sans); font-size: 12px; letter-spacing: .38em;
+    text-transform: uppercase; color: #c6a76a; margin-bottom: 18px; font-weight: 600; }
+  .spotlight__title { font-family: var(--serif); font-weight: 600; color: #fff;
+    font-size: clamp(2.4rem, 5.6vw, 5rem); line-height: 1.03; margin: 0; }
+  .spotlight__title em { font-style: italic; }
+  .spotlight__row { position: absolute; inset: 0; display: flex; align-items: flex-end;
+    justify-content: center; gap: min(5vw, 90px); z-index: 4; transform-style: preserve-3d; }
+  .spotlight__doc { position: relative; text-align: center; will-change: transform, opacity;
+    transform-origin: 50% 100%; }
+  .spotlight__doc img { height: 76vh; width: auto; display: block;
+    filter: drop-shadow(0 34px 54px rgba(0, 0, 0, .6)); }
+  .spotlight__name { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+  .spotlight__name-role { font-family: var(--sans); font-size: 10px; letter-spacing: .24em;
+    text-transform: uppercase; color: #c6a76a; margin-bottom: 5px; font-weight: 600; }
+  .spotlight__name-doc { font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.8rem); color: #fff; }
+  .spotlight__hint { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+    color: rgba(255, 255, 255, .7); font-family: var(--sans); font-size: 10px; letter-spacing: .22em;
+    text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 7px; z-index: 6; }
+  .spotlight__hint span { font-size: 14px; animation: bob 1.6s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+  @media (max-width: 767px) {
+    .spotlight { height: 230vh; }
+    .spotlight__stage { height: 100vh; height: 100dvh; perspective: 900px;
+      background: radial-gradient(circle at 50% 46%, #101f1d, #060d0c); }
+    .spotlight__bg { filter: blur(6px) brightness(.42); }
+    .spotlight__glow { top: 52%; width: 120vw; height: 120vw;
+      background: radial-gradient(circle, rgba(198,167,106,.32), rgba(198,167,106,0) 60%); }
+    .spotlight__head { top: 8%; padding: 0 22px; }
+    .spotlight__eyebrow { font-size: 11px; letter-spacing: .34em; margin-bottom: 12px; }
+    .spotlight__title { font-size: clamp(2rem, 9.5vw, 3.1rem); line-height: 1.04; }
+    .spotlight__row { gap: 2vw; padding-bottom: env(safe-area-inset-bottom); }
+    .spotlight__doc img { height: 52vh; height: 52dvh; filter: drop-shadow(0 22px 38px rgba(0, 0, 0, .6)); }
+    .spotlight__name { bottom: 2%; }
+    .spotlight__name-role { font-size: 8px; letter-spacing: .2em; margin-bottom: 3px; }
+    .spotlight__name-doc { font-size: clamp(.95rem, 4.2vw, 1.25rem); }
+    .spotlight__hint { bottom: 18px; font-size: 9px; }
+    .spotlight__hint span { font-size: 13px; }
   }
-  .docs-parallax__sticky {
-    position: relative;           /* MOBILE: static (no pin) — desktop re-enables sticky */
-    height: 70vh;
-    height: 70svh;
-    overflow: hidden;
-  }
-  /* fixed reception backdrop (lazy <img>), blurred so the doctors pop */
-  .docs-parallax__bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 40%;
-    filter: blur(5px);
-    transform: scale(1.1);
-  }
-  /* teal veil: dark at top (for the heading), clearer lower; JS lifts it on scroll */
-  .docs-parallax__veil {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg,
-      rgba(14, 58, 51, 1) 0%,
-      rgba(14, 58, 51, 0.94) 22%,
-      rgba(14, 58, 51, 0.62) 48%,
-      rgba(14, 58, 51, 0.38) 72%,
-      rgba(14, 58, 51, 0.60) 100%);
-    will-change: opacity;
-  }
-  /* MOBILE: heading at the top of the compact frame, pushed below the fixed
-     site header (which overlays the pinned frame), just above the heads */
-  .docs-parallax__heading {
-    position: absolute;
-    top: 66px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    padding: 0 20px;
-    z-index: 3;
-    will-change: transform, opacity;
-  }
-  /* MOBILE: the two cutouts stand at the left & right edges, both fully visible */
-  .docs-parallax__stage {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding: 0 2.5vw;
-  }
-  /* MOBILE: size cutouts by WIDTH so both fit the narrow screen without cropping */
-  .docs-parallax .doc {
-    width: 44vw;
-    height: auto;
-    max-height: 44svh;            /* fits the frame below the heading */
-    object-fit: contain;
-    object-position: bottom center;
-    will-change: transform, opacity;
-    filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.55));
-  }
-  .docs-parallax .doc--left  { margin: 0; z-index: 1; }
-  .docs-parallax .doc--right { margin: 0; z-index: 2; width: 47vw; max-height: 47svh; }
-  /* founder names — MOBILE: one name above each cutout (Alin over the left
-     doctor, Ahmed over the right), filling the strip under the heading. They
-     fly out word-by-word on scroll. Desktop re-centres them in the gap.
-     Positions driven by JS in the parallax loop. */
-  .docs-parallax__names {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 21svh 2.5vw 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .founder-name {
-    margin: 0;
-    width: 44vw;
-    text-align: center;
-    font-family: var(--serif);
-    font-weight: 600;
-    font-size: 16px;
-    letter-spacing: 0.01em;
-    color: #ffffff;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-    white-space: nowrap;
-  }
-  .founder-name--right { width: 47vw; }
-  .founder-name .w { display: inline-block; will-change: transform, opacity; }
-  .founder-name .t { color: var(--gold); font-style: italic; }
-
-  /* DESKTOP: tall cutouts, centered pair with a wide gap so the heading stays visible */
-  @media (min-width: 768px) {
-    .docs-parallax { height: 160vh; }   /* short scroll: gone in well under 2 screens */
-    .docs-parallax__sticky { position: sticky; top: 0; height: 100vh; }
-    .docs-parallax__bg { object-position: center 38%; }
-    .docs-parallax__heading { top: 12%; }
-    .docs-parallax__stage { justify-content: center; padding: 0; }
-    .docs-parallax .doc { width: auto; height: 84vh; max-height: none; }
-    /* >=400px of clear space between the two cutouts */
-    .docs-parallax .doc--left  { margin-right: 200px; }
-    .docs-parallax .doc--right { margin-left: 200px; width: auto; height: 86vh; max-height: none; }
-    .docs-parallax__names { align-items: center; justify-content: center; gap: 12vw; padding: 0; }
-    .founder-name { width: auto; text-align: center; font-size: 32px; }
-    .founder-name--left  { text-align: right; }
-    .founder-name--right { text-align: left; }
-  }
-  /* reduced motion: collapse the desktop scroll runway to one static screen
-     (mobile is already a static 70vh block, so it needs no change) */
-  @media (min-width: 768px) and (prefers-reduced-motion: reduce) {
-    .docs-parallax { height: 100vh; }
+  /* reduced motion: one static screen showing the settled "hold" state */
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight { height: 100vh; }
   }
 </style>
 </head>
@@ -2074,32 +2001,35 @@
   </div>
 </section>
 
-<!-- ============ MEDICI FONDATORI (scroll parallax) ============ -->
-<section class="docs-parallax" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
-  <div class="docs-parallax__sticky">
-    <img class="docs-parallax__bg" src="/assets/receptie-back-parallax.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-    <div class="docs-parallax__veil" aria-hidden="true"></div>
-    <div class="docs-parallax__heading">
-      <span class="label-gold">Medicii fondatori</span>
-      <h2 class="display" style="margin-top:12px;">
-        Fondatorii
-        <em>Optima Dental Clinic</em>
-      </h2>
+<!-- ============ MEDICI FONDATORI (spotlight — apropiere) ============ -->
+<section class="spotlight" id="medici" aria-label="Medicii fondatori Optima Dental Clinic">
+  <div class="spotlight__stage">
+    <img class="spotlight__bg" data-l="bg" src="/assets/receptie-back-parallax.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+    <div class="spotlight__glow" data-l="glow" aria-hidden="true"></div>
+
+    <div class="spotlight__head" data-l="head">
+      <div class="spotlight__eyebrow">Medicii fondatori</div>
+      <h2 class="spotlight__title">Fondatorii <em>Optima Dental Clinic</em></h2>
     </div>
-    <div class="docs-parallax__stage">
-      <img class="doc doc--left" data-tx="-130"
-           src="/assets/doctor-gabor.webp"
-           alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic"
-           loading="lazy" decoding="async" />
-      <img class="doc doc--right" data-tx="130"
-           src="/assets/doctor-nashar.webp"
-           alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic"
-           loading="lazy" decoding="async" />
+
+    <div class="spotlight__row">
+      <div class="spotlight__doc" data-l="doc-l">
+        <img src="/assets/doctor-gabor.webp" alt="Dr. Alin Gabor – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <div class="spotlight__name">
+          <div class="spotlight__name-role">Medic fondator</div>
+          <div class="spotlight__name-doc">Dr. Alin Gabor</div>
+        </div>
+      </div>
+      <div class="spotlight__doc" data-l="doc-r">
+        <img src="/assets/doctor-nashar.webp" alt="Dr. Ahmed Nashar – medic stomatolog la Optima Dental Clinic" loading="lazy" decoding="async" />
+        <div class="spotlight__name">
+          <div class="spotlight__name-role">Medic fondator</div>
+          <div class="spotlight__name-doc">Dr. Ahmed Nashar</div>
+        </div>
+      </div>
     </div>
-    <div class="docs-parallax__names" aria-hidden="true">
-      <p class="founder-name founder-name--left" data-dir="-1"><span class="w t">Dr.</span> <span class="w">Alin</span> <span class="w">Gabor</span></p>
-      <p class="founder-name founder-name--right" data-dir="1"><span class="w t">Dr.</span> <span class="w">Ahmed</span> <span class="w">Nashar</span></p>
-    </div>
+
+    <div class="spotlight__hint" data-l="hint" aria-hidden="true">Scroll<span>↓</span></div>
   </div>
 </section>
 
@@ -3152,76 +3082,71 @@
     });
   });
 
-  // ===== Doctors scroll parallax (they sink + fade out of the frame on scroll) =====
+  // ===== Founders spotlight — "Apropiere" (scroll dolly-in; ported from design handoff) =====
   (function () {
     var section = document.getElementById('medici');
     if (!section) return;
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var desktop = window.matchMedia('(min-width: 768px)');
-    var docs = [].slice.call(section.querySelectorAll('.doc'));
-    var nameEls = [].slice.call(section.querySelectorAll('.founder-name')).map(function (el) {
-      return { dir: parseFloat(el.getAttribute('data-dir')) || 0, words: [].slice.call(el.querySelectorAll('.w')) };
-    });
-    var heading = section.querySelector('.docs-parallax__heading');
-    var veil = section.querySelector('.docs-parallax__veil');
-    var sticky = section.querySelector('.docs-parallax__sticky');
-    var ticking = false;
-    function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-    function clearInline() {
-      docs.forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; });
-      if (heading) { heading.style.transform = ''; heading.style.opacity = ''; }
-      if (veil) veil.style.opacity = '';
-    }
-    function update() {
-      ticking = false;
-      if (reduce.matches) { clearInline(); return; }
-      var rect = section.getBoundingClientRect();
-      var p, dp;
-      if (desktop.matches) {
-        // pinned travel = section height minus the sticky frame (100vh desktop)
-        var range = section.offsetHeight - (sticky ? sticky.offsetHeight : window.innerHeight);
-        p = clamp(-rect.top / (range || 1), 0, 1);
-        dp = clamp(p / 0.5, 0, 1);            // doctors fully exit by half the scroll
+    var q = function (s) { return section.querySelector('[data-l="' + s + '"]'); };
+    var el = { bg: q('bg'), glow: q('glow'), head: q('head'), docL: q('doc-l'), docR: q('doc-r'), hint: q('hint') };
+    if (!el.docL || !el.docR) return;
+
+    var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+    var ease  = function (t) { return t * t * (3 - 2 * t); };   // smoothstep
+    var reduce   = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var mobileMq = window.matchMedia('(max-width: 767px)');
+    var hoverNone = window.matchMedia('(hover: none)');
+    var INTENSITY = 1;
+
+    var mx = 0, my = 0, tmx = 0, tmy = 0;
+    window.addEventListener('mousemove', function (e) {
+      if (mobileMq.matches || hoverNone.matches) { tmx = tmy = 0; return; }
+      tmx = (e.clientX / window.innerWidth  - 0.5) * 2;
+      tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
+
+    function render(p) {
+      var k = INTENSITY;
+      var enter = ease(clamp(p / 0.30, 0, 1));            // rise/fade in over first 30%
+      var exit  = ease(clamp((p - 0.68) / 0.32, 0, 1));   // dolly out over last 32%
+      var vis   = enter * (1 - exit);
+
+      if (mobileMq.matches) {
+        el.bg.style.transform = 'translate3d(0,' + ((p * 2 - 1) * 10 * k) + 'px,0) scale(' + (1.16 + exit * 0.12) + ')';
+        el.glow.style.transform = 'translate(-50%,-50%) scale(' + ((0.7 + enter * 0.4) + exit * 1.6) + ')';
+        el.glow.style.opacity = ((0.18 + enter * 0.4) * (1 - exit)).toFixed(4);
+        el.head.style.transform = 'translate3d(0,' + ((1 - enter) * -34 - exit * 80 * k) + 'px,0)';
+        el.head.style.opacity = (1 - exit).toFixed(4);
+        var inYm = (1 - enter) * 64;
+        var scm  = (0.84 + enter * 0.16) + exit * 1.0;
+        el.docL.style.transform = 'translate3d(' + (-4 - exit * 42) + 'px,' + (inYm + exit * 34) + 'px,0) scale(' + scm + ')';
+        el.docR.style.transform = 'translate3d(' + ( 4 + exit * 42) + 'px,' + (inYm + exit * 34) + 'px,0) scale(' + scm + ')';
       } else {
-        // MOBILE: the section is a static 70vh block in normal flow (no pin,
-        // no layout change) — drive the same exit from the natural scroll-out:
-        // as the section's top passes under the fixed header and travels up,
-        // the doctors slide to the sides and the heading lifts, finishing by
-        // the time ~65% of the block has left the viewport.
-        p = clamp((90 - rect.top) / (rect.height * 0.65 || 1), 0, 1);
-        dp = p;
+        el.bg.style.transform = 'translate3d(' + (mx * -22) + 'px,' + (my * -14 + (p * 2 - 1) * 14 * k) + 'px,0) scale(' + (1.16 + exit * 0.14) + ')';
+        el.glow.style.transform = 'translate3d(calc(-50% + ' + (mx * 30) + 'px),calc(-50% + ' + (my * 20) + 'px),0) scale(' + ((0.7 + enter * 0.4) + exit * 1.8) + ')';
+        el.glow.style.opacity = ((0.16 + enter * 0.4) * (1 - exit)).toFixed(4);
+        el.head.style.transform = 'translate3d(' + (mx * 10) + 'px,' + ((1 - enter) * -42 - exit * 96 * k) + 'px,0)';
+        el.head.style.opacity = (1 - exit).toFixed(4);
+        var inY = (1 - enter) * 80;
+        var sc  = (0.82 + enter * 0.18) + exit * 1.2;
+        el.docL.style.transform = 'translate3d(' + (mx * 22 - 8 - exit * 100) + 'px,' + (my * 16 + inY + exit * 46) + 'px,0) rotateY(' + (mx * 4) + 'deg) scale(' + sc + ')';
+        el.docR.style.transform = 'translate3d(' + (mx * 22 + 8 + exit * 100) + 'px,' + (my * 16 + inY + exit * 46) + 'px,0) rotateY(' + (mx * 4) + 'deg) scale(' + sc + ')';
       }
-      docs.forEach(function (el) {
-        var tx = parseFloat(el.getAttribute('data-tx')) || 0;
-        var ty = parseFloat(el.getAttribute('data-ty')) || 0;
-        el.style.transform = 'translate(' + (tx * dp).toFixed(2) + '%, ' + (ty * dp).toFixed(2) + '%) scale(' + (1 - 0.05 * dp).toFixed(3) + ')';
-        el.style.opacity = clamp(1 - dp * 1.25, 0, 1).toFixed(3);
-      });
-      if (heading) {
-        heading.style.transform = 'translateY(' + (-50 * dp).toFixed(1) + 'px)';
-        heading.style.opacity = clamp(1 - dp * 1.3, 0, 1).toFixed(3);
-      }
-      // Founder names: hold centred, then once the photos are ~half-way out
-      // (dp >= 0.5) fly out word-by-word, each name toward its doctor's side
-      // (Alin left, Ahmed right), trailing word leading.
-      var np = clamp((dp - 0.5) / 0.5, 0, 1);
-      var W = window.innerWidth || 1;
-      nameEls.forEach(function (grp) {
-        var N = grp.words.length, stag = 0.18, denom = 1 - (N - 1) * stag;
-        for (var i = 0; i < N; i++) {
-          var si = grp.dir > 0 ? (N - 1 - i) : i;
-          var wp = clamp((np - si * stag) / denom, 0, 1);
-          grp.words[i].style.transform = 'translateX(' + (grp.dir * wp * W * 1.05).toFixed(0) + 'px)';
-          grp.words[i].style.opacity = (1 - wp).toFixed(3);
-        }
-      });
-      // lift the teal veil so the fixed reception backdrop is fully revealed
-      if (veil) veil.style.opacity = clamp(1 - p * 0.85, 0.15, 1).toFixed(3);
+      el.docL.style.opacity = el.docR.style.opacity = vis.toFixed(4);
+      if (el.hint) el.hint.style.opacity = clamp(1 - p * 4, 0, 1).toFixed(4);
     }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    update();
+
+    if (reduce.matches) { render(0.45); return; }   // settled "hold" state, no rAF
+
+    function frame() {
+      mx += (tmx - mx) * 0.07;
+      my += (tmy - my) * 0.07;
+      var r = section.getBoundingClientRect();
+      var total = r.height - window.innerHeight;
+      var p = total > 0 ? clamp(-r.top / total, 0, 1) : 0;
+      render(p);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   })();
 
   // ===== Meta Pixel helpers + ViewContent (browser + server CAPI, deduped) =====
