@@ -1226,10 +1226,13 @@
   .rate-band__sub { font-family: var(--sans); font-size: 12.5px; color: #d8cdba; margin-top: 2px; }
   .rate-band__logos { display: flex; align-items: center; gap: 10px; }
   .rate-band__logo {
-    background: #fff; border-radius: 9px; padding: 7px 12px;
+    background: #fff; border-radius: 10px; padding: 0 16px; height: 56px;
     display: flex; align-items: center; box-shadow: 0 3px 10px rgba(0, 0, 0, .25);
   }
-  .rate-band__logo img { height: 22px; width: auto; display: block; }
+  .rate-band__logo img { width: auto; display: block; }
+  /* per-logo heights so TBI reads as large as UniCredit (their marks differ) */
+  .rate-band__logo--tbi  img { height: 40px; }
+  .rate-band__logo--unic img { height: 28px; }
   .rate-band__cta {
     background-image: var(--gold-metal); background-size: 200% auto; color: #2c1d0e;
     font-family: var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .05em;
@@ -2040,6 +2043,21 @@
   </div>
 </section>
 
+<!-- ============ PLATĂ ÎN RATE (chyron) ============ -->
+<section class="rate-band" aria-label="Plată în rate">
+  <div class="container rate-band__inner">
+    <div class="rate-band__lead">
+      <span class="rate-band__eyebrow">Plată în rate</span>
+      <span class="rate-band__sub">Rate lunare, prin partenerii noștri</span>
+    </div>
+    <div class="rate-band__logos">
+      <span class="rate-band__logo rate-band__logo--tbi"><img src="/assets/tibi.jpeg" alt="TBI Bank" loading="lazy" decoding="async" /></span>
+      <span class="rate-band__logo rate-band__logo--unic"><img src="/assets/unic.png" alt="UniCredit Bank" loading="lazy" decoding="async" /></span>
+    </div>
+    <a class="rate-band__cta" href="https://wa.me/40767702703?text=Bun%C4%83%20ziua%2C%20a%C8%99%20dori%20detalii%20despre%20plata%20%C3%AEn%20rate." target="_blank" rel="noopener">Întreabă despre rate</a>
+  </div>
+</section>
+
 <!-- ============ VIDEO ============ -->
 <section class="bg-black">
   <div class="container">
@@ -2179,8 +2197,8 @@
       <span class="rate-band__sub">Rate lunare, prin partenerii noștri</span>
     </div>
     <div class="rate-band__logos">
-      <span class="rate-band__logo"><img src="/assets/tibi.jpeg" alt="TBI Bank" loading="lazy" decoding="async" /></span>
-      <span class="rate-band__logo"><img src="/assets/unic.png" alt="UniCredit Bank" loading="lazy" decoding="async" /></span>
+      <span class="rate-band__logo rate-band__logo--tbi"><img src="/assets/tibi.jpeg" alt="TBI Bank" loading="lazy" decoding="async" /></span>
+      <span class="rate-band__logo rate-band__logo--unic"><img src="/assets/unic.png" alt="UniCredit Bank" loading="lazy" decoding="async" /></span>
     </div>
     <a class="rate-band__cta" href="https://wa.me/40767702703?text=Bun%C4%83%20ziua%2C%20a%C8%99%20dori%20detalii%20despre%20plata%20%C3%AEn%20rate." target="_blank" rel="noopener">Întreabă despre rate</a>
   </div>
