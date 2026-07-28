@@ -1208,31 +1208,36 @@
   .voucher-aside .btn { width: 100%; margin-top: 18px; }
 
   /* ---------- specializări (FAQ accordion) ---------- */
-  .faq-spec { max-width: 720px; margin: 34px auto 0; }
+  .faq-spec { max-width: 660px; margin: 26px auto 0; }
   .faq-item {
     border: 1px solid var(--card-border-gold);
-    border-radius: 12px;
+    border-radius: 10px;
     background: var(--card-dark);
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
   .faq-item summary {
     list-style: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: space-between; gap: 14px;
-    padding: 15px 20px;
-    font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--text-white);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 11px 16px;
+    font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--text-white);
+    transition: color .18s ease;
   }
   .faq-item summary::-webkit-details-marker { display: none; }
   .faq-item summary::after {
-    content: "+"; font-family: var(--sans); font-weight: 300; font-size: 26px;
+    content: "+"; font-family: var(--sans); font-weight: 300; font-size: 22px;
     color: var(--gold); line-height: 1; flex: 0 0 auto;
+    transition: transform .2s ease;
   }
   .faq-item[open] summary { color: var(--gold); }
-  .faq-item[open] summary::after { content: "\2212"; }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  /* collapsible wrapper — JS animates its height for a fast, smooth open/close */
+  .faq-item .faq-body { overflow: hidden; transition: height .2s ease; }
   .faq-item p {
-    margin: 0; padding: 0 20px 16px; color: var(--text-body); font-size: 14.5px; line-height: 1.6;
+    margin: 0; padding: 1px 16px 12px; color: var(--text-body); font-size: 14px; line-height: 1.55;
   }
   @media (min-width: 768px) {
-    .faq-item summary { font-size: 20px; padding: 17px 24px; }
+    .faq-item summary { font-size: 17px; padding: 13px 18px; }
+    .faq-item p { padding: 1px 18px 14px; }
   }
 
   /* ---------- plată în rate (chyron band) ---------- */
@@ -2301,31 +2306,31 @@
     <div class="faq-spec">
       <details class="faq-item">
         <summary>Parodontologie</summary>
-        <p>Sănătatea gingiilor și parodonțiului.</p>
+        <div class="faq-body"><p>Sănătatea gingiilor și parodonțiului.</p></div>
       </details>
       <details class="faq-item">
         <summary>Chirurgie Dentară</summary>
-        <p>Extracții și mici intervenții chirurgicale.</p>
+        <div class="faq-body"><p>Extracții și mici intervenții chirurgicale.</p></div>
       </details>
       <details class="faq-item">
         <summary>Odontoterapie</summary>
-        <p>Tratarea cariilor dentare.</p>
+        <div class="faq-body"><p>Tratarea cariilor dentare.</p></div>
       </details>
       <details class="faq-item">
         <summary>Endodonție</summary>
-        <p>Tratament de canal precis.</p>
+        <div class="faq-body"><p>Tratament de canal precis.</p></div>
       </details>
       <details class="faq-item">
         <summary>Protetică Dentară</summary>
-        <p>Coroane, punți și proteze.</p>
+        <div class="faq-body"><p>Coroane, punți și proteze.</p></div>
       </details>
       <details class="faq-item">
         <summary>Ortodonție</summary>
-        <p>Aparate dentare și aliniere.</p>
+        <div class="faq-body"><p>Aparate dentare și aliniere.</p></div>
       </details>
       <details class="faq-item">
         <summary>Radiologie Dentară</summary>
-        <p>Imagistică digitală de precizie.</p>
+        <div class="faq-body"><p>Imagistică digitală de precizie.</p></div>
       </details>
     </div>
   </div>
@@ -3566,6 +3571,45 @@
       });
     }, { threshold: 0.6 });
     els.forEach(function(el) { io.observe(el); });
+  })();
+
+  // ===== FAQ accordion: fast, smooth open/close (height animation) =====
+  (function() {
+    var items = document.querySelectorAll('.faq-item');
+    if (!items.length) return;
+    Array.prototype.forEach.call(items, function(item) {
+      var summary = item.querySelector('summary');
+      var body = item.querySelector('.faq-body');
+      if (!summary || !body) return;
+      summary.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (item.dataset.animating) return;
+        item.dataset.animating = '1';
+        function onEnd(fn) {
+          var done = false;
+          function h(ev) {
+            if (ev.target !== body || done) return;
+            done = true; body.removeEventListener('transitionend', h); fn();
+          }
+          body.addEventListener('transitionend', h);
+          setTimeout(function() {
+            if (done) return;
+            done = true; body.removeEventListener('transitionend', h); fn();
+          }, 320);
+        }
+        if (item.open) {
+          body.style.height = body.scrollHeight + 'px';
+          requestAnimationFrame(function() { body.style.height = '0px'; });
+          onEnd(function() { item.open = false; body.style.height = ''; delete item.dataset.animating; });
+        } else {
+          item.open = true;
+          var h = body.scrollHeight;
+          body.style.height = '0px';
+          requestAnimationFrame(function() { body.style.height = h + 'px'; });
+          onEnd(function() { body.style.height = ''; delete item.dataset.animating; });
+        }
+      });
+    });
   })();
 </script>
 <!-- ============ COOKIE NOTICE ============ -->
