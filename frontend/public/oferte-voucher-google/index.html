@@ -1207,6 +1207,34 @@
   .voucher-fineprint { font-size: 12px; color: var(--text-muted); letter-spacing: 0.02em; margin-bottom: 2px; }
   .voucher-aside .btn { width: 100%; margin-top: 18px; }
 
+  /* ---------- specializări (FAQ accordion) ---------- */
+  .faq-spec { max-width: 720px; margin: 34px auto 0; }
+  .faq-item {
+    border: 1px solid var(--card-border-gold);
+    border-radius: 12px;
+    background: var(--card-dark);
+    margin-bottom: 10px;
+  }
+  .faq-item summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 15px 20px;
+    font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--text-white);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+"; font-family: var(--sans); font-weight: 300; font-size: 26px;
+    color: var(--gold); line-height: 1; flex: 0 0 auto;
+  }
+  .faq-item[open] summary { color: var(--gold); }
+  .faq-item[open] summary::after { content: "\2212"; }
+  .faq-item p {
+    margin: 0; padding: 0 20px 16px; color: var(--text-body); font-size: 14.5px; line-height: 1.6;
+  }
+  @media (min-width: 768px) {
+    .faq-item summary { font-size: 20px; padding: 17px 24px; }
+  }
+
   /* ---------- plată în rate (chyron band) ---------- */
   .rate-band {
     background: linear-gradient(90deg, #140f0a, #1d160d 50%, #140f0a);
@@ -2164,9 +2192,9 @@
           </div>
           <div class="voucher-aside">
             <div class="voucher-badge">Voucher consultație + igienizare</div>
-            <div class="voucher-price"><span class="new">300 lei</span></div>
+            <div class="voucher-price"><span class="new">299 lei</span></div>
             <div class="voucher-fineprint">Preț total — include toate costurile</div>
-            <a class="btn btn-primary" href="#programare-video" data-voucher="Consultație + igienizare — 300 lei">Alege voucher</a>
+            <a class="btn btn-primary" href="#programare-video" data-voucher="Consultație + igienizare — 299 lei">Alege voucher</a>
           </div>
         </div>
       </div>
@@ -2179,9 +2207,9 @@
           </div>
           <div class="voucher-aside">
             <div class="voucher-badge">Voucher consultație + obturație</div>
-            <div class="voucher-price"><span class="new">300 lei</span></div>
+            <div class="voucher-price"><span class="new">299 lei</span></div>
             <div class="voucher-fineprint">Preț total — include toate costurile</div>
-            <a class="btn btn-primary" href="#programare-video" data-voucher="Consultație + obturație — 300 lei">Alege voucher</a>
+            <a class="btn btn-primary" href="#programare-video" data-voucher="Consultație + obturație — 299 lei">Alege voucher</a>
           </div>
         </div>
       </div>
@@ -2270,42 +2298,35 @@
       </p>
     </div>
 
-    <div class="galaxy" aria-label="Specializări Optima Dental Clinic">
-      <div class="galaxy-orbit galaxy-orbit-1" aria-hidden="true"></div>
-      <div class="galaxy-orbit galaxy-orbit-2" aria-hidden="true"></div>
-
-      <div class="galaxy-sun">
-        <img class="galaxy-sun-logo" src="/oferte-voucher-meta/Creatives/optima-logo-full.png" alt="Optima Dental Clinic" onerror="this.onerror=null;this.src='Creatives/optima-logo.png';" />
-      </div>
-
-      <article class="planet" style="--a:-90deg;">
-        <h3>Parodontologie</h3>
-        <p>Sănătatea gingiilor și parodonțiului</p>
-      </article>
-      <article class="planet" style="--a:-38.57deg;">
-        <h3>Chirurgie Dentară</h3>
-        <p>Extracții și mici intervenții</p>
-      </article>
-      <article class="planet" style="--a:12.86deg;">
-        <h3>Odontoterapie</h3>
-        <p>Tratarea cariilor dentare</p>
-      </article>
-      <article class="planet" style="--a:64.29deg;">
-        <h3>Endodonție</h3>
-        <p>Tratament de canal precis</p>
-      </article>
-      <article class="planet" style="--a:115.71deg;">
-        <h3>Protetică Dentară</h3>
-        <p>Coroane, punți și proteze</p>
-      </article>
-      <article class="planet" style="--a:167.14deg;">
-        <h3>Ortodonție</h3>
-        <p>Aparate dentare și aliniere</p>
-      </article>
-      <article class="planet" style="--a:218.57deg;">
-        <h3>Radiologie Dentară</h3>
-        <p>Imagistică digitală de precizie</p>
-      </article>
+    <div class="faq-spec">
+      <details class="faq-item">
+        <summary>Parodontologie</summary>
+        <p>Sănătatea gingiilor și parodonțiului.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Chirurgie Dentară</summary>
+        <p>Extracții și mici intervenții chirurgicale.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Odontoterapie</summary>
+        <p>Tratarea cariilor dentare.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Endodonție</summary>
+        <p>Tratament de canal precis.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Protetică Dentară</summary>
+        <p>Coroane, punți și proteze.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Ortodonție</summary>
+        <p>Aparate dentare și aliniere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Radiologie Dentară</summary>
+        <p>Imagistică digitală de precizie.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -2384,8 +2405,8 @@
             <select id="f-voucher-2" name="voucher">
               <option value="" selected>Fără voucher</option>
               <option value="Albire dentară — 990 lei">Albire dentară — 990 lei</option>
-              <option value="Consultație + igienizare — 300 lei">Consultație + igienizare — 300 lei</option>
-              <option value="Consultație + obturație — 300 lei">Consultație + obturație — 300 lei</option>
+              <option value="Consultație + igienizare — 299 lei">Consultație + igienizare — 299 lei</option>
+              <option value="Consultație + obturație — 299 lei">Consultație + obturație — 299 lei</option>
             </select>
           </div>
         </div>
@@ -2555,8 +2576,8 @@
             <select id="f-voucher" name="voucher">
               <option value="" selected>Fără voucher</option>
               <option value="Albire dentară — 990 lei">Albire dentară — 990 lei</option>
-              <option value="Consultație + igienizare — 300 lei">Consultație + igienizare — 300 lei</option>
-              <option value="Consultație + obturație — 300 lei">Consultație + obturație — 300 lei</option>
+              <option value="Consultație + igienizare — 299 lei">Consultație + igienizare — 299 lei</option>
+              <option value="Consultație + obturație — 299 lei">Consultație + obturație — 299 lei</option>
             </select>
           </div>
         </div>
@@ -3456,13 +3477,6 @@
     }
 
     var MOTION_OK = '(prefers-reduced-motion: no-preference)';
-    // Specializations galaxy: 3D ring on phones/tablets only (solar system on desktop).
-    ring3d(
-      document.querySelector('#tratamente .galaxy'),
-      '(max-width: 899px) and ' + MOTION_OK,
-      -12,
-      false
-    );
     // Results gallery: 3D ring on ALL widths (mobile + desktop), any photo count.
     ring3d(
       document.querySelector('#rezultate .ph-grid'),
