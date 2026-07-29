@@ -121,18 +121,93 @@ OFFER_CSS = '''  /* ---------- hero „ofertă" (titlu mai lung => plafonat) ---
     background: var(--gold); flex: 0 0 auto;
   }
   @media (min-width: 768px) { .hero--offer .hero-note { font-size: 13.5px; } }
+  /* perioada ofertei e argumentul principal — o scriem mare, nu ca eyebrow mic */
+  .hero--offer .hero-eyebrow {
+    font-size: 16px; letter-spacing: .09em; font-weight: 700; line-height: 1.3;
+  }
+  @media (min-width: 768px) { .hero--offer .hero-eyebrow { font-size: 24px; } }
+  @media (min-width: 1200px) { .hero--offer .hero-eyebrow { font-size: 28px; } }
+  /* countdown până la finalul ofertei */
+  .hero-countdown { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .hero-countdown__label {
+    font-family: var(--sans); font-size: 12px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; color: #e7dcc9;
+  }
+  .hero-countdown__boxes { display: flex; gap: 8px; }
+  .cd-box {
+    min-width: 62px; padding: 8px 6px 7px; border-radius: 12px;
+    border: 1px solid var(--card-border-gold); background: rgba(0, 0, 0, .5);
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  .cd-box b {
+    font-family: var(--serif); font-size: 24px; font-weight: 600; line-height: 1;
+    color: var(--gold); font-variant-numeric: tabular-nums;
+  }
+  .cd-box i {
+    font-family: var(--sans); font-style: normal; font-size: 10px;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--text-body);
+  }
+  @media (min-width: 768px) {
+    .hero-countdown__label { font-size: 13px; }
+    .cd-box { min-width: 76px; padding: 10px 8px 9px; }
+    .cd-box b { font-size: 30px; }
+    .cd-box i { font-size: 11px; }
+  }
 
 '''
+
+# Ceasul rulează o dată pe secundă și se ascunde singur după termen, ca pagina
+# să nu rămână cu un countdown expirat dacă oferta nu e actualizată la timp.
+COUNTDOWN_JS = '''
+  // ===== Countdown ofertă =====
+  (function () {
+    var el = document.querySelector('[data-deadline]');
+    if (!el) return;
+    var end = Date.parse(el.getAttribute('data-deadline'));
+    if (isNaN(end)) return;
+    var out = {};
+    ['d', 'h', 'm', 's'].forEach(function (k) { out[k] = el.querySelector('[data-cd="' + k + '"]'); });
+    if (!out.d || !out.h || !out.m || !out.s) return;
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    var timer;
+    function tick() {
+      var left = end - Date.now();
+      if (left <= 0) { el.hidden = true; if (timer) clearInterval(timer); return; }
+      var s = Math.floor(left / 1000);
+      out.d.textContent = Math.floor(s / 86400);
+      out.h.textContent = pad(Math.floor(s / 3600) % 24);
+      out.m.textContent = pad(Math.floor(s / 60) % 60);
+      out.s.textContent = pad(s % 60);
+    }
+    tick();
+    timer = setInterval(tick, 1000);
+  })();
+'''
+
+JS_ANCHOR = '  })();\n</script>\n<!-- ============ COOKIE NOTICE ============ -->'
 
 WA_ICON = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
            '<path d="M17.6 14.2c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.2-.7-1.7-.9-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.3-.7.3-1.2.2-1.4-.1-.2-.3-.3-.6-.4z"/>'
            '<path d="M20.5 3.5C18.3 1.2 15.3 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.5c-1.8 0-3.5-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.4 0-5.5 4.5-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.5-4.5 10-9.9 10z"/></svg>')
 
 
-def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary, note=''):
+def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary, note='',
+               countdown=None):
     """Hero clasic (video pe fundal) — pentru paginile de ofertă."""
     lis = '\n'.join('      <li>%s</li>' % b for b in bullets)
     note_html = '\n    <p class="hero-note">%s</p>\n' % note if note else ''
+    if countdown:
+        note_html += '''
+    <div class="hero-countdown" data-deadline="%s">
+      <span class="hero-countdown__label">%s</span>
+      <div class="hero-countdown__boxes">
+        <span class="cd-box"><b data-cd="d">--</b><i>zile</i></span>
+        <span class="cd-box"><b data-cd="h">--</b><i>ore</i></span>
+        <span class="cd-box"><b data-cd="m">--</b><i>min</i></span>
+        <span class="cd-box"><b data-cd="s">--</b><i>sec</i></span>
+      </div>
+    </div>
+''' % (countdown['deadline'], countdown['label'])
     return '''<!-- ============ HERO ============ -->
 <section class="hero hero--offer">
   <div class="hero-media" aria-hidden="true">
@@ -150,7 +225,7 @@ def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary, note='
     </video>
   </div>
   <div class="container hero-inner">
-    <span class="label-gold">%s</span>
+    <span class="label-gold hero-eyebrow">%s</span>
     <h1 class="display">
       %s
       <em>%s</em>
@@ -252,8 +327,11 @@ VARIANTS = [
                      'Detartraj + periaj + Airflow',
                      'Preț total — include toate costurile'],
             secondary='Rezervă voucherul',
-            note='Rezervi voucherul până pe 31 august.',
+            # ora României în august e UTC+3 (EEST)
+            countdown={'deadline': '2026-08-31T23:59:59+03:00',
+                       'label': 'Rezervi voucherul până pe 31 august'},
         ),
+        'extra_js': COUNTDOWN_JS,
     },
     {
         'slug': 'gingii-care-sangereaza',
@@ -337,6 +415,11 @@ def build(base, v):
     if v.get('extra_css'):
         assert s.count(CSS_ANCHOR) == 1, (v['slug'], 'ancoră CSS')
         s = s.replace(CSS_ANCHOR, v['extra_css'] + CSS_ANCHOR, 1)
+
+    # 5b) JS propriu variantei, la finalul scriptului principal.
+    if v.get('extra_js'):
+        assert s.count(JS_ANCHOR) == 1, (v['slug'], 'ancoră JS')
+        s = s.replace(JS_ANCHOR, '  })();\n' + v['extra_js'] + JS_ANCHOR[len('  })();\n'):], 1)
 
     # 6) Sursa lead-ului — ca să știm din ce pagină a venit.
     s = s.replace("'Sursa: Landing Page Meta (oferte-voucher)'",
