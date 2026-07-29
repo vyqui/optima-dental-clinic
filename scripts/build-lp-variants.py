@@ -108,6 +108,19 @@ OFFER_CSS = '''  /* ---------- hero „ofertă" (titlu mai lung => plafonat) ---
   .hero--offer::before {
     background: linear-gradient(180deg, rgba(11, 15, 13, .80) 0%, rgba(11, 15, 13, .68) 45%, rgba(11, 15, 13, .88) 100%);
   }
+  /* termenul ofertei — pastilă vizibilă, sub CTA-uri */
+  .hero--offer .hero-note {
+    margin: 0; display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 18px; border-radius: 999px;
+    border: 1px solid var(--card-border-gold); background: rgba(0, 0, 0, .42);
+    font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+    letter-spacing: .04em; color: #f0e6d4;
+  }
+  .hero--offer .hero-note::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--gold); flex: 0 0 auto;
+  }
+  @media (min-width: 768px) { .hero--offer .hero-note { font-size: 13.5px; } }
 
 '''
 
@@ -116,9 +129,10 @@ WA_ICON = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
            '<path d="M20.5 3.5C18.3 1.2 15.3 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.7 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.3zM12 21.5c-1.8 0-3.5-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.4 0-5.5 4.5-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7-.1 5.5-4.5 10-9.9 10z"/></svg>')
 
 
-def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary):
+def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary, note=''):
     """Hero clasic (video pe fundal) — pentru paginile de ofertă."""
     lis = '\n'.join('      <li>%s</li>' % b for b in bullets)
+    note_html = '\n    <p class="hero-note">%s</p>\n' % note if note else ''
     return '''<!-- ============ HERO ============ -->
 <section class="hero hero--offer">
   <div class="hero-media" aria-hidden="true">
@@ -151,13 +165,13 @@ def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary):
       </a>
       <a class="btn btn-secondary" href="#programare-video">%s</a>
     </div>
-
+%s
     <ul class="feature-bullets">
 %s
     </ul>
   </div>
 </section>
-''' % (eyebrow, h1_top, h1_em, lead, wa_text, WA_ICON, secondary, lis)
+''' % (eyebrow, h1_top, h1_em, lead, wa_text, WA_ICON, secondary, note_html, lis)
 
 
 def hero_problem(wa_text, eyebrow, h1_top, h1_em, lead, bullets, photo, photo_alt,
@@ -228,7 +242,7 @@ VARIANTS = [
         'hero': hero_offer(
             wa_text=('Bun%C4%83%20ziua%2C%20a%C8%99%20dori%20voucherul%20de%20299%20lei'
                      '%20(consulta%C8%9Bie%20%2B%20igienizare%2Fobtura%C8%9Bie).'),
-            eyebrow='Ofertă valabilă acum',
+            eyebrow='Ofertă valabilă doar în luna august',
             h1_top='Consultație de specialitate + igienizare sau obturație',
             h1_em='doar 299 lei',
             lead=('Un singur preț, totul inclus: consultația la medicul specialist și, la '
@@ -238,6 +252,7 @@ VARIANTS = [
                      'Detartraj + periaj + Airflow',
                      'Preț total — include toate costurile'],
             secondary='Rezervă voucherul',
+            note='Rezervi voucherul până pe 31 august.',
         ),
     },
     {
