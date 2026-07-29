@@ -1217,6 +1217,19 @@
   .hero--offer::before {
     background: linear-gradient(180deg, rgba(11, 15, 13, .80) 0%, rgba(11, 15, 13, .68) 45%, rgba(11, 15, 13, .88) 100%);
   }
+  /* termenul ofertei — pastilă vizibilă, sub CTA-uri */
+  .hero--offer .hero-note {
+    margin: 0; display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 18px; border-radius: 999px;
+    border: 1px solid var(--card-border-gold); background: rgba(0, 0, 0, .42);
+    font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+    letter-spacing: .04em; color: #f0e6d4;
+  }
+  .hero--offer .hero-note::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--gold); flex: 0 0 auto;
+  }
+  @media (min-width: 768px) { .hero--offer .hero-note { font-size: 13.5px; } }
 
   /* ---------- specializări (FAQ accordion) ---------- */
   .faq-spec { max-width: 660px; margin: 26px auto 0; }
@@ -2062,7 +2075,7 @@
     </video>
   </div>
   <div class="container hero-inner">
-    <span class="label-gold">Ofertă valabilă acum</span>
+    <span class="label-gold">Ofertă valabilă doar în luna august</span>
     <h1 class="display">
       Consultație de specialitate + igienizare sau obturație
       <em>doar 299 lei</em>
@@ -2077,6 +2090,8 @@
       </a>
       <a class="btn btn-secondary" href="#programare-video">Rezervă voucherul</a>
     </div>
+
+    <p class="hero-note">Rezervi voucherul până pe 31 august.</p>
 
     <ul class="feature-bullets">
       <li>Consultație completă la specialist</li>
