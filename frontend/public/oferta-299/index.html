@@ -1806,14 +1806,54 @@
      classes are removed after the animation so hover transitions take over) */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(16px);
   }
   .reveal.in {
     opacity: 1;
     transform: none;
     transition:
-      opacity 0.7s ease,
-      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.3s ease,
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+
+  /* Text: o mască urcă peste rânduri, deci titlul „iese" din linie în loc să
+     apară dintr-odată. `em`-urile din titluri sunt display:block, aşa că o
+     singură mască pe titlu dezvăluie rând cu rând — fără JS care taie textul.
+     Starea finală lasă 14% pe dedesubt, ca să nu reteze diacriticele coborâte
+     şi drop-shadow-ul auriu. */
+  .tx-reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    -webkit-clip-path: inset(0 0 102% 0);
+    clip-path: inset(0 0 102% 0);
+  }
+  .tx-reveal.in {
+    opacity: 1;
+    transform: none;
+    -webkit-clip-path: inset(0 0 -14% 0);
+    clip-path: inset(0 0 -14% 0);
+    transition:
+      opacity 0.2s ease,
+      transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      -webkit-clip-path 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      clip-path 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+
+  /* Imagini: clasa stă pe <figure>, dar animăm <img> din interior. Pe
+     caruselele 3D ring3d scrie chiar transform + opacity pe figure, deci dacă
+     l-am anima aici s-ar călca reciproc. */
+  .im-reveal img {
+    opacity: 0;
+    transform: scale(1.045);
+  }
+  .im-reveal.in img {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.3s ease,
+      transform 0.46s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: var(--reveal-delay, 0s);
   }
 
@@ -3228,9 +3268,28 @@
       //     landing-page lead so the script titles the email "LP Lead: <name>"
       //     and every field below is listed. no-cors keeps it preflight-free;
       //     the response is opaque, so the toast keys off network success.
+      // ATENŢIE la logica de mai jos: `mode: 'no-cors'` dă un răspuns opac, iar
+      // Apps Script răspunde cu 302 către script.googleusercontent.com. Chrome
+      // REJECTEAZĂ fetch-ul pentru redirect cross-origin în no-cors — chiar şi
+      // când POST-ul a ajuns şi lead-ul apare în sheet. Deci o respingere aici
+      // NU înseamnă eşec, iar confirmarea nu se poate lega de promisiune:
+      // plecăm spre pagina de mulţumire cum se decide, oricum s-ar decide, iar
+      // dacă nu se decide deloc pleacă timeout-ul. keepalive ţine POST-ul în
+      // viaţă peste navigare.
+      var navigated = false;
+      function goThankYou() {
+        if (navigated) return;
+        navigated = true;
+        clearTimeout(failSafe);
+        form.reset();
+        location.assign(THANK_YOU_URL);
+      }
+      if (navigator.onLine === false) { showError(); return; }
+      var failSafe = setTimeout(goThankYou, 1200);
       fetch(LEAD_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
+        keepalive: true,
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(Object.assign({
           source: 'landing',
@@ -3250,8 +3309,8 @@
           message: payload.message
         }, trackingPairs()))
       })
-        .then(() => { form.reset(); location.assign(THANK_YOU_URL); })
-        .catch(showError);
+        .then(goThankYou)
+        .catch(goThankYou);
       // (3) Server-side Meta CAPI Lead via the Netlify Function (same origin);
       //     deduplicated with the browser Pixel event by event_id. Best-effort.
       //     Only when the visitor accepted marketing cookies.
@@ -3609,44 +3668,112 @@
   })();
 
   // ===== Scroll-reveal =====
-  // Class is added here (not in markup) so content stays visible without JS.
-  // .planet/.galaxy-sun are excluded: their desktop layout lives in `transform`.
-  (function() {
+  // Clasele se adaugă din JS (nu în markup), ca fără JS conţinutul să rămână
+  // vizibil, şi se scot după animaţie ca tranziţiile de hover să preia elementul.
+  (function () {
     if (!('IntersectionObserver' in window)) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var els = document.querySelectorAll(
-      '.heading-group, .free-card, .voucher-card, .review-card, ' +
-      '.booking-feature, .whyus-item, .contact-row, .stats-card, ' +
-      '.booking-form, .map-wrap, .photo-frame'
-    );
-    function finish(el) {
-      el.classList.remove('reveal', 'in');
-      el.style.removeProperty('--reveal-delay');
+
+    var STAGGER = 0.04, CAP = 0.16;
+    var primed = [];
+
+    var TEXT = ':scope > .label-gold, :scope > h1, :scope > h2, ' +
+               ':scope > .lead, :scope > p';
+    var BLOCK = '.free-card, .voucher-card, .review-card, .booking-feature, ' +
+                '.whyus-item, .contact-row, .stats-card, .booking-form, .map-wrap';
+    var IMAGE = '.photo-frame';
+
+    function reveal(el, cls) {
+      if (el.classList.contains('in')) return;
+      el.classList.add('in');
+      var done = false;
+      function cleanup() {
+        if (done) return;
+        done = true;
+        el.removeEventListener('transitionend', onEnd);
+        el.classList.remove(cls, 'in');
+        el.style.removeProperty('--reveal-delay');
+      }
+      function onEnd(ev) { if (ev.propertyName === 'transform') cleanup(); }
+      el.addEventListener('transitionend', onEnd);
+      setTimeout(cleanup, 1400);   // dacă transitionend nu vine (tab ascuns etc.)
     }
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(en) {
+
+    function prime(el, cls, i) {
+      el.classList.add(cls);
+      el.style.setProperty('--reveal-delay', Math.min(i * STAGGER, CAP).toFixed(2) + 's');
+      primed.push([el, cls]);
+    }
+
+    // (1) Elemente care se declanşează singure.
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
         if (!en.isIntersecting) return;
-        var el = en.target;
-        io.unobserve(el);
-        el.classList.add('in');
-        var done = false;
-        el.addEventListener('transitionend', function onEnd(ev) {
-          if (ev.propertyName !== 'transform' || done) return;
-          done = true;
-          el.removeEventListener('transitionend', onEnd);
-          finish(el);
-        });
-        // fallback in case transitionend never fires (hidden tab etc.)
-        setTimeout(function() { if (!done) { done = true; finish(el); } }, 1600);
+        io.unobserve(en.target);
+        reveal(en.target, en.target.getAttribute('data-reveal'));
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    els.forEach(function(el) {
-      el.classList.add('reveal');
-      var parent = el.parentElement;
-      var idx = parent ? Array.prototype.indexOf.call(parent.children, el) : 0;
-      el.style.setProperty('--reveal-delay', Math.min(idx * 0.08, 0.4).toFixed(2) + 's');
-      io.observe(el);
+
+    [[BLOCK, 'reveal'], [IMAGE, 'im-reveal']].forEach(function (pair) {
+      [].forEach.call(document.querySelectorAll(pair[0]), function (el) {
+        var parent = el.parentElement;
+        var i = parent ? [].indexOf.call(parent.children, el) : 0;
+        el.setAttribute('data-reveal', pair[1]);
+        prime(el, pair[1], i);
+        io.observe(el);
+      });
     });
+
+    // (2) Text: observăm .heading-group, NU titlul. clip-path reduce la zero
+    // aria vizibilă a elementului, iar IntersectionObserver ţine cont de
+    // clipping — un observer pus direct pe titlul mascat nu s-ar declanşa
+    // niciodată. Întârzierile per rând vin din --reveal-delay, setat la prime().
+    var tio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        tio.unobserve(en.target);
+        [].forEach.call(en.target.querySelectorAll('.tx-reveal'), function (el) {
+          reveal(el, 'tx-reveal');
+        });
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    [].forEach.call(document.querySelectorAll('.heading-group'), function (group) {
+      var kids = group.querySelectorAll(TEXT);
+      if (!kids.length) return;
+      [].forEach.call(kids, function (el, i) { prime(el, 'tx-reveal', i); });
+      tio.observe(group);
+    });
+
+    // (3) Caruselele: declanşăm din container, nu din fiecare poză. Cardurile
+    // din spatele inelului 3D pot să nu intersecteze niciodată viewportul, iar
+    // un gate individual le-ar lăsa invizibile pe vecie.
+    var gio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        gio.unobserve(en.target);
+        [].forEach.call(en.target.querySelectorAll('.img-ph--filled'), function (fig, i) {
+          setTimeout(function () { reveal(fig, 'im-reveal'); }, Math.min(i * 40, 200));
+        });
+      });
+    }, { threshold: 0.08 });
+
+    [].forEach.call(document.querySelectorAll('.ph-grid'), function (grid) {
+      // întârzierea vine din setTimeout mai sus, nu din CSS
+      [].forEach.call(grid.querySelectorAll('.img-ph--filled'), function (fig) {
+        prime(fig, 'im-reveal', 0);
+      });
+      gio.observe(grid);
+    });
+
+    // (4) Plasă de siguranţă: nimic nu are voie să rămână ascuns dacă, din
+    // orice motiv, nu ajunge să intersecteze viewportul.
+    setTimeout(function () {
+      primed.forEach(function (p) {
+        if (p[0].classList.contains(p[1])) reveal(p[0], p[1]);
+      });
+      primed = [];
+    }, 4000);
   })();
 
   // ===== Count-up stats =====
