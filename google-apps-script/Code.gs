@@ -5,13 +5,15 @@
  * the site POSTs JSON here; this script logs the lead to the spreadsheet and
  * emails the clinic. It routes by the `source` the site sends:
  *
- *   source "landing" — Meta landing page (oferte-voucher) booking form
- *                      → subject "LP Lead: <name>", lists EVERY field
+ *   source "landing" — any landing-page booking form
+ *                      → subject "LP Lead (<pagina>): <name>", lists EVERY field
  *   source "popup"   — main-site appointment pop-up (name + phone only)
  *   source "contact" — main-site contact page form
  *
  * An explicit `subject` from the site wins over the per-source default, so
- * future subject changes need no edit here.
+ * future subject changes need no edit here. Same for `source_label`: the
+ * landing pages derive it from their own URL, so a new landing page shows up
+ * correctly here without touching this script.
  *
  * TO UPDATE (keeps the same /exec URL, so the website needs no change):
  *   1. Open this Apps Script project (it is bound to the "Cereri consult" sheet).
@@ -41,6 +43,20 @@ function doPost(e) {
     var oraPref  = (data.ora_preferata || '').toString().trim();
     var message  = (data.message || '').toString().trim();
 
+    // Provenienţa: landing-urile trimit pagina şi parametrii reclamei, deduse
+    // din URL la trimitere. Câmpurile lipsesc la formularele mai vechi, deci
+    // totul e opţional.
+    var pagina = (data.pagina || '').toString().trim();
+    var pageUrl = (data.url || '').toString().trim();
+    var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content',
+                      'utm_term', 'fbclid', 'gclid'];
+    var adBits = [];
+    for (var i = 0; i < TRACK_KEYS.length; i++) {
+      var v = (data[TRACK_KEYS[i]] || '').toString().trim();
+      if (v) adBits.push(TRACK_KEYS[i] + '=' + v);
+    }
+    var reclama = adBits.join(' | ');
+
     // Subject + human-readable source label. Explicit client values win, so a
     // new landing page (Google, TikTok, …) only needs its own subject +
     // source_label — no change here.
@@ -60,9 +76,11 @@ function doPost(e) {
     // --- Log to the spreadsheet (all fields; extra columns are fine) ---
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LEAD_SHEET_NAME);
     if (sheet) {
+      // Coloanele noi sunt adăugate la final, deci coloanele existente nu se mişcă.
       sheet.appendRow([
         timestamp, sourceLabel, name, phone, email,
-        service, voucher, dataPref, oraPref, message
+        service, voucher, dataPref, oraPref, message,
+        pagina, pageUrl, reclama
       ]);
     }
 
@@ -82,6 +100,9 @@ function doPost(e) {
     // For landing leads the discrete fields above already cover the message.
     if (source !== 'landing') add('Mesaj', message);
     add('Sursa', sourceLabel);
+    add('Pagina', pagina);
+    add('Reclamă', reclama);
+    add('URL', pageUrl);
     add('Data', timestamp);
 
     var body = 'Lead nou de pe site:\n\n' + rows.join('\n');

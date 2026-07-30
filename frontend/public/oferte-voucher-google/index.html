@@ -2976,6 +2976,29 @@
   // Google Sheet and emails the clinic.
   const LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzZY_vDjoVkxUcfkdyw5RPM1567tEVQTZ0wmHoVD1V3b-0hW-LVfj3pTiBTxpGqsyA/exec';
 
+  // ===== Provenienţa lead-ului =====
+  // Derivată din URL la trimitere, nu configurată per pagină: orice landing
+  // nou (o problemă, o ofertă, un test) se identifică singur, fără să mai
+  // atingem scriptul. `source_label` e câmpul pe care Apps Script îl trimite
+  // deja în email ca „Sursa", deci pagina apare acolo fără redeploy.
+  const PAGE_PATH  = location.pathname.replace(/index\.html$/, '') || '/';
+  const PAGE_SLUG  = PAGE_PATH.replace(/^\/+|\/+$/g, '') || 'site';
+  const PAGE_LABEL = 'Landing ' + PAGE_PATH;
+  // utm_* şi click-id-urile spun din ce reclamă a venit lead-ul, nu doar din
+  // ce pagină — le luăm din query string dacă există.
+  const TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
+  function trackingPairs() {
+    const out = {};
+    let q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return out; }
+    TRACK_KEYS.forEach(function (k) { const v = q.get(k); if (v) out[k] = v; });
+    return out;
+  }
+  function trackingLines() {
+    const t = trackingPairs();
+    return Object.keys(t).map(function (k) { return k + ': ' + t[k]; }).join('\n');
+  }
+
   // ===== Form submit =====
   const toast = document.getElementById('toast');
   document.querySelectorAll('form.booking-form').forEach(form => {
@@ -3071,7 +3094,10 @@
         'Voucher: ' + voucher + '\n' +
         'Data preferată: ' + dataPref + '\n' +
         'Ora preferată: ' + oraPref + '\n' +
-        'Sursa: Landing Page Google (oferte-voucher)';
+        'Pagina: ' + PAGE_PATH + '\n' +
+        'URL: ' + location.href + '\n' +
+        'Sursa: ' + PAGE_LABEL +
+        (trackingLines() ? '\n' + trackingLines() : '');
       const payload = {
         name: fullName,
         email: val('email'),
@@ -3108,7 +3134,7 @@
         fetch(ZAPIER_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
+          body: new URLSearchParams(Object.assign({
             nume: val('nume'),
             prenume: val('prenume'),
             nume_complet: payload.name,
@@ -3118,9 +3144,11 @@
             voucher: voucher,
             data_preferata: dataPref,
             ora_preferata: oraPref,
-            sursa: 'Landing Page Google',
+            sursa: PAGE_LABEL,
+            pagina: PAGE_PATH,
+            url: location.href,
             data_trimitere: new Date().toISOString()
-          }).toString()
+          }, trackingPairs())).toString()
         }).catch(function () {});
       }
       // (2) Log the lead to the Google Sheet + email the clinic (Apps Script —
@@ -3132,10 +3160,12 @@
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
+        body: JSON.stringify(Object.assign({
           source: 'landing',
-          source_label: 'Landing Page Google (oferte-voucher)',
-          subject: 'Google Lead: ' + (payload.name || 'Necunoscut'),
+          source_label: PAGE_LABEL,
+          pagina: PAGE_PATH,
+          url: location.href,
+          subject: 'LP Lead (' + PAGE_SLUG + '): ' + (payload.name || 'Necunoscut'),
           name: payload.name,
           first_name: val('prenume'),
           last_name: val('nume'),
@@ -3146,7 +3176,7 @@
           data_preferata: dataPref,
           ora_preferata: oraPref,
           message: payload.message
-        })
+        }, trackingPairs()))
       })
         .then(() => showToast(true))
         .catch(() => showToast(false))
