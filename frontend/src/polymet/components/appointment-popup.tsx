@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
-import { LEAD_ENDPOINT } from "@/lib/leadEndpoint";
+import { LEAD_ENDPOINT, THANK_YOU_URL } from "@/lib/leadEndpoint";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -79,7 +79,9 @@ export function AppointmentPopup() {
         }),
       });
       setStatus("success");
-      setTimeout(dismiss, 3000);
+      // Same confirmation page as every other form on the site. It lives in
+      // public/, so this is a real navigation out of the SPA — not a route.
+      window.location.assign(THANK_YOU_URL);
     } catch {
       setStatus("error");
     }

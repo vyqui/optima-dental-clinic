@@ -2976,6 +2976,9 @@
   // Google Sheet and emails the clinic.
   const LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzZY_vDjoVkxUcfkdyw5RPM1567tEVQTZ0wmHoVD1V3b-0hW-LVfj3pTiBTxpGqsyA/exec';
 
+  // Pagina de confirmare, aceeaşi pentru toate formularele.
+  const THANK_YOU_URL = '/thank-you-page/';
+
   // ===== Provenienţa lead-ului =====
   // Derivată din URL la trimitere, nu configurată per pagină: orice landing
   // nou (o problemă, o ofertă, un test) se identifică singur, fără să mai
@@ -3120,19 +3123,23 @@
       }
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) submitBtn.disabled = true;
-      const TOAST_OK = 'Cererea a fost trimisă. Te contactăm în 24 ore.';
+      // La succes plecăm spre pagina de mulţumire, deci toast-ul rămâne doar
+      // pentru eşec — plus reactivarea butonului, ca să se poată reîncerca.
       const TOAST_FAIL = 'Nu am putut trimite cererea. Te rugăm să încerci din nou sau sună-ne direct.';
-      const showToast = (ok) => {
-        toast.textContent = ok ? TOAST_OK : TOAST_FAIL;
+      const showError = () => {
+        toast.textContent = TOAST_FAIL;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 5000);
-        if (ok) form.reset();
+        if (submitBtn) submitBtn.disabled = false;
       };
       // (1) Optional: push every field to a Zapier "Catch Hook" (-> Google Sheets).
       //     Form-encoded body avoids CORS preflight; fire-and-forget so it never blocks the UX.
       if (ZAPIER_WEBHOOK_URL) {
         fetch(ZAPIER_WEBHOOK_URL, {
           method: 'POST',
+          // keepalive: navigăm spre pagina de mulţumire imediat după ce
+          // Apps Script răspunde, iar fără el requestul ăsta ar fi anulat.
+          keepalive: true,
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(Object.assign({
             nume: val('nume'),
@@ -3178,15 +3185,15 @@
           message: payload.message
         }, trackingPairs()))
       })
-        .then(() => showToast(true))
-        .catch(() => showToast(false))
-        .finally(() => { if (submitBtn) submitBtn.disabled = false; });
+        .then(() => { form.reset(); location.assign(THANK_YOU_URL); })
+        .catch(showError);
       // (3) Server-side Meta CAPI Lead via the Netlify Function (same origin);
       //     deduplicated with the browser Pixel event by event_id. Best-effort.
       //     Only when the visitor accepted marketing cookies.
       if (window.hasCookieConsent && window.hasCookieConsent())
       fetch('/.netlify/functions/meta-capi', {
         method: 'POST',
+        keepalive: true,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           event_name: 'Lead',
