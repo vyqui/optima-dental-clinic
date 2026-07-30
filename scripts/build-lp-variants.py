@@ -9,8 +9,11 @@ secțiuni) și schimbă doar:
 
   * hero-ul (copy propriu + opțional o poză sugestivă),
   * ordinea secțiunilor (ex. voucherele mutate imediat sub hero),
-  * title / meta description,
-  * eticheta de sursă a lead-ului, ca să știm din ce pagină a venit.
+  * title / meta description.
+
+Sursa lead-ului NU se configurează aici: formularul o deduce singur din
+`location.pathname` la trimitere, deci orice pagină (generată sau scrisă de
+mână) se identifică fără nicio setare.
 
 Rulează după orice modificare a paginii de bază:
 
@@ -309,8 +312,6 @@ VARIANTS = [
         'description': ('Consultație de specialitate plus igienizare profesională '
                         '(detartraj, periaj, Airflow) sau obturație, la 299 lei. '
                         'Preț total, fără costuri ascunse. Optima Dental Clinic, București.'),
-        'source': 'Landing Page 299',
-        'subject': 'LP 299 Lead',
         'move_vouchers_after_hero': True,
         'active_voucher': 'igienizare',
         'extra_css': OFFER_CSS,
@@ -339,8 +340,6 @@ VARIANTS = [
         'description': ('Sângerarea gingiilor la periaj este primul semn de inflamație. '
                         'Consultație parodontală și igienizare profesională la Optima '
                         'Dental Clinic București — depistăm și tratăm cauza din prima vizită.'),
-        'source': 'Landing Page Gingii',
-        'subject': 'LP Gingii Lead',
         'move_vouchers_after_hero': False,
         'active_voucher': 'igienizare',
         'extra_css': PROBLEM_CSS,
@@ -421,12 +420,10 @@ def build(base, v):
         assert s.count(JS_ANCHOR) == 1, (v['slug'], 'ancoră JS')
         s = s.replace(JS_ANCHOR, '  })();\n' + v['extra_js'] + JS_ANCHOR[len('  })();\n'):], 1)
 
-    # 6) Sursa lead-ului — ca să știm din ce pagină a venit.
-    s = s.replace("'Sursa: Landing Page Meta (oferte-voucher)'",
-                  "'Sursa: %s'" % v['source'], 1)
-    s = s.replace("sursa: 'Landing Page Meta',", "sursa: '%s'," % v['source'], 1)
-    s = s.replace("subject: 'LP Lead: '", "subject: '%s: '" % v['subject'], 1)
-    assert v['source'] in s and v['subject'] in s, (v['slug'], 'etichete lead')
+    # 6) Sursa lead-ului nu se mai rescrie aici: formularul o deduce singur din
+    #    `location.pathname` la trimitere, deci fiecare pagină se identifică
+    #    fără configurare — inclusiv paginile scrise de mână, nu doar acestea.
+    assert 'PAGE_LABEL' in s, (v['slug'], 'lipseşte deducerea paginii din pagina de bază')
 
     # 7) Asset-urile sunt cele ale paginii de bază (ca la varianta Google).
     s = s.replace(CREATIVES_FROM, CREATIVES_TO)
