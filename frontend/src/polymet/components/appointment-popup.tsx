@@ -67,24 +67,28 @@ export function AppointmentPopup() {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
     setStatus("loading");
-    try {
-      await fetch(LEAD_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify({
-          name,
-          phone: countryCode + phone,
-          source: "popup",
-        }),
-      });
-      setStatus("success");
-      // Same confirmation page as every other form on the site. It lives in
-      // public/, so this is a real navigation out of the SPA — not a route.
-      window.location.assign(THANK_YOU_URL);
-    } catch {
-      setStatus("error");
-    }
+    if (navigator.onLine === false) { setStatus("error"); return; }
+    // `mode: "no-cors"` gives an opaque response and Apps Script answers with a
+    // 302 to script.googleusercontent.com — Chrome rejects a cross-origin
+    // redirect in no-cors mode even though the POST landed and the lead reaches
+    // the sheet. So a rejection here is not evidence of failure; swallow it and
+    // treat the attempt as sent. keepalive keeps the POST alive across the
+    // navigation below.
+    await fetch(LEAD_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({
+        name,
+        phone: countryCode + phone,
+        source: "popup",
+      }),
+    }).catch(() => undefined);
+    setStatus("success");
+    // Same confirmation page as every other form on the site. It lives in
+    // public/, so this is a real navigation out of the SPA — not a route.
+    window.location.assign(THANK_YOU_URL);
   };
 
   if (!isOpen) return null;
