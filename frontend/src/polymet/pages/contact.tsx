@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,7 +13,7 @@ import {
   SendIcon
 } from "lucide-react";
 import MapAtLocation from "@/components/MapAtLocation";
-import { LEAD_ENDPOINT } from "@/lib/leadEndpoint";
+import { LEAD_ENDPOINT, THANK_YOU_URL } from "@/lib/leadEndpoint";
 
 const contactInfo = [
   {
@@ -75,7 +74,6 @@ const faqs = [
 ];
 
 export const ContactPage: React.FC = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -144,7 +142,7 @@ export const ContactPage: React.FC = () => {
 
     Promise.allSettled([leadReq, capiReq]).then(() => {
       setIsSending(false);
-      navigate("/thank-you");
+      window.location.assign(THANK_YOU_URL);
     });
   };
 
