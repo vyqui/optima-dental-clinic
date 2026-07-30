@@ -253,7 +253,7 @@ def hero_offer(wa_text, eyebrow, h1_top, h1_em, lead, bullets, secondary, note='
 
 
 def hero_problem(wa_text, eyebrow, h1_top, h1_em, lead, bullets, photo, photo_alt,
-                 caption, photo_fallback, secondary='Cere o programare'):
+                 caption, secondary='Cere o programare'):
     """Hero „problemă": copy + poză sugestivă, fără video."""
     lis = '\n'.join('        <li>%s</li>' % b for b in bullets)
     return '''<!-- ============ HERO ============ -->
@@ -274,9 +274,10 @@ def hero_problem(wa_text, eyebrow, h1_top, h1_em, lead, bullets, photo, photo_al
       <img
         src="%s"
         alt="%s"
+        width="880"
+        height="660"
         fetchpriority="high"
         decoding="async"
-        onerror="this.onerror=null;this.src='%s';"
       />
       <figcaption>%s</figcaption>
     </figure>
@@ -297,7 +298,7 @@ def hero_problem(wa_text, eyebrow, h1_top, h1_em, lead, bullets, photo, photo_al
   </div>
 </section>
 ''' % (eyebrow, h1_top, h1_em, lead,
-       photo, photo_alt, photo_fallback, caption,
+       photo, photo_alt, caption,
        wa_text, WA_ICON, secondary, lis)
 
 
@@ -343,7 +344,7 @@ VARIANTS = [
         'move_vouchers_after_hero': False,
         'active_voucher': 'igienizare',
         'extra_css': PROBLEM_CSS,
-        'drop_hero_preload': True,
+        'preload_photo': '/assets/problema-gingii-sangereaza.jpg',
         'hero': hero_problem(
             wa_text=('Bun%C4%83%20ziua%2C%20%C3%AEmi%20sangereaz%C4%83%20gingiile%20'
                      '%C8%99i%20a%C8%99%20dori%20o%20consulta%C8%9Bie.'),
@@ -359,10 +360,9 @@ VARIANTS = [
                      'Detartraj + periaj + Airflow',
                      'Plan de tratament personalizat'],
             photo='/assets/problema-gingii-sangereaza.jpg',
-            photo_alt=('Consultație parodontală pentru gingii care sângerează la '
-                       'Optima Dental Clinic'),
+            photo_alt=('Măr mușcat cu urme de sânge pe miez — semnul clasic al '
+                       'gingiilor care sângerează la mușcat sau la periaj'),
             caption='Evaluăm cauza sângerării încă din prima consultație.',
-            photo_fallback='/assets/optima-interior3.webp',
         ),
     },
 ]
@@ -390,11 +390,14 @@ def build(base, v):
     s = re.sub(r'<title>.*?</title>', '<title>%s</title>' % v['title'], s, count=1)
     s = re.sub(r'<meta name="description" content=".*?" />',
                '<meta name="description" content="%s" />' % v['description'], s, count=1, flags=re.S)
-    if v.get('drop_hero_preload'):
-        s = s.replace(
-            '<!-- hero paints instantly from the poster while the video buffers -->\n'
-            '<link rel="preload" as="image" href="Creatives/hero-optima-poster.jpg" fetchpriority="high" />\n',
-            '', 1)
+    # Poza din hero e elementul LCP al paginilor „problemă", nu posterul video.
+    if v.get('preload_photo'):
+        old = ('<!-- hero paints instantly from the poster while the video buffers -->\n'
+               '<link rel="preload" as="image" href="Creatives/hero-optima-poster.jpg" fetchpriority="high" />')
+        assert s.count(old) == 1, (v['slug'], 'preload')
+        s = s.replace(old,
+            '<!-- poza din hero e elementul LCP al paginii -->\n'
+            '<link rel="preload" as="image" href="%s" fetchpriority="high" />' % v['preload_photo'], 1)
 
     # 4) Voucherul relevant, deschis by default.
     av = v.get('active_voucher')
