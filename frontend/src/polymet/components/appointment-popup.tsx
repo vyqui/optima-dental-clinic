@@ -68,13 +68,27 @@ export function AppointmentPopup() {
     setErrors({});
     setStatus("loading");
     if (navigator.onLine === false) { setStatus("error"); return; }
-    // `mode: "no-cors"` gives an opaque response and Apps Script answers with a
-    // 302 to script.googleusercontent.com — Chrome rejects a cross-origin
-    // redirect in no-cors mode even though the POST landed and the lead reaches
-    // the sheet. So a rejection here is not evidence of failure; swallow it and
-    // treat the attempt as sent. keepalive keeps the POST alive across the
-    // navigation below.
-    await fetch(LEAD_ENDPOINT, {
+
+    // Do NOT await this. `mode: "no-cors"` gives an opaque response and Apps
+    // Script answers 302 to script.googleusercontent.com; that combination
+    // either rejects or — with keepalive — never settles at all, while the POST
+    // still lands and the lead still reaches the sheet. Awaiting it strands the
+    // popup on "loading" forever. So navigate when it settles, however it
+    // settles, and on a short timer if it never does. keepalive lets the
+    // request finish after we have left the page.
+    let navigated = false;
+    const go = () => {
+      if (navigated) return;
+      navigated = true;
+      window.clearTimeout(failSafe);
+      setStatus("success");
+      // The confirmation lives in public/, so this is a real navigation out of
+      // the SPA — not a react-router route.
+      window.location.assign(THANK_YOU_URL);
+    };
+    const failSafe = window.setTimeout(go, 1200);
+
+    fetch(LEAD_ENDPOINT, {
       method: "POST",
       mode: "no-cors",
       keepalive: true,
@@ -84,11 +98,7 @@ export function AppointmentPopup() {
         phone: countryCode + phone,
         source: "popup",
       }),
-    }).catch(() => undefined);
-    setStatus("success");
-    // Same confirmation page as every other form on the site. It lives in
-    // public/, so this is a real navigation out of the SPA — not a route.
-    window.location.assign(THANK_YOU_URL);
+    }).then(go, go);
   };
 
   if (!isOpen) return null;
