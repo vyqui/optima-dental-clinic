@@ -903,6 +903,25 @@
     margin-top: 24px;
     line-height: 1.6;
   }
+  /* ---------- acord GDPR (obligatoriu) ---------- */
+  .gdpr-field {
+    display: flex; align-items: flex-start; gap: 10px; margin-top: 16px;
+  }
+  .gdpr-field input[type="checkbox"] {
+    width: 18px; height: 18px; margin: 0; flex: 0 0 auto;
+    accent-color: var(--gold); cursor: pointer;
+  }
+  .gdpr-field label {
+    font-family: var(--sans); font-size: 12px; line-height: 1.45;
+    color: var(--text-body); cursor: pointer;
+  }
+  .gdpr-field a { color: var(--gold); text-decoration: underline; }
+  .gdpr-field.has-error label { color: #e57373; }
+  .gdpr-field.has-error input[type="checkbox"] {
+    outline: 2px solid #e57373; outline-offset: 2px;
+    animation: fieldShake 0.35s ease;
+  }
+
   .form-submit { margin-top: 24px; }
   .form-submit .btn {
     width: 100%;
@@ -2524,6 +2543,10 @@
           * Oferta este valabilă în baza completării integrale
           a formularului. Locuri limitate.
         </p>
+        <div class="gdpr-field">
+          <input id="f-gdpr-1" name="gdpr" type="checkbox" required />
+          <label for="f-gdpr-1">Sunt de acord cu prelucrarea datelor mele cu caracter personal, conform <a href="/politica-confidentialitate/" target="_blank" rel="noopener">Politicii de confidențialitate</a>.</label>
+        </div>
         <div class="form-submit">
           <button type="submit" class="btn btn-primary">Trimite cererea de programare</button>
         </div>
@@ -2695,6 +2718,10 @@
           * Oferta este valabilă în baza completării integrale
           a formularului. Locuri limitate.
         </p>
+        <div class="gdpr-field">
+          <input id="f-gdpr-2" name="gdpr" type="checkbox" required />
+          <label for="f-gdpr-2">Sunt de acord cu prelucrarea datelor mele cu caracter personal, conform <a href="/politica-confidentialitate/" target="_blank" rel="noopener">Politicii de confidențialitate</a>.</label>
+        </div>
         <div class="form-submit">
           <button type="submit" class="btn btn-primary">Trimite cererea de programare</button>
         </div>
@@ -3154,9 +3181,14 @@
     // clear the error state as soon as the user starts fixing a field
     form.querySelectorAll('[required]').forEach(el => {
       ['input', 'change'].forEach(evt => el.addEventListener(evt, () => {
-        const wrap = el.closest('.field');
+        const wrap = el.closest('.field, .gdpr-field');
         if (wrap) wrap.classList.remove('has-error');
       }));
+    });
+    // Link-ul stă în <label>, deci un click pe el ar bifa şi caseta. Oprim
+    // propagarea ca deschiderea politicii să nu dea consimţământ din greşeală.
+    form.querySelectorAll('.gdpr-field a').forEach(a => {
+      a.addEventListener('click', ev => ev.stopPropagation());
     });
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -3164,8 +3196,11 @@
       let valid = true;
       let firstBad = null;
       required.forEach(el => {
-        const bad = !el.value || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value));
-        const wrap = el.closest('.field');
+        // un checkbox are value "on" şi bifat, şi nebifat — contează doar .checked
+        const bad = el.type === 'checkbox'
+          ? !el.checked
+          : (!el.value || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)));
+        const wrap = el.closest('.field, .gdpr-field');
         if (wrap) {
           wrap.classList.remove('has-error');
           if (bad) {
@@ -3202,6 +3237,7 @@
         'Voucher: ' + voucher + '\n' +
         'Data preferată: ' + dataPref + '\n' +
         'Ora preferată: ' + oraPref + '\n' +
+        'Acord GDPR: ' + (form.querySelector('[name="gdpr"]') && form.querySelector('[name="gdpr"]').checked ? 'Da' : 'Nu') + '\n' +
         'Pagina: ' + PAGE_PATH + '\n' +
         'URL: ' + location.href + '\n' +
         'Sursa: ' + PAGE_LABEL +
