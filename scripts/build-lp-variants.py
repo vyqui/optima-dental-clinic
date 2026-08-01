@@ -38,6 +38,10 @@ CREATIVES_TO = '"/oferte-voucher-meta/Creatives/'
 HERO_RE = re.compile(r'<!-- =+ HERO =+ -->\n<section class="hero">.*?\n</section>\n', re.S)
 VOUCHERS_RE = re.compile(
     r'<!-- =+ VOUCHERS =+ -->\n<section class="bg-black" id="vouchere">.*?\n</section>\n', re.S)
+FORM_RE = re.compile(
+    r'<!-- =+ BOOKING FORM \(sub video\) =+ -->\n'
+    r'<section class="bg-teal" id="programare-video">.*?\n</section>\n', re.S)
+VIDEO_ANCHOR = '<!-- ============ VIDEO ============ -->'
 
 CSS_ANCHOR = '  /* ---------- specializări (FAQ accordion) ---------- */'
 
@@ -314,6 +318,7 @@ VARIANTS = [
                         '(detartraj, periaj, Airflow) sau obturație, la 299 lei. '
                         'Preț total, fără costuri ascunse. Optima Dental Clinic, București.'),
         'move_vouchers_after_hero': True,
+        'move_form_before_video': True,
         'active_voucher': 'igienizare',
         'extra_css': OFFER_CSS,
         'hero': hero_offer(
@@ -380,6 +385,19 @@ def build(base, v):
         s = s[:m.start()] + s[m.end():]
         # secțiunea lăsa în urmă un rând gol în plus
         s = s.replace('\n\n\n<!-- ============ PLATĂ ÎN RATE', '\n\n<!-- ============ PLATĂ ÎN RATE', 1)
+
+    # 1b) Formularul, opţional urcat deasupra secţiunii video.
+    if v.get('move_form_before_video'):
+        m = FORM_RE.search(s)
+        assert m, (v['slug'], 'nu am găsit secţiunea de formular')
+        form = m.group(0)
+        s = s[:m.start()] + s[m.end():]
+        s = s.replace('\n\n\n<!-- ============ BENEFITS', '\n\n<!-- ============ BENEFITS', 1)
+        # id-ul rămâne `programare-video` — e ţinta tuturor CTA-urilor şi a
+        # stilului formularului; doar comentariul ar minţi după mutare.
+        form = form.replace('BOOKING FORM (sub video)', 'BOOKING FORM (deasupra videoului)', 1)
+        assert s.count(VIDEO_ANCHOR) == 1, (v['slug'], 'ancoră video')
+        s = s.replace(VIDEO_ANCHOR, form + '\n' + VIDEO_ANCHOR, 1)
 
     # 2) Hero-ul propriu (+ voucherele, dacă le mutăm).
     assert HERO_RE.search(s), (v['slug'], 'nu am găsit secțiunea HERO')
