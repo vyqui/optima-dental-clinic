@@ -2286,6 +2286,101 @@
   </div>
 </section>
 
+<!-- ============ BOOKING FORM (deasupra videoului) ============ -->
+<section class="bg-teal" id="programare-video">
+  <div class="container">
+    <div class="booking-grid">
+      <div>
+        <span class="label-gold">Programare online</span>
+        <h2 class="display" style="margin-top:16px;">
+          Rezervă-ți
+          <em>locul acum</em>
+        </h2>
+        <hr class="gold-divider" />
+        <p class="lead">
+          Completează formularul și te vom contacta în cel mai scurt timp pentru a confirma
+          ora consultației. Locuri limitate lunar.
+        </p>
+        <div class="booking-features">
+          <div class="booking-feature">
+            <div class="ttl">Consultație completă</div>
+            <div class="sub">Evaluare detaliată și plan de tratament personalizat</div>
+          </div>
+          <div class="booking-feature">
+            <div class="ttl">Confirmare rapidă</div>
+            <div class="sub">Te contactăm în maximum 24 ore</div>
+          </div>
+        </div>
+      </div>
+
+      <form id="bookingFormVideo" class="booking-form" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-nume-2">Nume</label>
+            <input id="f-nume-2" name="nume" type="text" placeholder="Popescu" autocomplete="family-name" required />
+          </div>
+          <div class="field">
+            <label for="f-prenume-2">Prenume</label>
+            <input id="f-prenume-2" name="prenume" type="text" placeholder="Ana" autocomplete="given-name" required />
+          </div>
+          <div class="field">
+            <label for="f-email-2">Email</label>
+            <input id="f-email-2" name="email" type="email" placeholder="ana@exemplu.ro" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="f-tel-2">Telefon</label>
+            <input id="f-tel-2" name="telefon" type="tel" placeholder="07XX XXX XXX" autocomplete="tel" inputmode="tel" required />
+          </div>
+          <div class="field">
+            <label for="f-serviciu-2">Serviciu dorit</label>
+            <select id="f-serviciu-2" name="serviciu" required>
+              <option value="" disabled selected>Selectează tipul de serviciu</option>
+              <option>Consultație</option>
+              <option>Parodontologie</option>
+              <option>Chirurgie Dentară</option>
+              <option>Odontoterapie</option>
+              <option>Endodonție</option>
+              <option>Protetică Dentară</option>
+              <option>Ortodonție</option>
+              <option>Radiologie Dentară</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-data-2">Data preferată</label>
+            <input id="f-data-2" name="data_preferata" type="date" />
+          </div>
+          <div class="field">
+            <label for="f-ora-2">Ora preferată</label>
+            <select id="f-ora-2" name="ora_preferata">
+              <option value="" selected>Selectează întâi data</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="f-voucher-2">Voucher selectat</label>
+            <select id="f-voucher-2" name="voucher">
+              <option value="" selected>Fără voucher</option>
+              <option value="Albire dentară — 990 lei">Albire dentară — 990 lei</option>
+              <option value="Consultație + igienizare — 299 lei">Consultație + igienizare — 299 lei</option>
+              <option value="Consultație + obturație — 299 lei">Consultație + obturație — 299 lei</option>
+            </select>
+          </div>
+        </div>
+        <p class="form-disclaimer">
+          * Oferta este valabilă în baza completării integrale
+          a formularului. Locuri limitate.
+        </p>
+        <div class="gdpr-field">
+          <input id="f-gdpr-1" name="gdpr" type="checkbox" required />
+          <label for="f-gdpr-1">Sunt de acord cu prelucrarea datelor mele cu caracter personal, conform <a href="/politica-confidentialitate/" target="_blank" rel="noopener">Politicii de confidențialitate</a>.</label>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary">Trimite cererea de programare</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- ============ VIDEO ============ -->
 <section class="bg-black">
   <div class="container">
@@ -2456,101 +2551,6 @@
         <summary>Radiologie Dentară</summary>
         <div class="faq-body"><p>Imagistică digitală de precizie.</p></div>
       </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BOOKING FORM (sub video) ============ -->
-<section class="bg-teal" id="programare-video">
-  <div class="container">
-    <div class="booking-grid">
-      <div>
-        <span class="label-gold">Programare online</span>
-        <h2 class="display" style="margin-top:16px;">
-          Rezervă-ți
-          <em>locul acum</em>
-        </h2>
-        <hr class="gold-divider" />
-        <p class="lead">
-          Completează formularul și te vom contacta în cel mai scurt timp pentru a confirma
-          ora consultației. Locuri limitate lunar.
-        </p>
-        <div class="booking-features">
-          <div class="booking-feature">
-            <div class="ttl">Consultație completă</div>
-            <div class="sub">Evaluare detaliată și plan de tratament personalizat</div>
-          </div>
-          <div class="booking-feature">
-            <div class="ttl">Confirmare rapidă</div>
-            <div class="sub">Te contactăm în maximum 24 ore</div>
-          </div>
-        </div>
-      </div>
-
-      <form id="bookingFormVideo" class="booking-form" novalidate>
-        <div class="form-grid">
-          <div class="field">
-            <label for="f-nume-2">Nume</label>
-            <input id="f-nume-2" name="nume" type="text" placeholder="Popescu" autocomplete="family-name" required />
-          </div>
-          <div class="field">
-            <label for="f-prenume-2">Prenume</label>
-            <input id="f-prenume-2" name="prenume" type="text" placeholder="Ana" autocomplete="given-name" required />
-          </div>
-          <div class="field">
-            <label for="f-email-2">Email</label>
-            <input id="f-email-2" name="email" type="email" placeholder="ana@exemplu.ro" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="f-tel-2">Telefon</label>
-            <input id="f-tel-2" name="telefon" type="tel" placeholder="07XX XXX XXX" autocomplete="tel" inputmode="tel" required />
-          </div>
-          <div class="field">
-            <label for="f-serviciu-2">Serviciu dorit</label>
-            <select id="f-serviciu-2" name="serviciu" required>
-              <option value="" disabled selected>Selectează tipul de serviciu</option>
-              <option>Consultație</option>
-              <option>Parodontologie</option>
-              <option>Chirurgie Dentară</option>
-              <option>Odontoterapie</option>
-              <option>Endodonție</option>
-              <option>Protetică Dentară</option>
-              <option>Ortodonție</option>
-              <option>Radiologie Dentară</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-data-2">Data preferată</label>
-            <input id="f-data-2" name="data_preferata" type="date" />
-          </div>
-          <div class="field">
-            <label for="f-ora-2">Ora preferată</label>
-            <select id="f-ora-2" name="ora_preferata">
-              <option value="" selected>Selectează întâi data</option>
-            </select>
-          </div>
-          <div class="field full">
-            <label for="f-voucher-2">Voucher selectat</label>
-            <select id="f-voucher-2" name="voucher">
-              <option value="" selected>Fără voucher</option>
-              <option value="Albire dentară — 990 lei">Albire dentară — 990 lei</option>
-              <option value="Consultație + igienizare — 299 lei">Consultație + igienizare — 299 lei</option>
-              <option value="Consultație + obturație — 299 lei">Consultație + obturație — 299 lei</option>
-            </select>
-          </div>
-        </div>
-        <p class="form-disclaimer">
-          * Oferta este valabilă în baza completării integrale
-          a formularului. Locuri limitate.
-        </p>
-        <div class="gdpr-field">
-          <input id="f-gdpr-1" name="gdpr" type="checkbox" required />
-          <label for="f-gdpr-1">Sunt de acord cu prelucrarea datelor mele cu caracter personal, conform <a href="/politica-confidentialitate/" target="_blank" rel="noopener">Politicii de confidențialitate</a>.</label>
-        </div>
-        <div class="form-submit">
-          <button type="submit" class="btn btn-primary">Trimite cererea de programare</button>
-        </div>
-      </form>
     </div>
   </div>
 </section>
