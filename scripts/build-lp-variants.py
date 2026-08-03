@@ -42,6 +42,19 @@ FORM_RE = re.compile(
     r'<!-- =+ BOOKING FORM \(sub video\) =+ -->\n'
     r'<section class="bg-teal" id="programare-video">.*?\n</section>\n', re.S)
 VIDEO_ANCHOR = '<!-- ============ VIDEO ============ -->'
+# Tot blocul .field al selectului „Serviciu dorit" (label + select), în ambele
+# formulare. Scoatem celula întreagă, nu doar selectul: o celulă goală ar lăsa
+# o gaură în grilă.
+SERVICIU_RE = re.compile(
+    r' *<div class="field">\n'
+    r' *<label for="f-serviciu[^"]*">Serviciu dorit</label>\n'
+    r' *<select id="f-serviciu[^"]*" name="serviciu" required>.*?</select>\n'
+    r' *</div>\n', re.S)
+SERVICIU_HIDDEN = '''          <!-- Serviciul e fix pe pagina ofertei, deci nu mai e o alegere pusă
+               vizitatorului. Câmpul rămâne în payload cu acelaşi nume, ca
+               maparea din email / sheet / CRM să nu se schimbe. -->
+          <input type="hidden" name="serviciu" value="Consultație" />
+'''
 
 CSS_ANCHOR = '  /* ---------- specializări (FAQ accordion) ---------- */'
 
@@ -319,6 +332,7 @@ VARIANTS = [
                         'Preț total, fără costuri ascunse. Optima Dental Clinic, București.'),
         'move_vouchers_after_hero': True,
         'move_form_before_video': True,
+        'fixed_service': True,
         'active_voucher': 'igienizare',
         'extra_css': OFFER_CSS,
         'hero': hero_offer(
@@ -398,6 +412,14 @@ def build(base, v):
         form = form.replace('BOOKING FORM (sub video)', 'BOOKING FORM (deasupra videoului)', 1)
         assert s.count(VIDEO_ANCHOR) == 1, (v['slug'], 'ancoră video')
         s = s.replace(VIDEO_ANCHOR, form + '\n' + VIDEO_ANCHOR, 1)
+
+    # 1c) Serviciul fix: selectul dispare, valoarea rămâne în payload.
+    if v.get('fixed_service'):
+        n = len(SERVICIU_RE.findall(s))
+        assert n == 2, (v['slug'], 'selecturi serviciu', n)
+        s = SERVICIU_RE.sub(lambda _: SERVICIU_HIDDEN, s)
+        assert 'f-serviciu' not in s, (v['slug'], 'a rămas selectul')
+        assert s.count('name="serviciu"') == 2, (v['slug'], 'câmpuri serviciu')
 
     # 2) Hero-ul propriu (+ voucherele, dacă le mutăm).
     assert HERO_RE.search(s), (v['slug'], 'nu am găsit secțiunea HERO')
