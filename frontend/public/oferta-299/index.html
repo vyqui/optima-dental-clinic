@@ -2331,20 +2331,10 @@
             <label for="f-tel-2">Telefon</label>
             <input id="f-tel-2" name="telefon" type="tel" placeholder="07XX XXX XXX" autocomplete="tel" inputmode="tel" required />
           </div>
-          <div class="field">
-            <label for="f-serviciu-2">Serviciu dorit</label>
-            <select id="f-serviciu-2" name="serviciu" required>
-              <option value="" disabled selected>Selectează tipul de serviciu</option>
-              <option>Consultație</option>
-              <option>Parodontologie</option>
-              <option>Chirurgie Dentară</option>
-              <option>Odontoterapie</option>
-              <option>Endodonție</option>
-              <option>Protetică Dentară</option>
-              <option>Ortodonție</option>
-              <option>Radiologie Dentară</option>
-            </select>
-          </div>
+          <!-- Serviciul e fix pe pagina ofertei, deci nu mai e o alegere pusă
+               vizitatorului. Câmpul rămâne în payload cu acelaşi nume, ca
+               maparea din email / sheet / CRM să nu se schimbe. -->
+          <input type="hidden" name="serviciu" value="Consultație" />
           <div class="field">
             <label for="f-data-2">Data preferată</label>
             <input id="f-data-2" name="data_preferata" type="date" />
@@ -2680,20 +2670,10 @@
             <label for="f-tel">Telefon</label>
             <input id="f-tel" name="telefon" type="tel" placeholder="07XX XXX XXX" autocomplete="tel" inputmode="tel" required />
           </div>
-          <div class="field">
-            <label for="f-serviciu">Serviciu dorit</label>
-            <select id="f-serviciu" name="serviciu" required>
-              <option value="" disabled selected>Selectează tipul de serviciu</option>
-              <option>Consultație</option>
-              <option>Parodontologie</option>
-              <option>Chirurgie Dentară</option>
-              <option>Odontoterapie</option>
-              <option>Endodonție</option>
-              <option>Protetică Dentară</option>
-              <option>Ortodonție</option>
-              <option>Radiologie Dentară</option>
-            </select>
-          </div>
+          <!-- Serviciul e fix pe pagina ofertei, deci nu mai e o alegere pusă
+               vizitatorului. Câmpul rămâne în payload cu acelaşi nume, ca
+               maparea din email / sheet / CRM să nu se schimbe. -->
+          <input type="hidden" name="serviciu" value="Consultație" />
           <div class="field">
             <label for="f-data">Data preferată</label>
             <input id="f-data" name="data_preferata" type="date" />
