@@ -37,22 +37,6 @@ const teamMembers = [
     slug: "/doctor/ana-batanoiu"
   },
   {
-    name: "Dr. Alexandru Kozma",
-    role: "Endodont",
-    specialization: "Medic Specialist Chirurgie Dento-Alveolara",
-    experience: "8+ ani",
-    image: "https://assets.polymet.ai/tall-turquoise-377702",
-    slug: "/doctor/alexandru-kozma"
-  },
-  {
-    name: "Dr. Cristian Giucoane",
-    role: "Parodontolog",
-    specialization: "Medic Specialist Endodontie",
-    experience: "11+ ani",
-    image: "https://assets.polymet.ai/upper-ivory-687829",
-    slug: "/doctor/cristian-giucoane"
-  },
-  {
     name: "Dr. Reit Silviu",
     role: "Protezist",
     specialization: "Medic Specialist Chirurgie Dento-Alveolara",
