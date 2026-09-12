@@ -24,6 +24,21 @@
   # React 19 + Vite 6 need a modern Node. Pin it so Netlify doesn't pick an old default.
   NODE_VERSION = "20"
 
+# Medici care nu mai fac parte din echipă. Paginile lor au fost în sitemap,
+# deci Google le are indexate — fără o redirectare, React Router nu are rută
+# pentru ele şi ar randa o pagină goală. 301 spune că s-au mutat definitiv şi
+# trimite vizitatorul la echipă. Regulile se aplică în ordine, deci acestea
+# trebuie să stea ÎNAINTEA fallback-ului SPA de mai jos.
+[[redirects]]
+  from = "/doctor/alexandru-kozma"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/doctor/cristian-giucoane"
+  to = "/about"
+  status = 301
+
 # SPA fallback: React Router handles routing on the client, so every path that
 # isn't a real file (e.g. /contact, /services/ortodontie, deep-linked ad URLs)
 # must serve index.html. Netlify serves existing static files first, so real

@@ -25,10 +25,8 @@ import { DoctorAlinGaborPage } from "@/polymet/pages/doctor-alin-gabor";
 import { DoctorAhmedNasharPage } from "@/polymet/pages/doctor-ahmed-nashar";
 import { DoctorAnaBatanoiuPage } from "@/polymet/pages/doctor-ana-batanoiu";
 import { DoctorReitSilviuPage } from "@/polymet/pages/doctor-reit-silviu";
-import { DoctorCristianGiucoanePage } from "@/polymet/pages/doctor-cristian-giucoane";
 import { DoctorDanielTataruPage } from "@/polymet/pages/doctor-daniel-tataru";
 import { DoctorDianaPopescuPage } from "@/polymet/pages/doctor-diana-popescu";
-import { DoctorAlexandruKozmaPage } from "@/polymet/pages/doctor-alexandru-kozma";
 import { ThankYouPage } from "@/polymet/pages/thank-you";
 
 const OptimaDentalWebsite: React.FC = () => {
@@ -121,16 +119,6 @@ const OptimaDentalWebsite: React.FC = () => {
           <Route
             path="/doctor/ana-batanoiu"
             element={<DoctorAnaBatanoiuPage />}
-          />
-
-          <Route
-            path="/doctor/alexandru-kozma"
-            element={<DoctorAlexandruKozmaPage />}
-          />
-
-          <Route
-            path="/doctor/cristian-giucoane"
-            element={<DoctorCristianGiucoanePage />}
           />
 
           <Route
