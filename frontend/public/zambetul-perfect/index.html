@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zâmbetul perfect, pentru tine | Optima Dental Clinic București</title>
+<meta name="description" content="De la albire la fațete și ortodonție, planificat digital și adaptat feței tale. Vezi rezultatul înainte să începi tratamentul. Optima Dental Clinic, București." />
+
+<!-- Meta Pixel (se încarcă doar după acceptul pentru cookie-uri) -->
+<script>
+  window.META_PIXEL_ID = '2861445797535804';
+  window.hasCookieConsent = function () {
+    try {
+      var c = localStorage.getItem('optima_cookie_consent');
+      return c === 'accepted' || (c === null && localStorage.getItem('optima_cookie_ok') === '1');
+    } catch (e) { return false; }
+  };
+  window.loadMetaPixel = function () {
+    if (window.META_PIXEL_READY) return;
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.META_PIXEL_ID);
+    fbq('track', 'PageView');
+    window.META_PIXEL_READY = true;
+  };
+  if (window.hasCookieConsent()) window.loadMetaPixel();
+</script>
+
+<link rel="icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- fundalul hero e elementul LCP -->
+<link rel="preload" as="image" href="/assets/receptie-back-parallax.jpg" fetchpriority="high" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* ---- tokens din handoff ---- */
+    --paper: #FAF8F4;
+    --sand: #F4F0E9;
+    --line: #E6E1D8;
+    --input-bd: #DDD6CA;
+    --chip-on: #F1EADF;
+
+    --ink: #1B1A18;
+    --ink-2: #3A3732;
+    --muted: #5E5A53;
+
+    --gold-light-bg: #8A6C43;   /* auriu pe fundal deschis */
+    --gold-dark-bg: #C9AD84;    /* auriu pe fundal închis  */
+    --cta: linear-gradient(135deg, #F1D79C 0%, #D4AE68 45%, #B08743 100%);
+    --cta-hover: linear-gradient(135deg, #F7E2B0 0%, #DDB972 45%, #BC9350 100%);
+
+    --dark: #1E1C19;
+    --darker: #141311;
+    --dark-card: #26231F;
+    --dark-line: #3A3631;
+    --on-dark: #F3EFE8;
+    --on-dark-muted: #C8C1B6;
+    --on-dark-muted-2: #D6CFC4;
+
+    --stars: #FBBC04;
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'Manrope', system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: var(--ink); text-decoration: none; }
+  a:hover { color: var(--gold-light-bg); }
+  img { max-width: 100%; }
+  input, button, select, textarea { font-family: inherit; }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding-inline: 20px; }
+  .sec { padding-block: clamp(64px, 10vw, 112px); }
+  .sec--tight { padding-block: clamp(40px, 6vw, 64px); }
+  .band-sand { background: var(--sand); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .band-dark { background: var(--dark); color: var(--on-dark); }
+
+  .eyebrow {
+    font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    font-weight: 600; color: var(--gold-light-bg);
+  }
+  .eyebrow--on-dark { color: var(--gold-dark-bg); }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; letter-spacing: -.01em; }
+  h1 { font-size: clamp(42px, 7vw, 92px); line-height: 1; text-wrap: balance; }
+  h2 { font-size: clamp(34px, 4.6vw, 60px); line-height: 1.05; text-wrap: balance; }
+  h3 { font-size: 26px; line-height: 1.15; }
+  em { font-style: italic; color: var(--gold-light-bg); }
+  .band-dark em, .hero em, .panel-dark em { color: var(--gold-dark-bg); }
+
+  p { margin: 0; line-height: 1.65; text-wrap: pretty; }
+  .lead { font-size: 17px; color: var(--muted); }
+  .band-dark .lead { color: var(--on-dark-muted-2); }
+
+  .stack { display: flex; flex-direction: column; }
+  .g12 { gap: 12px; } .g16 { gap: 16px; } .g20 { gap: 20px; }
+  .g24 { gap: 24px; } .g40 { gap: 40px; } .g48 { gap: 48px; } .g56 { gap: 56px; }
+
+  /* ---------- CTA (un singur stil, cu variante de mărime) ---------- */
+  @keyframes ctaPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(212,174,104,.6), 0 10px 24px -12px rgba(138,108,67,.8); }
+    70%  { box-shadow: 0 0 0 14px rgba(212,174,104,0), 0 10px 24px -12px rgba(138,108,67,.8); }
+    100% { box-shadow: 0 0 0 0 rgba(212,174,104,0), 0 10px 24px -12px rgba(138,108,67,.8); }
+  }
+  .cta {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 16px 28px; font-size: 16px; font-weight: 700; letter-spacing: .01em;
+    border-radius: 999px; border: 1px solid #E7C98C;
+    background: var(--cta); color: var(--ink); cursor: pointer;
+    box-shadow: 0 14px 30px -12px rgba(176,135,67,.85), inset 0 1px 0 rgba(255,255,255,.55);
+    transition: transform .15s ease, background .15s ease;
+    animation: ctaPulse 2s ease-out infinite;
+    text-align: center;
+  }
+  .cta:hover { background: var(--cta-hover); transform: translateY(-2px); color: var(--ink); }
+  .cta__arrow { font-size: 17px; line-height: 1; }
+  .cta--head { padding: 13px 22px; font-size: 15px; min-height: 46px; }
+  .cta--start { align-self: flex-start; }
+
+  /* ---------- bara de anunț ---------- */
+  .announce {
+    background: var(--gold-light-bg); color: var(--paper); text-align: center;
+    font-size: 13px; font-weight: 500; padding: 8px 16px;
+  }
+
+  /* ---------- header sticky ---------- */
+  .site-head {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(20,19,17,.78);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .site-head__in {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding-block: 12px;
+  }
+  .site-head img { height: 38px; width: auto; display: block; }
+  .head-actions { display: flex; align-items: center; gap: 12px; }
+  .head-tel {
+    color: var(--on-dark); font-size: 15px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .head-tel:hover { color: var(--gold-dark-bg); }
+  .head-tel span { color: var(--gold-dark-bg); }
+  .head-tel--round {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.25);
+    justify-content: center; font-size: 18px; display: none;
+  }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; background: var(--darker); color: var(--on-dark); overflow: hidden; }
+  .hero__bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: .35;
+  }
+  .hero__veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(20,19,17,.92) 0%, rgba(20,19,17,.55) 70%, rgba(20,19,17,.3) 100%);
+  }
+  .hero__in {
+    position: relative; display: flex; flex-direction: column; gap: 28px;
+    padding-top: clamp(64px, 12vw, 120px); padding-bottom: clamp(48px, 9vw, 96px);
+  }
+  .hero h1 { max-width: 860px; }
+  .hero__lead { font-size: 19px; line-height: 1.6; color: var(--on-dark-muted-2); max-width: 560px; }
+  .hero__cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero__cta { flex: 1 1 240px; max-width: 320px; }
+  /* lățime fixă pe etichetă, ca butonul să nu sară la rotație */
+  .hero__cta-label { display: inline-block; min-width: 13ch; text-align: center; transition: opacity .25s ease; }
+  .hero__proof { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .gbadge {
+    display: inline-flex; align-items: center; gap: 14px; background: #fff;
+    border-radius: 16px; padding: 12px 18px 12px 14px;
+    box-shadow: 0 16px 36px -16px rgba(0,0,0,.6);
+  }
+  .gbadge img { width: 36px; height: 36px; display: block; flex-shrink: 0; }
+  .gbadge__col { display: flex; flex-direction: column; gap: 3px; }
+  .gbadge__row { display: flex; align-items: center; gap: 8px; }
+  .gbadge__score { font-size: 24px; font-weight: 700; line-height: 1; color: var(--ink); letter-spacing: -.02em; }
+  .gbadge__stars { color: var(--stars); font-size: 17px; letter-spacing: 2px; line-height: 1; }
+  .gbadge__cap { font-size: 12px; font-weight: 600; color: var(--muted); }
+  .hero__loc { font-size: 13px; letter-spacing: .14em; color: var(--gold-dark-bg); font-weight: 600; }
+  .hero__trust { position: relative; border-top: 1px solid rgba(255,255,255,.1); }
+  /* padding-block, nu shorthand: `padding: 18px 0` ar anula padding-inline-ul
+     venit din .wrap şi bifele ar atinge marginea ecranului */
+  .hero__trust ul {
+    list-style: none; margin: 0; padding-block: 18px;
+    display: flex; flex-wrap: wrap; gap: 10px 28px;
+    font-size: 14px; color: var(--on-dark-muted-2);
+  }
+  .hero__trust li { display: flex; gap: 8px; align-items: center; }
+  .hero__trust li::before { content: "✓"; color: var(--gold-dark-bg); }
+
+  /* ---------- carusel rezultate ---------- */
+  .split {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 48px; align-items: center;
+  }
+  .car { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .car__view { overflow: hidden; border-radius: 16px; margin-right: -12px; }
+  .car__track { display: flex; }
+  .car__slide { flex: 0 0 50%; padding-right: 12px; }
+  .car__frame { aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: #EDE8DF; }
+  .car__frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .car__bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .car__dots { display: flex; gap: 6px; align-items: center; }
+  .car__dot {
+    width: 8px; height: 8px; border-radius: 999px; border: 0; padding: 0;
+    background: var(--input-bd); cursor: pointer; transition: width .3s, background .3s;
+  }
+  .car__dot[aria-current="true"] { width: 24px; background: var(--gold-light-bg); }
+  .car__nav { display: flex; gap: 8px; }
+  .car__btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--input-bd);
+    background: #fff; color: var(--ink); font-size: 18px; cursor: pointer;
+  }
+  .car__btn:hover { border-color: var(--gold-light-bg); color: var(--gold-light-bg); }
+
+  .ticks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+  .ticks li { display: flex; gap: 10px; }
+  .ticks li::before { content: "✓"; color: var(--gold-light-bg); font-weight: 700; }
+  .band-dark .ticks li::before, .panel-dark .ticks li::before { color: var(--gold-dark-bg); }
+
+  /* ---------- recenzii ---------- */
+  .cards3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+  .review {
+    margin: 0; background: #fff; border: 1px solid var(--line); border-radius: 22px;
+    padding: 24px; display: flex; flex-direction: column; gap: 18px; justify-content: space-between;
+  }
+  .review__stars { color: var(--stars); font-size: 16px; letter-spacing: 2px; }
+  .review blockquote { margin: 10px 0 0; font-size: 15px; line-height: 1.65; color: var(--ink-2); }
+  .review figcaption { display: flex; align-items: center; gap: 12px; }
+  .review__ini {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--chip-on);
+    color: var(--gold-light-bg); font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .review__who { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .review__who strong { font-size: 14px; }
+  .review__who span { font-size: 12px; color: var(--muted); }
+  .review figcaption img { width: 18px; height: 18px; }
+
+  /* ---------- pachete ---------- */
+  .head-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 24px 48px; align-items: end;
+  }
+  .pack {
+    border-radius: 22px; padding: clamp(24px, 4vw, 32px);
+    display: flex; flex-direction: column; gap: 18px;
+    border: 1px solid var(--line); background: #fff;
+  }
+  .pack--dark { background: var(--dark); color: var(--on-dark); border-color: var(--dark); }
+  .pack__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .pack__tier { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--gold-light-bg); }
+  .pack--dark .pack__tier { color: var(--gold-dark-bg); }
+  .pack__badge {
+    font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px;
+    background: var(--gold-dark-bg); color: var(--ink); white-space: nowrap;
+  }
+  .pack__price { display: flex; align-items: baseline; gap: 8px; }
+  .pack__from { font-size: 13px; color: var(--muted); }
+  .pack--dark .pack__from { color: var(--on-dark-muted); }
+  .pack__amount { font-family: var(--serif); font-size: 34px; line-height: 1; }
+  /* când nu e o cifră, ci „după evaluare", 34px serif strigă degeaba */
+  .pack__amount--soft { font-size: 24px; }
+  .pack .ticks { font-size: 14.5px; flex: 1; }
+  .pack--dark .lead { color: var(--on-dark-muted); }
+  .fineprint { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  /* ---------- profiluri ---------- */
+  .profiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 24px; }
+  .profile {
+    border-top: 1px solid var(--line); padding-top: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .profile__num { font-family: var(--serif); font-size: 22px; color: var(--gold-light-bg); }
+  .profile h3 { font-size: 21px; }
+
+  /* ---------- citat concept ---------- */
+  .quote {
+    margin: 0; font-family: var(--serif); font-size: clamp(22px, 3vw, 32px);
+    line-height: 1.3; color: var(--gold-dark-bg); border-left: 2px solid var(--dark-line);
+    padding-left: 24px;
+  }
+
+  /* ---------- beneficii ---------- */
+  .benefit { display: flex; gap: 16px; align-items: flex-start; }
+  .benefit__tick {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: var(--chip-on); color: var(--gold-light-bg); font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .benefit h3 { font-size: 20px; margin-bottom: 6px; }
+
+  .photo { border-radius: 20px; overflow: hidden; background: var(--sand); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo--4x3 { aspect-ratio: 4 / 3; }
+  .photo--1x1 { aspect-ratio: 1 / 1; }
+
+  /* ---------- etape ---------- */
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 28px; }
+  .step { display: flex; gap: 20px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .step__num {
+    font-family: var(--serif); font-size: 40px; line-height: 1;
+    color: var(--gold-light-bg); flex-shrink: 0; width: 44px;
+  }
+  .step__tag { font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .step h3 { font-size: 22px; margin: 6px 0 8px; }
+
+  /* ---------- ce tratăm ---------- */
+  .treat {
+    background: var(--dark-card); border: 1px solid var(--dark-line); border-radius: 22px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .treat__img { aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
+  .treat__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .treat__body { padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .treat h3 { font-size: 22px; }
+  .treat .lead { color: var(--on-dark-muted); font-size: 15px; }
+  .treat .ticks { font-size: 14px; flex: 1; }
+  .treat .ticks li::before { color: var(--gold-dark-bg); }
+
+  /* ---------- panou evaluare ---------- */
+  .panel-dark {
+    background: var(--dark); color: var(--on-dark); border-radius: 28px;
+    padding: clamp(28px, 5vw, 56px);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 40px; align-items: center;
+  }
+  .pricelist { display: flex; flex-direction: column; gap: 0; }
+  .pricelist__row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--dark-line); font-size: 15px;
+  }
+  .pricelist__row span:last-child { color: var(--gold-dark-bg); font-weight: 600; white-space: nowrap; }
+
+  /* ---------- echipa ---------- */
+  .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 24px; }
+  .member { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .member__frame { aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; background: var(--sand); }
+  .member__frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .member figcaption { display: flex; flex-direction: column; gap: 2px; }
+  .member__name { font-weight: 700; font-size: 15px; }
+  .member__role { font-size: 13px; color: var(--muted); }
+
+  /* ---------- FAQ ---------- */
+  .faq { border-top: 1px solid var(--line); }
+  .faq__item { border-bottom: 1px solid var(--line); }
+  .faq__q {
+    width: 100%; background: none; border: 0; cursor: pointer; text-align: left;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 22px 0; font-size: 17px; font-weight: 600; color: var(--ink);
+    font-family: var(--sans); min-height: 44px;
+  }
+  .faq__q:hover { color: var(--gold-light-bg); }
+  .faq__sign { font-size: 24px; font-weight: 400; color: var(--gold-light-bg); line-height: 1; flex-shrink: 0; }
+  .faq__a { overflow: hidden; transition: height .22s ease; }
+  .faq__a p { padding: 0 0 22px; font-size: 15px; color: var(--muted); max-width: 72ch; }
+
+  /* ---------- footer ---------- */
+  .site-foot { background: var(--darker); color: var(--on-dark-muted); }
+  .site-foot__grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 40px; padding-block: 64px 32px;
+  }
+  .site-foot img { height: 44px; width: auto; }
+  .site-foot a { color: var(--on-dark-muted); }
+  .site-foot a:hover { color: var(--gold-dark-bg); }
+  .foot-col { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .foot-col__title {
+    font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gold-dark-bg); font-weight: 600; margin-bottom: 4px;
+  }
+  .site-foot__legal {
+    border-top: 1px solid var(--dark-line); padding-block: 20px;
+    font-size: 13px; text-align: center;
+  }
+
+  /* ---------- bara fixă pe mobil ---------- */
+  .mbar { display: none; }
+
+  /* ---------- modal lead ---------- */
+  .modal {
+    position: fixed; inset: 0; z-index: 60; display: none;
+    align-items: center; justify-content: center; padding: 20px;
+    background: rgba(20,19,17,.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    overflow-y: auto;
+  }
+  .modal[open], .modal.is-open { display: flex; }
+  .modal__panel {
+    position: relative; background: #fff; border-radius: 24px;
+    width: 100%; max-width: 520px; padding: clamp(24px, 4vw, 36px);
+    margin: auto;
+  }
+  .modal__x {
+    position: absolute; top: 12px; right: 12px; width: 40px; height: 40px;
+    border-radius: 50%; border: 0; background: transparent; cursor: pointer;
+    font-size: 24px; line-height: 1; color: var(--muted);
+  }
+  .modal__x:hover { background: var(--sand); color: var(--ink); }
+  .modal h2 { font-size: 30px; line-height: 1.1; }
+  .field { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; }
+  .field input[type="text"], .field input[type="tel"] {
+    border: 1px solid var(--input-bd); border-radius: 12px; padding: 14px 16px;
+    font-size: 16px; font-weight: 400; color: var(--ink); background: #fff;
+  }
+  .field input:focus { outline: 2px solid var(--gold-light-bg); outline-offset: -1px; }
+  .field.has-error input { border-color: #C0392B; }
+  .field__err { font-size: 12.5px; font-weight: 500; color: #C0392B; display: none; }
+  .field.has-error .field__err { display: block; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 1px solid var(--input-bd); background: #fff; color: var(--ink);
+    border-radius: 999px; padding: 10px 16px; font-size: 14px; cursor: pointer;
+    min-height: 44px;
+  }
+  .chip[aria-pressed="true"] { background: var(--chip-on); border-color: var(--gold-light-bg); font-weight: 600; }
+  .consent { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; color: var(--ink-2); cursor: pointer; font-weight: 400; }
+  .consent input { width: 20px; height: 20px; margin: 0; flex-shrink: 0; accent-color: var(--gold-light-bg); cursor: pointer; }
+  .consent a { color: var(--gold-light-bg); text-decoration: underline; }
+  .consent.has-error { color: #C0392B; }
+  .consent.has-error input { outline: 2px solid #C0392B; outline-offset: 2px; }
+  .modal .cta--submit { padding: 17px 30px; font-size: 17px; width: 100%; }
+  .modal .cta--submit[disabled] { opacity: .35; cursor: not-allowed; animation: none; }
+  .modal__note { font-size: 12px; color: var(--muted); text-align: center; }
+
+  /* ---------- cookie ---------- */
+  .cookie-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+    background: rgba(20,19,17,.96); color: #E9E2D6;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 10px 16px; padding: 12px 16px; font-size: 12.5px;
+    border-top: 1px solid var(--dark-line);
+  }
+  .cookie-bar a { color: var(--gold-dark-bg); text-decoration: underline; }
+  .cookie-actions { display: flex; gap: 8px; }
+  .cookie-btn {
+    border-radius: 999px; padding: 7px 16px; font-size: 11.5px; font-weight: 700;
+    letter-spacing: .05em; text-transform: uppercase; cursor: pointer;
+    border: 1px solid transparent; white-space: nowrap;
+  }
+  .cookie-yes { background: var(--cta); color: var(--ink); }
+  .cookie-no { background: transparent; color: var(--on-dark-muted); border-color: rgba(201,173,132,.45); }
+  .cookie-no:hover { color: #fff; }
+
+  /* ---------- 860px: header, bara fixă, coloana sticky ---------- */
+  @media (min-width: 861px) {
+    .etape__intro { position: sticky; top: 96px; align-self: start; }
+  }
+  @media (max-width: 860px) {
+    .head-tel { display: none; }
+    .head-tel--round { display: flex; }
+    .mbar {
+      display: grid; grid-template-columns: 56px 1fr; gap: 10px;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+      background: rgba(20,19,17,.9);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      padding: 10px 12px; padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .mbar__tel {
+      background: var(--cta); color: var(--ink); border-radius: 16px;
+      height: 52px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 1px; font-weight: 700; border: 1px solid #E7C98C;
+    }
+    .mbar__tel span:first-child { font-size: 16px; line-height: 1; }
+    .mbar__tel span:last-child { font-size: 10px; letter-spacing: .08em; }
+    .mbar .cta { width: 100%; min-height: 52px; padding: 14px 18px; font-size: 15px; }
+    /* bara fixă nu trebuie să acopere footerul */
+    .site-foot { padding-bottom: 96px; }
+    body.cookie-open .mbar { bottom: 64px; }
+  }
+  @media (max-width: 560px) {
+    .car__slide { flex-basis: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; }
+    .car__track, .faq__a, .hero__cta-label { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ BARA DE ANUNȚ ============ -->
+<div class="announce">Evaluare cu simulare digitală a zâmbetului. Programări și sâmbăta.</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-head">
+  <div class="wrap site-head__in">
+    <a href="#top" aria-label="Optima Dental Clinic">
+      <img src="/oferte-voucher-meta/Creatives/optima-logo.png" alt="Optima Dental Clinic" width="150" height="38" />
+    </a>
+    <div class="head-actions">
+      <a class="head-tel" href="tel:0767702703"><span aria-hidden="true">✆</span>0767 702 703</a>
+      <a class="head-tel head-tel--round" href="tel:0767702703" aria-label="Sună la clinică"><span aria-hidden="true">✆</span></a>
+      <button type="button" class="cta cta--head" data-open-form>Programează</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <img class="hero__bg" src="/assets/receptie-back-parallax.jpg" alt="" aria-hidden="true" fetchpriority="high" />
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="wrap hero__in">
+    <p class="eyebrow eyebrow--on-dark">Estetică dentară personalizată</p>
+    <h1>Zâmbetul perfect, <em>pentru tine.</em></h1>
+    <p class="hero__lead">
+      De la albire la fațete și ortodonție, planificat digital și adaptat feței tale.
+      Vezi rezultatul înainte să începi tratamentul.
+    </p>
+    <div class="hero__cta-row">
+      <button type="button" class="cta hero__cta" data-open-form>
+        <span class="hero__cta-label" id="heroCtaLabel">Vreau schimbarea mea</span>
+        <span class="cta__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+    <div class="hero__proof">
+      <div class="gbadge">
+        <img src="/assets/zambet/google-g.png" alt="Google" width="36" height="36" />
+        <span class="gbadge__col">
+          <span class="gbadge__row">
+            <span class="gbadge__score">4.9</span>
+            <span class="gbadge__stars" aria-hidden="true">★★★★★</span>
+          </span>
+          <span class="gbadge__cap">Recenzii Google</span>
+        </span>
+      </div>
+      <p class="hero__loc">BUCUREȘTI • ȘOSEAUA NORDULUI 142B</p>
+    </div>
+  </div>
+  <div class="hero__trust">
+    <ul class="wrap">
+      <li>Simulare digitală a zâmbetului</li>
+      <li>Radiologie digitală în clinică</li>
+      <li>Toate specializările</li>
+      <li>Tratamente minim invazive</li>
+      <li>Plată în rate</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ REZULTATE ============ -->
+<section class="wrap sec stack g48" id="rezultate">
+  <div class="stack g16">
+    <p class="eyebrow">Rezultate reale</p>
+    <h2>Zâmbete transformate. <em>Încredere regăsită.</em></h2>
+  </div>
+  <div class="split">
+    <div class="car" id="car">
+      <div class="car__view">
+        <div class="car__track" id="carTrack"><!-- slide-urile se generează din JS --></div>
+      </div>
+      <div class="car__bar">
+        <div class="car__dots" id="carDots"></div>
+        <div class="car__nav">
+          <button type="button" class="car__btn" id="carPrev" aria-label="Rezultatul anterior">←</button>
+          <button type="button" class="car__btn" id="carNext" aria-label="Rezultatul următor">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="stack g20">
+      <h3>Transformări realizate în clinica noastră</h3>
+      <p class="lead">
+        Rezultate obținute prin planuri de tratament personalizate, cu medicul estetician,
+        ortodontul și laboratorul lucrând pe același caz.
+      </p>
+      <ul class="ticks">
+        <li>Cazuri documentate complet, înainte și după</li>
+        <li>Simulare digitală înainte de tratament</li>
+        <li>Confidențialitate garantată, fără date personale</li>
+      </ul>
+      <button type="button" class="cta cta--start" data-open-form>
+        Vreau să aflu ce soluție mi se potrivește <span class="cta__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECENZII ============ -->
+<section class="band-sand" id="recenzii">
+  <div class="wrap sec--tight stack g24">
+    <h2>Experiența <em>pacienților noștri</em></h2>
+    <div class="cards3">
+      <figure class="review">
+        <div>
+          <span class="review__stars" aria-hidden="true">★★★★★</span>
+          <blockquote>„Am primit explicații clare despre planul de tratament. Echipa e caldă și profesionistă, iar totul a decurs fără stres.”</blockquote>
+        </div>
+        <figcaption>
+          <span class="review__ini" aria-hidden="true">AM</span>
+          <span class="review__who"><strong>Andreea M.</strong><span>Recenzie Google</span></span>
+          <img src="/assets/zambet/google-g.png" alt="Google" width="18" height="18" loading="lazy" />
+        </figcaption>
+      </figure>
+      <figure class="review">
+        <div>
+          <span class="review__stars" aria-hidden="true">★★★★★</span>
+          <blockquote>„Medicii sunt atenți la detalii și foarte răbdători. Mi-au explicat fiecare etapă, iar zâmbetul arată natural acum.”</blockquote>
+        </div>
+        <figcaption>
+          <span class="review__ini" aria-hidden="true">RD</span>
+          <span class="review__who"><strong>Raluca D.</strong><span>Recenzie Google</span></span>
+          <img src="/assets/zambet/google-g.png" alt="Google" width="18" height="18" loading="lazy" />
+        </figcaption>
+      </figure>
+      <figure class="review">
+        <div>
+          <span class="review__stars" aria-hidden="true">★★★★★</span>
+          <blockquote>„Tehnologie modernă și o echipă dedicată. Am plecat cu un plan clar și transparent.”</blockquote>
+        </div>
+        <figcaption>
+          <span class="review__ini" aria-hidden="true">CI</span>
+          <span class="review__who"><strong>Cristian I.</strong><span>Recenzie Google</span></span>
+          <img src="/assets/zambet/google-g.png" alt="Google" width="18" height="18" loading="lazy" />
+        </figcaption>
+      </figure>
+    </div>
+    <button type="button" class="cta cta--start" data-open-form>
+      Vreau să fac primul pas <span class="cta__arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============ PACHETE ============ -->
+<section class="wrap sec stack g48" id="pachete">
+  <div class="head-row">
+    <div class="stack g16">
+      <p class="eyebrow">Transparență financiară</p>
+      <h2>Pachete pentru <em>zâmbetul perfect</em></h2>
+    </div>
+    <p class="lead">
+      Costul final depinde de starea dinților, de investigații și de tratamentul ales.
+      După evaluare primești un plan personalizat.
+    </p>
+  </div>
+  <div class="cards3">
+    <div class="pack">
+      <div class="pack__top"><span class="pack__tier">Standard</span></div>
+      <h3>Zâmbet luminos</h3>
+      <div class="pack__price"><span class="pack__from">de la</span><span class="pack__amount">990 lei</span></div>
+      <ul class="ticks">
+        <li>Consultație și radiologie digitală</li>
+        <li>Igienizare profesională</li>
+        <li>Albire profesională în clinică</li>
+        <li>Recomandări de întreținere</li>
+      </ul>
+      <button type="button" class="cta" data-open-form>Solicită evaluarea <span class="cta__arrow" aria-hidden="true">→</span></button>
+    </div>
+    <div class="pack pack--dark">
+      <div class="pack__top"><span class="pack__tier">Premium</span><span class="pack__badge">Cel mai ales</span></div>
+      <h3>Fațete frontale</h3>
+      <div class="pack__price"><span class="pack__from">preț</span><span class="pack__amount pack__amount--soft">după evaluare</span></div>
+      <ul class="ticks">
+        <li>Tot ce include Standard</li>
+        <li>Simulare digitală a zâmbetului</li>
+        <li>Fațete ceramice pe dinții frontali</li>
+        <li>Mock-up de probă înainte de final</li>
+      </ul>
+      <button type="button" class="cta" data-open-form>Solicită evaluarea <span class="cta__arrow" aria-hidden="true">→</span></button>
+    </div>
+    <div class="pack">
+      <div class="pack__top"><span class="pack__tier">Elite</span></div>
+      <h3>Smile makeover complet</h3>
+      <div class="pack__price"><span class="pack__from">preț</span><span class="pack__amount pack__amount--soft">după evaluare</span></div>
+      <ul class="ticks">
+        <li>Plan estetic integral, multidisciplinar</li>
+        <li>Ortodonție sau implant, dacă e nevoie</li>
+        <li>Fațete sau coroane ceramice complete</li>
+        <li>Controale periodice incluse</li>
+      </ul>
+      <button type="button" class="cta" data-open-form>Solicită evaluarea <span class="cta__arrow" aria-hidden="true">→</span></button>
+    </div>
+  </div>
+  <p class="fineprint">
+    *Preț orientativ; planul și costul final se stabilesc după consultație și investigații.
+    Plată în rate prin TBI Bank și UniCredit.
+  </p>
+</section>
+
+<!-- ============ CUI SE ADRESEAZĂ ============ -->
+<section class="wrap sec stack g56">
+  <div class="head-row">
+    <div class="stack g16">
+      <p class="eyebrow">Profil pacient</p>
+      <h2>Cui se adresează <em>tratamentele noastre?</em></h2>
+    </div>
+    <p class="lead">Soluțiile noastre sunt gândite pentru pacienții care vor un zâmbet natural, armonios și durabil.</p>
+  </div>
+  <div class="profiles">
+    <div class="profile"><span class="profile__num">01</span><h3>Dinți îngălbeniți sau pătați</h3><p class="lead">Pentru cei care vor o nuanță mai deschisă și uniformă, fără să schimbe forma dinților.</p></div>
+    <div class="profile"><span class="profile__num">02</span><h3>Dinți ciobiți, uzați sau inegali</h3><p class="lead">Pacienți care vor să refacă forma și lungimea dinților pentru un zâmbet armonios.</p></div>
+    <div class="profile"><span class="profile__num">03</span><h3>Spații sau dinți strâmbi</h3><p class="lead">Cazuri care pot fi rezolvate prin ortodonție, fațete sau o combinație a celor două.</p></div>
+    <div class="profile"><span class="profile__num">04</span><h3>Lucrări vechi care nu mai arată bine</h3><p class="lead">Persoane cu coroane sau plombe vizibile care vor un rezultat estetic modern.</p></div>
+    <div class="profile"><span class="profile__num">05</span><h3>Evenimente importante</h3><p class="lead">Nuntă, ședință foto sau o schimbare profesională: planificăm tratamentul după calendarul tău.</p></div>
+    <div class="profile"><span class="profile__num">06</span><h3>Persoane cu emoții la stomatolog</h3><p class="lead">Explicăm fiecare pas înainte, iar tratamentele sunt cât mai puțin invazive.</p></div>
+  </div>
+</section>
+
+<!-- ============ CONCEPTUL DE TRATAMENT ============ -->
+<section class="band-dark">
+  <div class="wrap sec stack g24" style="max-width:900px;">
+    <p class="eyebrow eyebrow--on-dark">Conceptul de tratament</p>
+    <h2>Un zâmbet proiectat pentru fața ta, nu un șablon</h2>
+    <p class="lead">
+      Forma, lungimea și nuanța dinților se aleg în funcție de trăsăturile tale, de linia buzelor
+      și de felul în care zâmbești. Rezultatul arată ca al tău, doar mai bine.
+    </p>
+    <blockquote class="quote">„Zâmbești în poze, la întâlniri și în oglindă, fără să te mai gândești la dinți.”</blockquote>
+  </div>
+</section>
+
+<!-- ============ DESIGN DIGITAL AL ZÂMBETULUI ============ -->
+<section class="wrap sec split">
+  <div class="stack g20">
+    <p class="eyebrow">Definiție &amp; beneficii</p>
+    <h2>Ce înseamnă un <em>design digital al zâmbetului?</em></h2>
+    <p class="lead">
+      Pe baza fotografiilor și a scanării dentare, medicul creează o simulare a zâmbetului tău final.
+      O vezi, o discuți și o ajustezi înainte ca tratamentul să înceapă.
+    </p>
+    <button type="button" class="cta cta--start" data-open-form>
+      Află ce tratament ți se potrivește <span class="cta__arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+  <div class="stack g24">
+    <div class="benefit">
+      <span class="benefit__tick" aria-hidden="true">✓</span>
+      <div><h3>Vezi rezultatul înainte</h3><p class="lead">Simularea îți arată zâmbetul final, iar decizia se ia cu imaginea în față.</p></div>
+    </div>
+    <div class="benefit">
+      <span class="benefit__tick" aria-hidden="true">✓</span>
+      <div><h3>Proporții adaptate feței</h3><p class="lead">Forma și nuanța dinților se aleg după trăsăturile tale, nu după un model standard.</p></div>
+    </div>
+    <div class="benefit">
+      <span class="benefit__tick" aria-hidden="true">✓</span>
+      <div><h3>Mai puține surprize</h3><p class="lead">Planul digital stabilește etapele și costurile de la început.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOTUL ÎN CLINICĂ ============ -->
+<section class="band-sand">
+  <div class="wrap sec split">
+    <div class="stack g20">
+      <p class="eyebrow">Totul în clinică</p>
+      <h2>Toate etapele, <em>sub același acoperiș</em></h2>
+      <p class="lead">
+        Radiologia, simularea, tratamentul și controalele se fac în aceeași clinică, de aceeași echipă.
+        Nu te trimitem în altă parte pe parcurs.
+      </p>
+      <ul class="ticks">
+        <li>Radiologie dentară digitală în clinică</li>
+        <li>Toate specializările într-un singur loc</li>
+        <li>Spațiu liniștit, gândit pentru confortul tău</li>
+      </ul>
+      <button type="button" class="cta cta--start" data-open-form>
+        Vreau mai multe detalii <span class="cta__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+    <div class="stack g20">
+      <div class="photo photo--4x3"><img src="/assets/optima-interior2.webp" alt="Cabinet de tratament Optima Dental Clinic" loading="lazy" decoding="async" /></div>
+      <div class="photo photo--4x3"><img src="/assets/optima-interior3.webp" alt="Recepția Optima Dental Clinic" loading="lazy" decoding="async" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ETAPE ============ -->
+<section class="wrap sec split" id="etape" style="align-items:start;">
+  <div class="stack g20 etape__intro">
+    <p class="eyebrow">Etapele tratamentului</p>
+    <h2>Cum decurge tratamentul, <em>pas cu pas</em></h2>
+    <p class="lead">De la prima consultație până la zâmbetul final, te ghidăm cu grijă și transparență în fiecare etapă.</p>
+    <button type="button" class="cta cta--start" data-open-form>
+      Programează prima consultație <span class="cta__arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+  <ol class="steps">
+    <li class="step">
+      <span class="step__num" aria-hidden="true">1</span>
+      <div><span class="step__tag">Pasul 1 · Prima vizită</span><h3>Consultația și radiologia digitală</h3><p class="lead">Discutăm ce îți dorești să schimbi, verificăm sănătatea dinților și gingiilor și facem investigațiile necesare.</p></div>
+    </li>
+    <li class="step">
+      <span class="step__num" aria-hidden="true">2</span>
+      <div><span class="step__tag">Pasul 2 · Planificare</span><h3>Simularea digitală a zâmbetului</h3><p class="lead">Pe baza fotografiilor și a scanării, îți arătăm cum va arăta zâmbetul final și ajustăm detaliile împreună.</p></div>
+    </li>
+    <li class="step">
+      <span class="step__num" aria-hidden="true">3</span>
+      <div><span class="step__tag">Pasul 3 · Plan</span><h3>Planul de tratament și costurile</h3><p class="lead">Primești opțiunile, etapele și prețurile exacte, fără taxe ascunse. Decizia este a ta.</p></div>
+    </li>
+    <li class="step">
+      <span class="step__num" aria-hidden="true">4</span>
+      <div><span class="step__tag">Pasul 4 · Tratament</span><h3>Pregătirea și mock-up-ul de probă</h3><p class="lead">Igienizare, albire sau ortodonție, după caz. Pentru fațete, probezi forma în gură înainte de lucrarea finală.</p></div>
+    </li>
+    <li class="step">
+      <span class="step__num" aria-hidden="true">5</span>
+      <div><span class="step__tag">Pasul 5 · Final</span><h3>Zâmbetul final și controalele</h3><p class="lead">Aplicăm lucrarea definitivă și programăm controalele periodice pentru un rezultat durabil.</p></div>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ CE TRATĂM ============ -->
+<section class="band-dark">
+  <div class="wrap sec stack g48">
+    <div class="head-row">
+      <div class="stack g16">
+        <p class="eyebrow eyebrow--on-dark">Expertiză clinică</p>
+        <h2>Ce tratăm la <em>Optima</em></h2>
+      </div>
+      <p class="lead">Soluții pentru fiecare tip de imperfecțiune, de la o nuanță mai închisă până la reabilitarea completă a zâmbetului.</p>
+    </div>
+    <div class="cards3">
+      <div class="treat">
+        <div class="treat__img"><img src="/assets/zambet/tratam-culoare.jpg" alt="Culoare și strălucire" loading="lazy" decoding="async" /></div>
+        <div class="treat__body">
+          <h3>Culoare și strălucire</h3>
+          <p class="lead">Pentru dinți îngălbeniți sau pătați, cu tratamente sigure, efectuate în clinică.</p>
+          <ul class="ticks"><li>Albire profesională</li><li>Igienizare și periaj profesional</li><li>Recomandări de întreținere</li></ul>
+          <button type="button" class="cta" data-open-form>Află mai multe <span class="cta__arrow" aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <div class="treat">
+        <div class="treat__img"><img src="/assets/zambet/tratam-forma.jpg" alt="Formă și proporții" loading="lazy" decoding="async" /></div>
+        <div class="treat__body">
+          <h3>Formă și proporții</h3>
+          <p class="lead">Pentru dinți ciobiți, uzați, inegali sau cu spații între ei.</p>
+          <ul class="ticks"><li>Fațete ceramice</li><li>Design digital al zâmbetului</li><li>Coroane ceramice</li></ul>
+          <button type="button" class="cta" data-open-form>Află mai multe <span class="cta__arrow" aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <div class="treat">
+        <div class="treat__img"><img src="/assets/zambet/tratam-aliniere.jpg" alt="Aliniere și dinți lipsă" loading="lazy" decoding="async" /></div>
+        <div class="treat__body">
+          <h3>Aliniere și dinți lipsă</h3>
+          <p class="lead">Pentru dinți strâmbi sau lipsă, ca bază pentru un zâmbet estetic.</p>
+          <ul class="ticks"><li>Ortodonție</li><li>Implanturi dentare</li><li>Protetică pe implant</li></ul>
+          <button type="button" class="cta" data-open-form>Află mai multe <span class="cta__arrow" aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONFORT ȘI SIGURANȚĂ ============ -->
+<section class="wrap sec stack g48">
+  <h2>Confort și <em>siguranță</em></h2>
+  <div class="stack g48">
+    <div class="split">
+      <div class="photo photo--4x3">
+        <video
+          src="/oferte-voucher-meta/Creatives/clinic-tour-540.mp4"
+          poster="/assets/receptie-back-parallax.jpg"
+          autoplay muted loop playsinline preload="none"
+          disablepictureinpicture
+          style="width:100%;height:100%;object-fit:cover;display:block;"
+        ></video>
+      </div>
+      <div class="stack g16">
+        <h3>Un tur al clinicii</h3>
+        <p class="lead">Atmosfera, echipa și standardele după care lucrăm, înainte să ne vizitezi.</p>
+        <button type="button" class="cta cta--start" data-open-form>Discută cu echipa <span class="cta__arrow" aria-hidden="true">→</span></button>
+      </div>
+    </div>
+    <div class="split">
+      <div class="photo photo--4x3"><img src="/assets/optima-interior1.webp" alt="Zona de așteptare Optima Dental Clinic" loading="lazy" decoding="async" /></div>
+      <div class="stack g16">
+        <h3>Tratamente minim invazive</h3>
+        <p class="lead">Păstrăm cât mai mult din structura dintelui natural. Indicația și protocolul se stabilesc individual.</p>
+        <button type="button" class="cta cta--start" data-open-form>Discută cu echipa <span class="cta__arrow" aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVALUARE DE SPECIALITATE ============ -->
+<section class="wrap" style="padding-bottom:clamp(64px,10vw,112px);">
+  <div class="panel-dark">
+    <div class="stack g16">
+      <h2>Programează o evaluare de specialitate</h2>
+      <p class="lead">
+        După evaluarea clinică și imagistică, medicul îți explică diagnosticul, opțiunile de tratament
+        și pașii necesari pentru un rezultat sigur și predictibil.
+      </p>
+    </div>
+    <div class="stack g20">
+      <div class="pricelist">
+        <div class="pricelist__row"><span>Consultație de specialitate</span><span>la evaluare</span></div>
+        <div class="pricelist__row"><span>Radiografie dentară</span><span>la evaluare</span></div>
+        <div class="pricelist__row"><span>Simulare digitală a zâmbetului</span><span>la evaluare</span></div>
+      </div>
+      <button type="button" class="cta" data-open-form>Programează o evaluare <span class="cta__arrow" aria-hidden="true">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ECHIPA ============ -->
+<section class="wrap sec stack g48" id="echipa">
+  <div class="stack g16">
+    <h2>Un zâmbet perfect <em>are nevoie de o echipă.</em></h2>
+    <p class="lead" style="max-width:700px;">
+      Planul integrează estetica, ortodonția, protetica și imagistica, astfel încât fiecare etapă
+      să urmărească rezultatul final.
+    </p>
+  </div>
+  <div class="team">
+    <figure class="member"><div class="member__frame"><img src="/assets/echipa-1-alin-gabor.jpg" alt="Dr. Alin Gabor, Optima Dental Clinic" loading="lazy" decoding="async" /></div><figcaption><span class="member__name">Dr. Alin Gabor</span><span class="member__role">Medic fondator</span></figcaption></figure>
+    <figure class="member"><div class="member__frame"><img src="/assets/echipa-2-ahmed-nashar.jpg" alt="Dr. Ahmed Nashar, Optima Dental Clinic" loading="lazy" decoding="async" /></div><figcaption><span class="member__name">Dr. Ahmed Nashar</span><span class="member__role">Medic fondator</span></figcaption></figure>
+    <figure class="member"><div class="member__frame"><img src="/assets/echipa-3-diana-popescu.jpg" alt="Dr. Diana Popescu, Optima Dental Clinic" loading="lazy" decoding="async" /></div><figcaption><span class="member__name">Dr. Diana Popescu</span><span class="member__role">Medic stomatolog</span></figcaption></figure>
+    <figure class="member"><div class="member__frame"><img src="/assets/echipa-4-ana-batanoiu.jpg" alt="Dr. Ana Bătănoiu, Optima Dental Clinic" loading="lazy" decoding="async" /></div><figcaption><span class="member__name">Dr. Ana Bătănoiu</span><span class="member__role">Medic stomatolog</span></figcaption></figure>
+    <figure class="member"><div class="member__frame"><img src="/assets/echipa-7-emilia-rotaru.jpg" alt="Dr. Emilia Rotaru, Optima Dental Clinic" loading="lazy" decoding="async" /></div><figcaption><span class="member__name">Dr. Emilia Rotaru</span><span class="member__role">Medic stomatolog</span></figcaption></figure>
+    <figure class="member"><div class="member__frame"><img src="/assets/dr-reit.jpeg" alt="Dr. Reit Silviu, Optima Dental Clinic" loading="lazy" decoding="async" /></div><figcaption><span class="member__name">Dr. Reit Silviu</span><span class="member__role">Chirurgie dento-alveolară</span></figcaption></figure>
+  </div>
+  <button type="button" class="cta cta--start" data-open-form>
+    Programează o consultație cu echipa <span class="cta__arrow" aria-hidden="true">→</span>
+  </button>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="wrap sec stack g40" style="max-width:900px;">
+  <div class="stack g16">
+    <h2>Întrebări frecvente</h2>
+    <p class="lead">Răspunsuri directe, fără mărunțișuri ascunse.</p>
+  </div>
+  <div class="faq" id="faq">
+    <div class="faq__item">
+      <button type="button" class="faq__q" aria-expanded="false">Fațetele dentare distrug dinții naturali?<span class="faq__sign" aria-hidden="true">+</span></button>
+      <div class="faq__a"><p>Nu. În majoritatea cazurilor pregătirea este minimă, iar uneori fațetele se pot aplica fără șlefuire. Medicul stabilește varianta potrivită după evaluare.</p></div>
+    </div>
+    <div class="faq__item">
+      <button type="button" class="faq__q" aria-expanded="false">Cât durează un tratament pentru zâmbetul perfect?<span class="faq__sign" aria-hidden="true">+</span></button>
+      <div class="faq__a"><p>Depinde de soluție. O albire se face într-o singură ședință, fațetele necesită de regulă 2–3 vizite, iar ortodonția câteva luni. Primești calendarul exact în planul de tratament.</p></div>
+    </div>
+    <div class="faq__item">
+      <button type="button" class="faq__q" aria-expanded="false">Pot vedea rezultatul înainte să încep?<span class="faq__sign" aria-hidden="true">+</span></button>
+      <div class="faq__a"><p>Da. Prin simularea digitală a zâmbetului vezi cum vor arăta dinții după tratament și poți cere ajustări înainte de orice intervenție.</p></div>
+    </div>
+    <div class="faq__item">
+      <button type="button" class="faq__q" aria-expanded="false">Cât rezistă fațetele și albirea?<span class="faq__sign" aria-hidden="true">+</span></button>
+      <div class="faq__a"><p>Fațetele ceramice pot dura mulți ani cu igienă corectă și controale periodice. Efectul albirii depinde de obiceiuri, cum ar fi cafeaua sau fumatul.</p></div>
+    </div>
+    <div class="faq__item">
+      <button type="button" class="faq__q" aria-expanded="false">Pot plăti tratamentul în rate?<span class="faq__sign" aria-hidden="true">+</span></button>
+      <div class="faq__a"><p>Da, prin partenerii noștri TBI Bank și UniCredit. Echipa te ajută cu detaliile la recepție sau pe WhatsApp.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-foot">
+  <div class="wrap site-foot__grid">
+    <div class="foot-col">
+      <img src="/oferte-voucher-meta/Creatives/optima-logo.png" alt="Optima Dental Clinic" width="174" height="44" loading="lazy" />
+      <p style="font-size:14px;">Stomatologie modernă, bazată pe tehnologie digitală și atenție la detalii.</p>
+    </div>
+    <div class="foot-col">
+      <span class="foot-col__title">Contact</span>
+      <a href="tel:0767702703">0767 702 703</a>
+      <a href="https://wa.me/40767702703" target="_blank" rel="noopener">WhatsApp 0767 702 703</a>
+      <a href="mailto:contact@optimadentalclinic.com">contact@optimadentalclinic.com</a>
+      <span>Șoseaua Nordului 142B, București</span>
+    </div>
+    <div class="foot-col">
+      <span class="foot-col__title">Program</span>
+      <span>Luni – Vineri: 9:00 – 21:00</span>
+      <span>Sâmbătă: 9:00 – 15:00</span>
+      <span>Duminică: închis</span>
+    </div>
+    <div class="foot-col">
+      <span class="foot-col__title">Legal</span>
+      <a href="/termeni-si-conditii/">Termeni și condiții</a>
+      <a href="/politica-confidentialitate/">Politica de confidențialitate</a>
+      <a href="https://anpc.ro/" target="_blank" rel="noopener">ANPC</a>
+    </div>
+  </div>
+  <div class="site-foot__legal">© <span id="year">2026</span> Optima Dental Clinic. Toate drepturile rezervate.</div>
+</footer>
+
+<!-- ============ BARA FIXĂ PE MOBIL ============ -->
+<div class="mbar">
+  <a class="mbar__tel" href="tel:0767702703" aria-label="Sună la clinică"><span aria-hidden="true">✆</span><span>SUNĂ</span></a>
+  <button type="button" class="cta" data-open-form>Completează formularul <span class="cta__arrow" aria-hidden="true">→</span></button>
+</div>
+
+<!-- ============ MODAL LEAD ============ -->
+<div class="modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
+  <div class="modal__panel">
+    <button type="button" class="modal__x" id="leadClose" aria-label="Închide">×</button>
+    <form id="leadForm" class="stack g20" novalidate>
+      <div class="stack g12">
+        <h2 id="leadTitle">Primul pas către zâmbetul perfect</h2>
+        <p class="lead" style="font-size:15px;">Lasă-ne datele tale și te sunăm pentru a stabili evaluarea.</p>
+      </div>
+
+      <label class="field" id="fNume">
+        Nume și prenume *
+        <input type="text" name="nume" autocomplete="name" placeholder="ex. Ioana Popescu" required />
+        <span class="field__err">Te rugăm să scrii numele tău.</span>
+      </label>
+
+      <label class="field" id="fTel">
+        Telefon *
+        <input type="tel" name="telefon" autocomplete="tel" placeholder="07xx xxx xxx" required />
+        <span class="field__err">Introdu un număr de telefon valid (minimum 10 cifre).</span>
+      </label>
+
+      <div class="field" style="font-weight:600;">
+        Ce te deranjează la zâmbet?
+        <div class="chips" id="concerns">
+          <button type="button" class="chip" aria-pressed="false">Culoarea</button>
+          <button type="button" class="chip" aria-pressed="false">Forma</button>
+          <button type="button" class="chip" aria-pressed="false">Dinți strâmbi</button>
+          <button type="button" class="chip" aria-pressed="false">Spații</button>
+          <button type="button" class="chip" aria-pressed="false">Dinți ciobiți</button>
+          <button type="button" class="chip" aria-pressed="false">Altceva</button>
+        </div>
+        <input type="hidden" name="concern" value="" />
+      </div>
+
+      <label class="consent" id="fConsent">
+        <input type="checkbox" name="gdpr" required />
+        <span>Sunt de acord cu prelucrarea datelor mele cu caracter personal pentru a fi contactat(ă) în legătură cu solicitarea mea, conform <a href="/politica-confidentialitate/" target="_blank" rel="noopener">Politicii de confidențialitate</a>.</span>
+      </label>
+
+      <button type="submit" class="cta cta--submit" id="leadSubmit" disabled>
+        Trimite solicitarea <span class="cta__arrow" aria-hidden="true">→</span>
+      </button>
+      <p class="modal__note">Te sunăm în maximum 30 de minute, în programul clinicii.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ============ COOKIE ============ -->
+<div id="cookieBar" class="cookie-bar" role="dialog" aria-label="Notificare cookie-uri" hidden>
+  <span>Folosim cookie-uri pentru analiză și marketing. <a href="/politica-cookies/">Detalii</a></span>
+  <span class="cookie-actions">
+    <button type="button" id="cookieAccept" class="cookie-btn cookie-yes">Accept</button>
+    <button type="button" id="cookieReject" class="cookie-btn cookie-no">Refuz</button>
+  </span>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Apps Script partajat cu restul site-ului: scrie lead-ul în sheet şi trimite emailul.
+  var LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzZY_vDjoVkxUcfkdyw5RPM1567tEVQTZ0wmHoVD1V3b-0hW-LVfj3pTiBTxpGqsyA/exec';
+  // Aceeaşi pagină de confirmare ca toate celelalte formulare de pe site.
+  var THANK_YOU_URL = '/thank-you-page/';
+
+  // ===== Provenienţa lead-ului =====
+  // Dedusă din URL la trimitere, nu configurată: pagina se identifică singură.
+  var PAGE_PATH = location.pathname.replace(/index\.html$/, '') || '/';
+  var PAGE_SLUG = PAGE_PATH.replace(/^\/+|\/+$/g, '') || 'site';
+  var PAGE_LABEL = 'Landing ' + PAGE_PATH;
+  var TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
+  function trackingPairs() {
+    var out = {}, q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return out; }
+    TRACK_KEYS.forEach(function (k) { var v = q.get(k); if (v) out[k] = v; });
+    return out;
+  }
+  function trackingLines() {
+    var t = trackingPairs();
+    return Object.keys(t).map(function (k) { return k + ': ' + t[k]; }).join('\n');
+  }
+  function fbCookie(n) {
+    var m = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+    return m ? m.pop() : '';
+  }
+  function fbGenId() {
+    return 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10);
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ===== CTA rotativ în hero (test de mesaj) =====
+  // Eticheta se schimbă la 2,5s; reţinem care era la click, ca parametru de eveniment.
+  var CTA_LABELS = ['Vreau schimbarea mea', 'Vreau să pot zâmbi', 'Vreau zâmbetul perfect', 'Vreau să mă programez'];
+  var ctaEl = document.getElementById('heroCtaLabel');
+  var ctaIdx = 0;
+  if (ctaEl && !REDUCED) {
+    setInterval(function () {
+      ctaEl.style.opacity = '0';
+      setTimeout(function () {
+        ctaIdx = (ctaIdx + 1) % CTA_LABELS.length;
+        ctaEl.textContent = CTA_LABELS[ctaIdx];
+        ctaEl.style.opacity = '1';
+      }, 250);
+    }, 2500);
+  }
+
+  // ===== Carusel rezultate =====
+  // Buclă infinită prin clonarea marginilor: după animaţie sărim înapoi fără
+  // tranziţie, deci nu se vede nicio întoarcere.
+  (function () {
+    var track = document.getElementById('carTrack');
+    var dotsBox = document.getElementById('carDots');
+    if (!track) return;
+    var SRC = [
+      ['/assets/zambet/rezultat-fatete-1.jpg', 'Rezultat înainte și după, fațete dentare la Optima Dental Clinic'],
+      ['/assets/zambet/rezultat-fatete-2.jpg', 'Rezultat înainte și după, tratament estetic la Optima Dental Clinic'],
+      ['/assets/rezultat-1.jpg', 'Rezultat tratament estetic la Optima Dental Clinic'],
+      ['/assets/rezultat-3.jpg', 'Rezultat tratament estetic la Optima Dental Clinic'],
+      ['/assets/rezultat-7.jpg', 'Rezultat tratament estetic la Optima Dental Clinic'],
+      ['/assets/rezultat-8.jpg', 'Rezultat tratament estetic la Optima Dental Clinic'],
+      ['/assets/rezultat-9.jpg', 'Rezultat tratament estetic la Optima Dental Clinic'],
+      ['/assets/rezultat-11.jpg', 'Rezultat tratament estetic la Optima Dental Clinic']
+    ];
+    var n = SRC.length;
+    function perView() { return window.innerWidth < 560 ? 1 : 2; }
+    var pv = perView(), pos = 0, animating = true, paused = false, snap = null;
+
+    function slide(item, eager) {
+      var d = document.createElement('div');
+      d.className = 'car__slide';
+      d.innerHTML = '<div class="car__frame"><img src="' + item[0] + '" alt="' + item[1] + '"' +
+        (eager ? '' : ' loading="lazy"') + ' decoding="async" /></div>';
+      return d;
+    }
+    function build() {
+      pv = perView();
+      track.innerHTML = '';
+      var list = SRC.slice(-pv).concat(SRC, SRC.slice(0, pv));
+      list.forEach(function (it, i) {
+        var s = slide(it, i < pv + 2);
+        s.style.flexBasis = (100 / pv) + '%';
+        track.appendChild(s);
+      });
+      dotsBox.innerHTML = '';
+      SRC.forEach(function (_, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'car__dot';
+        b.setAttribute('aria-label', 'Rezultatul ' + (i + 1));
+        b.addEventListener('click', function () { pos = i; render(true); });
+        dotsBox.appendChild(b);
+      });
+      render(false);
+    }
+    function render(anim) {
+      animating = anim !== false;
+      track.style.transition = animating && !REDUCED ? 'transform .6s cubic-bezier(.65,0,.35,1)' : 'none';
+      track.style.transform = 'translateX(-' + ((pos + pv) * 100 / pv) + '%)';
+      var active = ((pos % n) + n) % n;
+      [].forEach.call(dotsBox.children, function (d, i) {
+        d.setAttribute('aria-current', i === active ? 'true' : 'false');
+      });
+    }
+    function step(d) {
+      pos += d;
+      render(true);
+      clearTimeout(snap);
+      snap = setTimeout(function () {
+        if (pos >= n || pos < 0) { pos = ((pos % n) + n) % n; render(false); }
+      }, 620);
+    }
+    document.getElementById('carPrev').addEventListener('click', function () { step(-1); });
+    document.getElementById('carNext').addEventListener('click', function () { step(1); });
+    var car = document.getElementById('car');
+    car.addEventListener('mouseenter', function () { paused = true; });
+    car.addEventListener('mouseleave', function () { paused = false; });
+    build();
+    if (!REDUCED) setInterval(function () { if (!paused) step(1); }, 1000);
+    // la trecerea pragului de 560px se schimbă numărul de slide-uri pe ecran
+    var lastPv = pv;
+    window.addEventListener('resize', function () {
+      if (perView() !== lastPv) { lastPv = perView(); pos = 0; build(); }
+    });
+  })();
+
+  // ===== FAQ =====
+  // Animăm înălţimea, nu `display`, ca deschiderea să fie lină.
+  (function () {
+    var items = document.querySelectorAll('#faq .faq__item');
+    [].forEach.call(items, function (item) {
+      var q = item.querySelector('.faq__q');
+      var a = item.querySelector('.faq__a');
+      var sign = item.querySelector('.faq__sign');
+      a.style.height = '0px';
+      q.addEventListener('click', function () {
+        var open = q.getAttribute('aria-expanded') === 'true';
+        // acordeon: închidem restul
+        [].forEach.call(items, function (o) {
+          if (o === item) return;
+          o.querySelector('.faq__q').setAttribute('aria-expanded', 'false');
+          o.querySelector('.faq__a').style.height = '0px';
+          o.querySelector('.faq__sign').textContent = '+';
+        });
+        q.setAttribute('aria-expanded', open ? 'false' : 'true');
+        sign.textContent = open ? '+' : '−';
+        a.style.height = open ? '0px' : a.scrollHeight + 'px';
+      });
+    });
+  })();
+
+  // ===== Modal lead =====
+  var modal = document.getElementById('leadModal');
+  var form = document.getElementById('leadForm');
+  var submitBtn = document.getElementById('leadSubmit');
+  var lastFocus = null;
+
+  function openForm(trigger) {
+    lastFocus = trigger || document.activeElement;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    var first = form.querySelector('input[name="nume"]');
+    if (first) setTimeout(function () { first.focus(); }, 40);
+  }
+  function closeForm() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  [].forEach.call(document.querySelectorAll('[data-open-form]'), function (b) {
+    b.addEventListener('click', function () { openForm(b); });
+  });
+  document.getElementById('leadClose').addEventListener('click', closeForm);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeForm(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeForm();
+  });
+
+  // chips: single-select, se poate deselecta
+  var concernInput = form.querySelector('input[name="concern"]');
+  [].forEach.call(document.querySelectorAll('#concerns .chip'), function (chip) {
+    chip.addEventListener('click', function () {
+      var on = chip.getAttribute('aria-pressed') === 'true';
+      [].forEach.call(document.querySelectorAll('#concerns .chip'), function (c) {
+        c.setAttribute('aria-pressed', 'false');
+      });
+      chip.setAttribute('aria-pressed', on ? 'false' : 'true');
+      concernInput.value = on ? '' : chip.textContent.trim();
+    });
+  });
+
+  // validare: nume > 1 caracter, telefon cu minimum 10 cifre, consimţământ bifat
+  var nameEl = form.querySelector('input[name="nume"]');
+  var telEl = form.querySelector('input[name="telefon"]');
+  var consentEl = form.querySelector('input[name="gdpr"]');
+  function okName() { return nameEl.value.trim().length > 1; }
+  function okPhone() { return telEl.value.replace(/\D/g, '').length >= 10; }
+  function valid() { return okName() && okPhone() && consentEl.checked; }
+  function refresh() {
+    submitBtn.disabled = !valid();
+    if (okName()) document.getElementById('fNume').classList.remove('has-error');
+    if (okPhone()) document.getElementById('fTel').classList.remove('has-error');
+    if (consentEl.checked) document.getElementById('fConsent').classList.remove('has-error');
+  }
+  ['input', 'change'].forEach(function (ev) {
+    form.addEventListener(ev, refresh);
+  });
+  refresh();
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!valid()) {
+      if (!okName()) document.getElementById('fNume').classList.add('has-error');
+      if (!okPhone()) document.getElementById('fTel').classList.add('has-error');
+      if (!consentEl.checked) document.getElementById('fConsent').classList.add('has-error');
+      return;
+    }
+    submitBtn.disabled = true;
+
+    var nume = nameEl.value.trim();
+    var telefon = telEl.value.trim();
+    var concern = concernInput.value || '—';
+    var ctaLabel = CTA_LABELS[ctaIdx];
+
+    var details =
+      'Nume: ' + nume + '\n' +
+      'Telefon: ' + telefon + '\n' +
+      'Ce îl deranjează: ' + concern + '\n' +
+      'Acord GDPR: Da\n' +
+      'CTA hero afișat: ' + ctaLabel + '\n' +
+      'Pagina: ' + PAGE_PATH + '\n' +
+      'URL: ' + location.href + '\n' +
+      'Sursa: ' + PAGE_LABEL +
+      (trackingLines() ? '\n' + trackingLines() : '');
+
+    // Meta „Lead": Pixel în browser + acelaşi event_id spre CAPI, ca să fie deduplicate.
+    var eventId = fbGenId();
+    if (window.fbq && window.META_PIXEL_READY) {
+      fbq('track', 'Lead', { content_name: 'Zâmbetul perfect', cta_label: ctaLabel }, { eventID: eventId });
+    }
+
+    var navigated = false, failSafe;
+    function goThankYou() {
+      if (navigated) return;
+      navigated = true;
+      clearTimeout(failSafe);
+      form.reset();
+      location.assign(THANK_YOU_URL);
+    }
+    function showError() {
+      submitBtn.disabled = false;
+      alert('Nu am putut trimite solicitarea. Te rugăm să încerci din nou sau să ne suni la 0767 702 703.');
+    }
+    if (navigator.onLine === false) { showError(); return; }
+
+    // `mode: no-cors` dă răspuns opac, iar Apps Script răspunde cu 302 spre alt
+    // origin: promisiunea e respinsă sau nu se decide niciodată, chiar dacă
+    // POST-ul a ajuns. Deci plecăm cum se decide, oricum s-ar decide, iar dacă
+    // nu se decide pleacă timeout-ul. keepalive ţine requestul viu peste navigare.
+    failSafe = setTimeout(goThankYou, 1200);
+    fetch(LEAD_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      keepalive: true,
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(Object.assign({
+        source: 'landing',
+        source_label: PAGE_LABEL,
+        pagina: PAGE_PATH,
+        url: location.href,
+        subject: 'LP Lead (' + PAGE_SLUG + '): ' + nume,
+        name: nume,
+        phone: telefon,
+        service: 'Estetică dentară — zâmbetul perfect',
+        voucher: concern,
+        cta_label: ctaLabel,
+        message: details
+      }, trackingPairs()))
+    }).then(goThankYou, goThankYou);
+
+    // CAPI server-side prin funcţia Netlify, doar cu acceptul pentru cookie-uri.
+    if (window.hasCookieConsent && window.hasCookieConsent()) {
+      fetch('/.netlify/functions/meta-capi', {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event_name: 'Lead',
+          event_id: eventId,
+          event_source_url: location.href,
+          name: nume,
+          phone: telefon,
+          content_name: 'Zâmbetul perfect',
+          fbp: fbCookie('_fbp'),
+          fbc: fbCookie('_fbc')
+        })
+      }).catch(function () {});
+    }
+  });
+
+  // ===== Cookie =====
+  (function () {
+    var bar = document.getElementById('cookieBar');
+    if (!bar) return;
+    var stored = null, oldOk = false;
+    try { stored = localStorage.getItem('optima_cookie_consent'); } catch (e) {}
+    try { oldOk = localStorage.getItem('optima_cookie_ok') === '1'; } catch (e) {}
+    if (stored === 'accepted' || stored === 'rejected' || oldOk) return;
+    bar.hidden = false;
+    document.body.classList.add('cookie-open');
+    function decide(v) {
+      try { localStorage.setItem('optima_cookie_consent', v); } catch (e) {}
+      bar.hidden = true;
+      document.body.classList.remove('cookie-open');
+      if (v === 'accepted' && window.loadMetaPixel) window.loadMetaPixel();
+    }
+    document.getElementById('cookieAccept').addEventListener('click', function () { decide('accepted'); });
+    document.getElementById('cookieReject').addEventListener('click', function () { decide('rejected'); });
+  })();
+})();
+</script>
+
+</body>
+</html>
