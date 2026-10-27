@@ -46,6 +46,13 @@ if (typeof document !== "undefined") {
   document.head.appendChild(styleSheet);
 }
 
+// The second headline line rotates through these.
+const HERO_PHRASES = ["Pasiunea Noastră", "Alegerea Ta"];
+const HERO_TYPE_MS = 90; // per character typed
+const HERO_DELETE_MS = 45; // per character deleted (faster than typing)
+const HERO_HOLD_MS = 1800; // a finished phrase stays readable this long
+const HERO_GAP_MS = 400; // beat between a cleared line and the next phrase
+
 interface AnimatedHeroSectionProps {
   className?: string;
 }
@@ -55,23 +62,56 @@ export const AnimatedHeroSection: React.FC<AnimatedHeroSectionProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [typedText, setTypedText] = useState("");
-  const fullText = "Pasiunea Noastră";
 
   useEffect(() => {
     setIsVisible(true);
 
-    // Typing animation for the second line
-    let currentIndex = 0;
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setTypedText(fullText.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 100);
+    // Reduced motion: no typing loop, just the first phrase, fully written.
+    // (Both phrases are still in the sr-only text for screen readers.)
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTypedText(HERO_PHRASES[0]);
+      return;
+    }
 
-    return () => clearInterval(typingInterval);
+    // Second line types a phrase, holds it, deletes it, then moves on to the
+    // next one — forever. A self-scheduling timeout (not setInterval) because
+    // each step needs a different delay: typing, holding and deleting all run
+    // at their own speed.
+    let phrase = 0;
+    let length = 0;
+    let deleting = false;
+    let timer: number;
+
+    const tick = () => {
+      const text = HERO_PHRASES[phrase];
+      let delay: number;
+
+      if (!deleting) {
+        length += 1;
+        setTypedText(text.slice(0, length));
+        if (length === text.length) {
+          deleting = true;
+          delay = HERO_HOLD_MS;
+        } else {
+          delay = HERO_TYPE_MS;
+        }
+      } else {
+        length -= 1;
+        setTypedText(text.slice(0, length));
+        if (length === 0) {
+          deleting = false;
+          phrase = (phrase + 1) % HERO_PHRASES.length;
+          delay = HERO_GAP_MS;
+        } else {
+          delay = HERO_DELETE_MS;
+        }
+      }
+
+      timer = window.setTimeout(tick, delay);
+    };
+
+    timer = window.setTimeout(tick, HERO_TYPE_MS);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Generate floating particles
@@ -155,8 +195,13 @@ export const AnimatedHeroSection: React.FC<AnimatedHeroSectionProps> = ({
                   "0 2px 10px rgba(0, 0, 0, 0.7), 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(189, 164, 118, 0.3)"
               }}
             >
-              {typedText}
-              <span className="animate-pulse">|</span>
+              {/* The typed text changes every ~50ms, so keep it away from
+                  assistive tech and give it the whole line once instead. */}
+              <span className="sr-only">{HERO_PHRASES.join(", ")}</span>
+              <span aria-hidden="true">
+                {typedText}
+                <span className="animate-pulse">|</span>
+              </span>
             </span>
           </h1>
 
